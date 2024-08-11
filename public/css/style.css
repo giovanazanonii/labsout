@@ -1,0 +1,92 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f7f7f7;
+  text-align: center;
+  padding: 0;
+}
+
+.topo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2em 0;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  padding: 0 2em;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+}
+
+.text-content {
+  max-width: 60%;
+  text-align: center;
+}
+
+.highlight {
+  color: rgb(100, 70, 119);
+  font-weight: bold;
+  font-size: 4em;
+  text-shadow: 
+    -1px -1px 0 rgb(100, 70, 119),  
+    1px -1px 0 rgb(100, 70, 119),
+    -1px 1px 0 rgb(100, 70, 119),
+    1px 1px 0 rgb(100, 70, 119);
+  filter: drop-shadow(1px 1px 1px rgba(54, 54, 54, 0.5));
+}
+
+button {
+  background-color: #8B67A0;
+  color: #fff;
+  border: none;
+  padding: 1em 5em;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-top: 1em;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #683e74;
+}
+
+img {
+  width: 500px;
+  height: auto;
+}
+
+.vantagens {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10em;
+  padding: 2em 0;
+  background-color: #fff;
+}
+
+.vantagem {
+  text-align: center;
+  transition: transform 0.2s ease; /* Transição suave para a transformação */
+}
+
+.vantagem i {
+  font-size: 3em;
+  color: rgb(100, 70, 119);
+}
+
+.vantagem:hover {
+  transform: translateY(-16px); /* Move o ícone para cima */
+}
+
+.vantagem p {
+  margin-top: 0.5em;
+  font-size: 1.2em;
+}

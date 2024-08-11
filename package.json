@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2"
+  },
+  "name": "labsout",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "\"node --watch index.js\\\""
+  },
+  "author": "Camilla Lucietti e Giovana Zanoni",
+  "license": "ISC",
+  "description": ""
+}
