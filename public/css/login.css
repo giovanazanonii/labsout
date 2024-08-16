@@ -1,0 +1,57 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+}
+
+.square {
+    width: 900px; /* Tamanho do quadrado */
+    height: 500px; /* Tamanho do quadrado */
+    background-color: #fff; /* Cor de fundo branca */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra */
+    border-radius: 20px; /* Arredondar as bordas */
+    position: relative;
+}
+
+.square::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30%; /* Largura da parte roxa */
+    height: 100%;
+    background-color: #644677; /* Cor roxa */
+    border-radius: 20px 0 0 20px; /* Arredondar os cantos da parte roxa */
+}
+
+.title {
+    position: absolute;
+    top: 220px; /* Ajuste conforme necessário */
+    left: 37%;
+    transform: translateX(-150%);
+    color: #fff; /* Cor do texto */
+    font-family: 'Lilita One', sans-serif; /* Fonte arredondada, ajuste conforme necessário */
+    font-size: 36px; /* Tamanho da fonte */
+}
+.subtitle {
+    position: absolute;
+    top: 280px; /* Ajuste conforme necessário para o espaçamento entre o título e o subtítulo */
+    left: 20%; /* Ajuste conforme necessário para centralizar */
+    color: #fff; /* Cor do texto */
+    font-family: 'Nunito', sans-serif; /* Fonte Nunito */
+    font-size: 22px; /* Tamanho da fonte */
+    text-align: center; /* Centralizar o texto */
+    font-weight: bold;
+}
+
+.login-image {
+    position: absolute;
+    top: 90px; /* Ajuste o espaço entre o topo do quadrado e a imagem */
+    left: 60%;
+    transform: translateX(-50%);
+    width: 250px; /* Tamanho da imagem */
+    height: auto; /* Manter a proporção da imagem */
+}
