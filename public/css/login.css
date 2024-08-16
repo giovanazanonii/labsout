@@ -8,11 +8,11 @@ body, html {
 }
 
 .square {
-    width: 900px; /* Tamanho do quadrado */
-    height: 500px; /* Tamanho do quadrado */
-    background-color: #fff; /* Cor de fundo branca */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra */
-    border-radius: 20px; /* Arredondar as bordas */
+    width: 900px;
+    height: 500px;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
     position: relative;
     display: flex;
     overflow: hidden;
@@ -20,12 +20,12 @@ body, html {
 
 .purple-section {
     width: 30%;
-    background-color: #8B67A0; /* Cor roxa */
+    background-color: #8B67A0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 20px 0 0 20px; /* Arredondar os cantos da parte roxa */
+    border-radius: 20px 0 0 20px;
     padding: 20px;
     box-sizing: border-box;
     color: #fff;
@@ -62,11 +62,11 @@ body, html {
 
 .login-image {
     position: absolute;
-    top: 5px; /* Ajuste o espaço entre o topo do quadrado e a imagem */
+    top: 5px;
     left: 60%;
     transform: translateX(-35%);
-    width: 280px; /* Tamanho da imagem */
-    height: auto; /* Manter a proporção da imagem */
+    width: 280px;
+    height: auto;
 }
 
 .form-group {
@@ -77,26 +77,26 @@ body, html {
 }
 
 .form-control {
-    border-radius: 15px; /* arredondado */
-    height: 35px; /* altura */
-    font-size: 16px; /*  tamanho da fonte */
-    padding: 10px 15px; /* Mais espaço interno */
-    border: 1px solid #ccc; /* Adicionar borda */
+    border-radius: 15px;
+    height: 35px;
+    font-size: 16px;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
 }
 
 .btn {
     width: 100%;
     max-width: 300px;
-    border-radius: 15px; /* Mais arredondado */
+    border-radius: 15px;
     background-color: #8B67A0; 
-    color: #fff; /* Cor do texto branco */
-    height: 35px; /* Maior altura */
-    font-size: 16px; /* Maior tamanho da fonte */
-    margin-top: 10px; /* Espaço acima do botão */
-    border: none; /* Remover borda padrão */
+    color: #fff;
+    height: 35px;
+    font-size: 16px;
+    margin-top: 10px;
+    border: none;
 }
 
 .btn:hover {
-    background-color: #8B67A0; /* Manter a cor roxa ao passar o mouse */
+    background-color: #554061;
 }
 
