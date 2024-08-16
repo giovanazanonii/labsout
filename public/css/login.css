@@ -14,44 +14,88 @@ body, html {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra */
     border-radius: 20px; /* Arredondar as bordas */
     position: relative;
+    display: flex;
+    overflow: hidden;
 }
 
-.square::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 30%; /* Largura da parte roxa */
-    height: 100%;
-    background-color: #644677; /* Cor roxa */
+.purple-section {
+    width: 30%;
+    background-color: #8B67A0; /* Cor roxa */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     border-radius: 20px 0 0 20px; /* Arredondar os cantos da parte roxa */
+    padding: 20px;
+    box-sizing: border-box;
+    color: #fff;
+}
+
+.login-section {
+    width: 70%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
 }
 
 .title {
-    position: absolute;
-    top: 220px; /* Ajuste conforme necessário */
-    left: 37%;
-    transform: translateX(-150%);
-    color: #fff; /* Cor do texto */
-    font-family: 'Lilita One', sans-serif; /* Fonte arredondada, ajuste conforme necessário */
-    font-size: 36px; /* Tamanho da fonte */
+    font-family: 'Lilita One', sans-serif;
+    font-size: 36px;
+    margin-bottom: 10px;
 }
+
 .subtitle {
-    position: absolute;
-    top: 280px; /* Ajuste conforme necessário para o espaçamento entre o título e o subtítulo */
-    left: 20%; /* Ajuste conforme necessário para centralizar */
-    color: #fff; /* Cor do texto */
-    font-family: 'Nunito', sans-serif; /* Fonte Nunito */
-    font-size: 22px; /* Tamanho da fonte */
-    text-align: center; /* Centralizar o texto */
+    font-family: 'Nunito', sans-serif;
+    font-size: 22px;
+    text-align: center;
     font-weight: bold;
+}
+
+.login-title {
+    font-family: 'Nunito', sans-serif;
+    font-size: 28px;
+    margin-bottom: 20px;
 }
 
 .login-image {
     position: absolute;
-    top: 90px; /* Ajuste o espaço entre o topo do quadrado e a imagem */
+    top: 5px; /* Ajuste o espaço entre o topo do quadrado e a imagem */
     left: 60%;
-    transform: translateX(-50%);
-    width: 250px; /* Tamanho da imagem */
+    transform: translateX(-35%);
+    width: 280px; /* Tamanho da imagem */
     height: auto; /* Manter a proporção da imagem */
+}
+
+.form-group {
+    width: 200%;
+    max-width: 300px;
+    margin-bottom: 10x;
+    transform: translateX(-45px);
+}
+
+.form-control {
+    border-radius: 15px; /* arredondado */
+    height: 35px; /* altura */
+    font-size: 16px; /*  tamanho da fonte */
+    padding: 10px 15px; /* Mais espaço interno */
+    border: 1px solid #ccc; /* Adicionar borda */
+}
+
+.btn {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 15px; /* Mais arredondado */
+    background-color: #8B67A0; 
+    color: #fff; /* Cor do texto branco */
+    height: 35px; /* Maior altura */
+    font-size: 16px; /* Maior tamanho da fonte */
+    margin-top: 10px; /* Espaço acima do botão */
+    border: none; /* Remover borda padrão */
+}
+
+.btn:hover {
+    background-color: #8B67A0; /* Manter a cor roxa ao passar o mouse */
 }
