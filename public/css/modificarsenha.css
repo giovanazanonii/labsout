@@ -1,0 +1,98 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+}
+
+.container {
+    width: 900px;
+    height: 500px;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    padding: 0; /* Remove qualquer padding */
+}
+
+.purple{
+    width: 40%;
+    background-color: #8B67A0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px 0 0 20px;
+    padding: 30px;
+    box-sizing: border-box;
+    color: #fff;
+}
+
+.modificar-section {
+    width: 70%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.title {
+    font-family: 'Lilita One', sans-serif;
+    font-size: 40px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.subtitle {
+    font-family: 'Nunito', sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.modificar-image {
+    position: absolute;
+    top: 40px;
+    left: 60%;
+    transform: translateX(-35%);
+    width: 450px;
+    height: auto;
+}
+
+/*tamanho das cainhas */
+.form-group {
+    width: 200%;
+    max-width: 300px;
+    margin-bottom: 10px;
+    transform: translateX(-45px);
+}
+/*arredondar as caixinhas*/
+.form-control {
+    border-radius: 15px;
+    height: 35px;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+}
+
+.btn {
+    width: 90%;
+    max-width: 300px;
+    border-radius: 15px;
+    background-color: #8B67A0; 
+    color: #fff;
+    height: 35px;
+    font-size: 16px;
+    margin-top: 10px;
+    border: none;
+}
+
+.btn:hover {
+    background-color: #554061;
+}
