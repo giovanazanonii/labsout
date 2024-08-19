@@ -67,7 +67,7 @@ img {
 .vantagens {
   display: flex;
   justify-content: space-around;
-  margin-top: 10em;
+  margin-top: 0,5em;
   padding: 2em 0;
   background-color: #fff;
 }
