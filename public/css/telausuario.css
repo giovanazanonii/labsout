@@ -1,0 +1,71 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+    background-color: #A982C1;
+    color: #fff;
+}
+
+/*editar tamanho*/
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 60px;  
+}
+
+.container2 {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+/*altura das reservas*/
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 100px;
+}
+
+h1 {
+    font-size: 35px;
+}
+
+.voltar-button,
+.sair-button {
+    background: none;
+    border: none;
+    font-size: 35px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.reservas h2 {
+    text-align: center; 
+    font-size: 23px;
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #e5d5eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th,
+td {
+    padding: 15px;
+    font-size: 19px;
+    text-align: left;
+    color: #333;
+    font-weight: bold;
+}
+
+.deletar-button {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    cursor: pointer;
+    font-size: 18px;
+}
