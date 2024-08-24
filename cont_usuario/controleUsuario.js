@@ -7,4 +7,7 @@ router.get("/login", (req, res) => {
 router.get("/modificarsenha",(req,res)=>{
     res.render("pages/modificarsenha")
 })
+router.get("/telausuario",(req,res)=>{
+    res.render("pages/telausuario")
+})
 module.exports = router;
