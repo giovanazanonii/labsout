@@ -1,16 +1,16 @@
+
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     background-color: #644975;
     color: #fff;
 }
 
-/*editar tamanho*/
 .container {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 60px;  
+    padding: 30px;  
 }
 
 .container2 {
@@ -18,12 +18,11 @@ body {
     margin: 0 auto;
 }
 
-/*altura das reservas*/
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 100px;
+    margin-bottom: 70px;
 }
 
 h1 {
@@ -45,16 +44,43 @@ h1 {
     margin-bottom: 10px;
 }
 
+.table-container {
+    max-height: 300px; /* Ajuste a altura máxima conforme necessário */
+    overflow-y: auto; /* Adiciona rolagem vertical */
+    border-radius: 20px;
+    border: 1px solid #ddd; /* Opcional: Adiciona uma borda ao redor do contêiner */
+}
+
+/* Estilização da barra de rolagem para navegadores WebKit (Chrome, Safari) */
+.table-container::-webkit-scrollbar {
+    width: 12px; 
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 10px; 
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: #d9b3e6; 
+    border-radius: 10px; 
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
     background-color: #e5d5eb;
-    border-radius: 10px;
-    overflow: hidden;
+    border-radius: 10px;  
 }
 
-th,
-td {
+thead {
+    background-color: #d9b3e6; /* Fundo dos cabeçalhos da tabela */
+    position: sticky;
+    top: 0; /* Fixa o cabeçalho no topo do contêiner */
+    z-index: 2; /* Garante que o cabeçalho fique sobre o corpo da tabela */
+}
+
+th, td {
     padding: 15px;
     font-size: 19px;
     text-align: left;
