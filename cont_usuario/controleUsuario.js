@@ -9,7 +9,6 @@ router.use(express.urlencoded({ extended: true }));
 router.get("/login", (req, res) => {
     res.render("pages/login");
 });
-<<<<<<< HEAD
 router.get("/modificarsenha",(req,res)=>{
     res.render("pages/modificarsenha")
 })
@@ -22,20 +21,9 @@ router.get("/inicialadmin",(req,res)=>{
 router.get("/inicialusuario",(req,res)=>{
     res.render("pages/inicialusuario")
 })
-=======
-router.get("/modificarsenha", (req, res) => {
-    res.render("pages/modificarsenha");
-});
-router.get("/telausuario", (req, res) => {
-    res.render("pages/telausuario");3
-});
-router.get("/inicialadmin", (req, res) => {
-    res.render("pages/inicialadmin");
-});
-router.get("/inicialusuario", (req, res) => {
-    res.render("pages/inicialusuario");
-});
->>>>>>> 027db22244332ebb3519025312526f294ced7b7e
+router.get("/selecaolab",(req,res)=>{
+    res.render("pages/selecaolab")
+})
 
 router.post('/login', (req, res) => {
     console.log(req.body);
