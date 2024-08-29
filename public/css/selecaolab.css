@@ -1,0 +1,100 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #8B67A0;
+    padding: 10px 20px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.navbar-lado {
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.tela {
+    width: 900px;
+    height: 500px;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin-top: 50px; 
+    position: relative;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    color: #5e5a57;
+    margin-bottom: 60px;
+}
+
+p {
+    font-size: 18px;
+    color: #5e5a57;
+}
+
+.next-button {
+    position: absolute; 
+    right: 20px;
+    bottom: 20px; 
+}
+.button-lab {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 100px;
+}
+
+.button-lab button {
+    background-color: #cbcbcbd1;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.next-button button {
+    background-color: white;
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 50%;
+    border: 2px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+

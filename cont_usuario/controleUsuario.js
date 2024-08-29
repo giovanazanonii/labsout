@@ -16,4 +16,7 @@ router.get("/inicialadmin",(req,res)=>{
 router.get("/inicialusuario",(req,res)=>{
     res.render("pages/inicialusuario")
 })
+router.get("/selecaolab",(req,res)=>{
+    res.render("pages/selecaolab")
+})
 module.exports = router;
