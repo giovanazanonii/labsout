@@ -22,6 +22,9 @@ router.get("/inicialusuario",(req,res)=>{
 router.get("/selecaolab",(req,res)=>{
     res.render("pages/selecaolab")
 })
+router.get("/listagemusuario",(req,res)=>{
+    res.render("pages/listagemusuario")
+})
 
 //autenticação de login
 router.post('/login', (req, res) => {

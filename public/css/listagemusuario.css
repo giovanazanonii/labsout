@@ -1,0 +1,90 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #8B67A0;
+    color: #fff;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 30px;  
+}
+
+.container2 {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 70px;
+}
+h1 {
+    font-size: 35px;
+}
+
+.voltar-button,
+.sair-button {
+    background: none;
+    border: none;
+    font-size: 35px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.table-container {
+    max-height: 300px;
+    overflow-y: auto; 
+    border-radius: 20px;
+    border: 1px solid #ddd;
+}
+
+/* Estilização da barra de rolagem para navegadores WebKit (Chrome, Safari) */
+.table-container::-webkit-scrollbar {
+    width: 12px; 
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 10px; 
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: #d9b3e6; 
+    border-radius: 10px; 
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #e5d5eb;
+    border-radius: 10px;  
+}
+
+thead {
+    background-color: #d9b3e6; /* Fundo dos cabeçalhos da tabela */
+    position: sticky;
+    top: 0; /* Fixa o cabeçalho no topo do contêiner */
+    z-index: 2; /* Garante que o cabeçalho fique sobre o corpo da tabela */
+}
+
+th, td {
+    padding: 15px;
+    font-size: 19px;
+    text-align: left;
+    color: #333;
+    font-weight: bold;
+}
+
+.deletar-button {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    cursor: pointer;
+    font-size: 18px;
+}

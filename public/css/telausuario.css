@@ -31,14 +31,6 @@ h1 {
     font-size: 35px;
 }
 
-.sair-button {
-    background: none;
-    border: none;
-    font-size: 35px;
-    color: #333;
-    cursor: pointer;
-}
-
 .reservas h4 {
     text-align: center; 
     font-size: 17px;
