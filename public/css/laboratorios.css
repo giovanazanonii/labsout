@@ -33,6 +33,7 @@ body {
     color: #fff;
     text-decoration: none;
     margin-left: 20px;
+    transition: color 0.3s;
 }
 
 .main-content {
@@ -45,12 +46,6 @@ body {
 h1 {
     font-size: 32px;
     color: #333;
-    margin-bottom: 10px;
-}
-
-.subtitle {
-    font-size: 18px;
-    color: #555;
     margin-bottom: 30px;
 }
 

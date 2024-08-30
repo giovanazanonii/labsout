@@ -31,21 +31,6 @@ h1 {
     font-size: 35px;
 }
 
-.sair-button {
-    background: none;
-    border: none;
-    font-size: 35px;
-    color: #333;
-    cursor: pointer;
-}
-
-.reservas h4 {
-    text-align: center; 
-    font-size: 17px;
-    margin-bottom: 5px;
-    font-weight: normal;
-}
-
 .table-container {
     max-height: 300px; /* Ajuste a altura máxima conforme necessário */
     overflow-y: auto; /* Adiciona rolagem vertical */

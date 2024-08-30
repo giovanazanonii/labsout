@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const conexao = require('../banco/conexao');
 
-// Aplique os middlewares no router
+//middlewares no router
 router.use(express.json());
+router.use(express.static('public'));
 router.use(express.urlencoded({ extended: true }));
 
 router.get("/login", (req, res) => {
@@ -15,9 +16,6 @@ router.get("/modificarsenha",(req,res)=>{
 router.get("/telausuario",(req,res)=>{
     res.render("pages/telausuario")
 })
-router.get("/inicialadmin",(req,res)=>{
-    res.render("pages/inicialadmin")
-})
 router.get("/inicialusuario",(req,res)=>{
     res.render("pages/inicialusuario")
 })
@@ -25,6 +23,7 @@ router.get("/selecaolab",(req,res)=>{
     res.render("pages/selecaolab")
 })
 
+//autenticação de login
 router.post('/login', (req, res) => {
     console.log(req.body);
     const cpf = req.body.cpf;
@@ -54,7 +53,7 @@ router.post('/login', (req, res) => {
         }
     });
 });
-
+//modificação de senha
 router.post('/modificarsenha', (req, res) => {
   const senha = req.body.senha;
   const novasenha = req.body.novasenha;
@@ -85,5 +84,6 @@ router.post('/modificarsenha', (req, res) => {
       });
   });
 });
+
 
 module.exports = router;

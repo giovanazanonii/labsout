@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LABSOUT</title>
+    <link rel="stylesheet" href="/css/usuarios.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Usuários</h1>
+        </header>
+    </div>
+    <div class="container2">
+        <section class="reservas">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Senha</th>
+                            <th>CPF</th>
+                            <th>Tipo</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Giovana Zanoni</td>
+                            <td>giovana123</td>
+                            <td>10945886921</td>
+                            <td>Normal</td>
+                            <td class="action-cell">
+                                <button class="deletar-button"><i class="bi bi-trash3"></i></button>
+                            </td> 
+                        </tr>
+                        <tr>
+                            <td>Camilla Lucietti</td>
+                            <td>camilla123</td>
+                            <td>03205978990</td>
+                            <td>Normal</td>
+                            <td class="action-cell">
+                                <button class="deletar-button"><i class="bi bi-trash3"></i></button>
+                            </td> 
+                        </tr>
+                        <tr>
+                            <td>Gustavo</td>
+                            <td>guga123</td>
+                            <td>00000000000</td>
+                            <td>Administrador</td>
+                            <td class="action-cell">
+                                <button class="deletar-button"><i class="bi bi-trash3"></i></button>
+                            </td> 
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/usuarios/listar')
+                .then(response => response.json())
+                .then(listar => {
+                    const tbody = document.querySelector('tbody');
+                    tbody.innerHTML = '';
+
+                    listar.forEach(usuario => {
+                        const tr = document.createElement('tr');
+                        
+                        tr.innerHTML = `
+                            <td>${usuario.nome}</td>
+                            <td>${usuario.senha}</td>
+                            <td>${usuario.cpf}</td>
+                            <td>${usuario.tipo}</td>
+                            <td class="action-cell">
+                                <button class="deletar-button"><i class="bi bi-trash3"></i></button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar dados:', error);
+                });
+        });
+    </script>
+</body>
+</html>
