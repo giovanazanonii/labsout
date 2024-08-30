@@ -6,11 +6,22 @@
     <link rel="stylesheet" href="/css/selecaolab.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <title>LABSOUT</title>
+    <style>
+        .navbar a {
+            color: #fff;
+            text-decoration: none; /* remove o sublinhado do link */
+        }
+        .navbar a:hover {
+            color: #ddd; /* Cor ao passar o mouse por cima do ícone */
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="navbar-lado">
-            <div class="navbar-icon"><i class="bi bi-calendar2-week"></i></div>
+            <a href="inicialusuario" class="navbar-icon">
+                <i class="bi bi-calendar2-week"></i>
+            </a>
         </div>
     </nav>
     <div class="tela">
@@ -26,9 +37,6 @@
                 <button>Edificações</button>
                 <button>Laboratório II - Auditório</button>
                 <button>Análises Clínicas</button>
-            </div>
-            <div class="next-button">
-                <button><i class="bi bi-arrow-right-circle"></i></button>
             </div>
         </div>
     </div>

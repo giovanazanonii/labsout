@@ -64,11 +64,6 @@ p {
     color: #5e5a57;
 }
 
-.next-button {
-    position: absolute; 
-    right: 20px;
-    bottom: 20px; 
-}
 .button-lab {
     display: flex;
     flex-wrap: wrap;

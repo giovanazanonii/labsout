@@ -24,7 +24,6 @@ header {
     align-items: center;
     margin-bottom: 70px;
 }
-
 h1 {
     font-size: 35px;
 }
@@ -38,17 +37,11 @@ h1 {
     cursor: pointer;
 }
 
-.reservas h2 {
-    text-align: center; 
-    font-size: 23px;
-    margin-bottom: 10px;
-}
-
 .table-container {
-    max-height: 300px; /* Ajuste a altura máxima conforme necessário */
-    overflow-y: auto; /* Adiciona rolagem vertical */
+    max-height: 300px;
+    overflow-y: auto; 
     border-radius: 20px;
-    border: 1px solid #ddd; /* Opcional: Adiciona uma borda ao redor do contêiner */
+    border: 1px solid #ddd;
 }
 
 /* Estilização da barra de rolagem para navegadores WebKit (Chrome, Safari) */
