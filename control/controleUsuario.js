@@ -25,7 +25,9 @@ router.get("/selecaolab",(req,res)=>{
 router.get("/listagemusuario",(req,res)=>{
     res.render("pages/listagemusuario")
 })
-
+router.get("/usuarios",(req,res)=>{
+    res.render("pages/usuarios")
+})
 //autenticação de login
 router.post('/login', (req, res) => {
     console.log(req.body);

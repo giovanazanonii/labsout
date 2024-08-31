@@ -1,4 +1,3 @@
-
 body {
     margin: 0;
     padding: 0;
@@ -10,8 +9,16 @@ body {
 .container {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 30px;  
-}
+    padding: 30px;
+} 
+
+.voltar-button {
+    background: none;
+    border: none;
+    font-size: 35px;
+    color: #fff;
+    cursor: pointer;
+}   
 
 .container2 {
     max-width: 850px;
@@ -23,6 +30,12 @@ header {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+}
+
+.voltar-button:hover {
+    background: #f0f0f0;
+    color: #000; 
+    border-color: #000;
 }
 
 h1 {
@@ -40,24 +53,24 @@ h1 {
 
 /* Estilização da barra de rolagem para navegadores WebKit (Chrome, Safari) */
 .table-container::-webkit-scrollbar {
-    width: 12px; 
+    width: 12px;
 }
 
 .table-container::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-    border-radius: 10px; 
+    background: #f1f1f1;
+    border-radius: 10px;
 }
 
 .table-container::-webkit-scrollbar-thumb {
-    background: #a7a5a5; 
-    border-radius: 10px; 
+    background: #a7a5a5;
+    border-radius: 10px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     background-color: #ffffff;
-    border-radius: 10px;  
+    border-radius: 10px;
 }
 
 thead {
@@ -81,6 +94,7 @@ th, td {
     cursor: pointer;
     font-size: 18px;
 }
+
 body::after {
     content: "";
     position: fixed; /* Fixa a imagem na tela */

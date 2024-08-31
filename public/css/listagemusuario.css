@@ -3,8 +3,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #8B67A0;
-    color: #fff;
+    background-color: #DFDFDF;
+    color: #333;
 }
 
 .container {
@@ -62,12 +62,12 @@ h1 {
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #e5d5eb;
+    background-color: #ffffff;
     border-radius: 10px;  
 }
 
 thead {
-    background-color: #d9b3e6; /* Fundo dos cabeçalhos da tabela */
+    background-color: #ffffff; /* Fundo dos cabeçalhos da tabela */
     position: sticky;
     top: 0; /* Fixa o cabeçalho no topo do contêiner */
     z-index: 2; /* Garante que o cabeçalho fique sobre o corpo da tabela */
@@ -87,4 +87,18 @@ th, td {
     color: #e74c3c;
     cursor: pointer;
     font-size: 18px;
+}
+
+body::after {
+    content: "";
+    position: fixed; /* Fixa a imagem na tela */
+    bottom: 0;
+    right: 0;
+    width: 550px; /* Ajuste a largura conforme necessário */
+    height: 450px; /* Ajuste a altura conforme necessário */
+    background-image: url('/imagens/fundo.png'); /* Substitua pelo caminho da sua imagem */
+    background-size: cover; /* Ajusta o tamanho da imagem para cobrir o elemento */
+    background-repeat: no-repeat; /* Evita repetição da imagem */
+    background-position: bottom right; /* Garante que a imagem esteja no canto inferior direito */
+    z-index: -1; /* Coloca a imagem atrás do conteúdo */
 }
