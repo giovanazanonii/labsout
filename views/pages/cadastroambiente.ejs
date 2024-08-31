@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/cadastroambiente.css">
+    <title>LABSOUT</title>  
+    <style>
+        .navbar a {
+            color: #fff;
+            text-decoration: none; 
+        }
+        .navbar a:hover {
+            color: #ddd;
+        }
+        .navbar-title {
+            color: #fff;
+            font-size: 20px;
+            margin-left: 10px; 
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="/inicialadmin" class="navbar-icon">
+                <i class="bi bi-calendar2-week"></i>
+            </a>
+            <span class="navbar-title"><strong>LABSOUT</strong></span> 
+        </div>
+        <div class="navbar-right">
+            <button class="icon-sair"><i class="bi bi-box-arrow-right"></i></button>
+        </div>
+    </nav>
+
+    <h1><strong>CADASTRAR AMBIENTES</strong></h1>
+    <div class="square">
+       
+        <div class="ambiente">
+            <form method="POST">
+
+                <div class="form-group">
+                    <label for="nomeambiente">Nome do ambiente:</label>
+                    <input type="text" class="form-control" id="nomeambiente" name="nomeambiente" placeholder="TECH">
+                </div>
+                <div class="form-group">
+                    <label for="setor">Setor do ambiente:</label>
+                    <input type="text" class="form-control" id="setor" name="setor" placeholder="Informática">
+                </div>
+                <div class="form-group">
+                    <label for="capacidade">Capacidade de alunos:</label>
+                    <input type="text" class="form-control" id="capacidade" name="capacidade" placeholder="35">
+                </div>
+                <div class="form-group">
+                    <label for="localização">Localização:</label>
+                    <input type="text" class="form-control" id="localização" name="localização" placeholder="Próimo ao refeitório.">
+                </div>
+                <button type="submit" class="btn btn-primary"><strong>Cadastrar</strong></button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -20,6 +20,9 @@ router.get("/usuarios",(req,res)=>{
 router.get("/reservas",(req,res)=>{
     res.render("pages/reservas")
 })
+router.get("/cadastroambiente",(req,res)=>{
+    res.render("pages/cadastroambiente")
+})
 
 //visualizar todos os usuarios - admin
 router.get('/usuarios/listar', (req, res) => {
