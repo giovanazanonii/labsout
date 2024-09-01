@@ -28,6 +28,7 @@ router.get("/listagemusuario",(req,res)=>{
 router.get("/usuarios",(req,res)=>{
     res.render("pages/usuarios")
 })
+
 //autenticação de login
 router.post('/login', (req, res) => {
     console.log(req.body);

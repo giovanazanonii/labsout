@@ -1,0 +1,91 @@
+body {
+    font-family: Arial;
+    background-color: #f5f5f5;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #8B67A0;
+    padding: 10px 20px;
+}
+
+.navbar-left,
+.navbar-right {
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    color: #fff;
+}
+
+.icon-sair {
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+}
+/*termina aqui /\*/
+
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin: 20px 0;
+    text-align: center;   
+}
+.square {
+    width: 600px;
+    height: 450px;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    margin-top: 30px;
+    margin: 20px auto;
+}
+.ambiente {
+    width: 90%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.form-group {
+    width: 300%;
+    max-width: 400px;
+    margin-bottom: 10x;
+    transform: translateX(-45px);
+}
+
+.form-control {
+    border-radius: 15px;
+    height: 35px;
+    font-size: 16px;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+}
+
+.btn {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 15px;
+    background-color: #8B67A0; 
+    color: #fff;
+    height: 35px;
+    font-size: 16px;
+    margin-top: 10px;
+    border: none;
+    transform: translateX(30px)
+}
+
+.btn:hover {
+    background-color: #554061;
+}
+

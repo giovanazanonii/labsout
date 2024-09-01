@@ -23,6 +23,9 @@ router.get("/reservas",(req,res)=>{
 router.get("/cadastroambiente",(req,res)=>{
     res.render("pages/cadastroambiente")
 })
+router.get("/cadastrarusuario",(req,res)=>{
+    res.render("pages/cadastrarusuario")
+})
 
 //visualizar todos os usuarios - admin
 router.get('/usuarios/listar', (req, res) => {
