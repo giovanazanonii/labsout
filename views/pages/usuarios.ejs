@@ -27,33 +27,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Giovana Zanoni</td>
-                            <td>giovana123</td>
-                            <td>10945886921</td>
-                            <td>Normal</td>
-                            <td class="action-cell">
-                                <button class="deletar-button"><i class="bi bi-trash3"></i></button>
-                            </td> 
-                        </tr>
-                        <tr>
-                            <td>Camilla Lucietti</td>
-                            <td>camilla123</td>
-                            <td>03205978990</td>
-                            <td>Normal</td>
-                            <td class="action-cell">
-                                <button class="deletar-button"><i class="bi bi-trash3"></i></button>
-                            </td> 
-                        </tr>
-                        <tr>
-                            <td>Gustavo</td>
-                            <td>guga123</td>
-                            <td>00000000000</td>
-                            <td>Administrador</td>
-                            <td class="action-cell">
-                                <button class="deletar-button"><i class="bi bi-trash3"></i></button>
-                            </td> 
-                        </tr>
+                        
                     </tbody>
                 </table>
             </div>
@@ -66,10 +40,11 @@
                 .then(listar => {
                     const tbody = document.querySelector('tbody');
                     tbody.innerHTML = '';
-
+    
                     listar.forEach(usuario => {
                         const tr = document.createElement('tr');
-                        
+                        tr.dataset.id = usuario.cpf; // Ajuste se o identificador for diferente
+    
                         tr.innerHTML = `
                             <td>${usuario.nome}</td>
                             <td>${usuario.senha}</td>
@@ -80,6 +55,32 @@
                             </td>
                         `;
                         tbody.appendChild(tr);
+                    });
+    
+                    //deletando user :pp
+                    document.querySelectorAll('.deletar-button').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const row = this.closest('tr');
+                            const id = row.dataset.id;
+                            if (confirm('Tem certeza que deseja excluir este usuário?')) {
+                                fetch(`/usuarios/deletar/${id}`, {
+                                    method: 'DELETE'
+                                })
+                                .then(response => {
+                                    if (response.ok) {
+                                        row.remove(); // remove a linha da tabela
+                                    } else {
+                                        return response.json().then(data => {
+                                            alert(data.message || 'Erro ao excluir o usuário.');
+                                        });
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Erro ao excluir o usuário:', error);
+                                    alert('Erro ao excluir o usuário.');
+                                });
+                            }
+                        });
                     });
                 })
                 .catch(error => {

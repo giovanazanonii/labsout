@@ -20,6 +20,18 @@
             font-size: 20px;
             margin-left: 10px; 
         }
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            min-width: 200px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .toast.show {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -34,20 +46,26 @@
             <button class="icon-sair"><i class="bi bi-box-arrow-right"></i></button>
         </div>
     </nav>
-
     <h1><strong>CADASTRAR USUÁRIOS</strong></h1>
+
+    <div id="feedbackToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+            <span id="feedbackMessage"></span>
+        </div>
+    </div>
+
+    </div>
     <div class="square">
-       
         <div class="ambiente">
             <form method="POST">
 
                 <div class="form-group">
                     <label for="nome">Nome do usuário:</label>
-                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Camilla">
+                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome">
                 </div>
                 <div class="form-group">
                     <label for="senha">Senha:</label>
-                    <input type="password" class="form-control" id="senha" name="senha" placeholder="*******">
+                    <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha">
                 </div>
                 <div class="form-group">
                     <label for="cpf">CPF do usuário:</label>
@@ -55,12 +73,41 @@
                 </div>
                 <div class="form-group">
                     <label for="tipo">Tipo:</label>
-                    <input type="text" class="form-control" id="tipo" name="tipo" placeholder="usuário/admin">
+                    <select class="form-control" id="tipo" name="tipo">
+                        <option value="usuario">Usuário</option>
+                        <option value="admin">Admin</option>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary"><strong>Cadastrar</strong></button>
             </form>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Função para mostrar o toast
+        function showToast(message, type) {
+            const toast = document.getElementById('feedbackToast');
+            const messageElement = document.getElementById('feedbackMessage');
+            messageElement.textContent = message;
+            toast.classList.add('show');
 
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000); // Ocultar após 3 segundos
+        }
+
+        // Exemplo de como usar a função showToast (substitua com uma lógica real se necessário)
+        window.addEventListener('load', () => {
+            const queryParams = new URLSearchParams(window.location.search);
+            const message = queryParams.get('message');
+            const type = queryParams.get('type');
+
+            if (message) {
+                showToast(message, type);
+            }
+        });
+    </script>
 </body>
 </html>
