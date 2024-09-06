@@ -14,13 +14,11 @@ body {
     align-items: center;
     background-color: #8b67a0;
     padding: 10px 20px;
-    width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-lado {
     font-size: 30px;
-    color: #fff;
+    color: #fff; 
 }
 
 .navbar-right {
@@ -32,6 +30,7 @@ body {
     font-size: 30px;
     color: #fff;
     text-decoration: none;
+    transition: color 0.3s;
 }
 
 .main-content {
@@ -39,18 +38,14 @@ body {
     max-width: 1200px;
     margin: 50px auto;
     text-align: center;
+    position: relative; /* Adicionado para permitir o posicionamento absoluto dos botões de navegação */
 }
 
-h1 {
-    font-size: 32px;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.subtitle {
-    font-size: 18px;
-    color: #555;
+h3 {
+    font-size: 25px;
+    color: #685F5F;
     margin-bottom: 30px;
+    text-align: center;
 }
 
 .button-container {
@@ -59,9 +54,10 @@ h1 {
 }
 
 .button-lab {
+    position: relative; /* Para permitir o posicionamento absoluto dos botões de navegação */
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 10px; /* Ajuste do espaçamento entre os botões */
     justify-content: center;
     background-color: #fff;
     border-radius: 15px;
@@ -70,23 +66,49 @@ h1 {
 }
 
 .button-lab button {
-    background-color: #cbcbcbd1;
+    background-color: #C5C6CF;
     border: none;
     border-radius: 8px;
-    padding: 12px 24px;
-    font-size: 16px;
+    width: 60px; /* Tamanho fixo */
+    height: 40px; /* Tamanho fixo */
+    font-size: 14px; /* Tamanho do texto */
+    color: #fff; /* Texto branco */
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .button-lab button:hover {
-    background-color: #b2b2b2;
+    background-color: #C5C6CF;
+    transform: translateY(-2px);
+}
+
+.nav-buttons {
+    position: absolute;
+    bottom: 10px;
+    right: 10px; 
+    display: flex;
+    gap: -5px;
+}
+
+.nav-buttons button {
+    background-color: transparent;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.nav-buttons button:hover {
+    color: #8b67a0; /* Cor dos ícones no hover */
     transform: translateY(-2px);
 }
 
 body::after {
     content: "";
-    position: fixed; 
+    position: fixed;
     bottom: 0;
     right: 0;
     width: 550px; 
@@ -94,6 +116,6 @@ body::after {
     background-image: url('/imagens/fundo.png');
     background-size: cover; 
     background-repeat: no-repeat; 
-    background-position: bottom right; 
-    z-index: -1; /* Coloca a imagem atrás do conteúdo */
+    background-position: bottom right;
+    z-index: -1;
 }

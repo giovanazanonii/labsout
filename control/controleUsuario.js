@@ -28,6 +28,9 @@ router.get("/listagemusuario",(req,res)=>{
 router.get("/usuarios",(req,res)=>{
     res.render("pages/usuarios")
 })
+router.get("/calendario",(req,res)=>{
+    res.render("pages/calendario")
+})
 
 //autenticação de login
 router.post('/login', (req, res) => {
