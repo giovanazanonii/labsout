@@ -88,3 +88,17 @@ h1 {
 .btn:hover {
     background-color: #554061;
 }
+
+body::after {
+    content: "";
+    position: fixed; 
+    bottom: 0;
+    right: 0;
+    width: 550px; 
+    height: 450px;
+    background-image: url('/imagens/fundo.png');
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: bottom right; 
+    z-index: -1; /* Coloca a imagem atrás do conteúdo */
+}

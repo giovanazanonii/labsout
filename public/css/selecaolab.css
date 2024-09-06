@@ -84,3 +84,17 @@ h1 {
     background-color: #b2b2b2;
     transform: translateY(-2px);
 }
+
+body::after {
+    content: "";
+    position: fixed; 
+    bottom: 0;
+    right: 0;
+    width: 550px; 
+    height: 450px;
+    background-image: url('/imagens/fundo.png');
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: bottom right; 
+    z-index: -1; /* Coloca a imagem atrás do conteúdo */
+}
