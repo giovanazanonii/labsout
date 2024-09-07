@@ -1,34 +1,34 @@
-
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #DFDFDF;
+    font-family: 'Nunito', sans-serif; /* Usando a fonte 'Nunito' para manter a consistência */
+    background-color: #f5f5f5;
     color: #333;
 }
 
 .container {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 30px;  
+    padding: 20px 0; /* Reduz o padding para menos espaço ao redor do título */
 }
 
 .container2 {
     max-width: 850px;
-    margin: 0 auto;
+    margin: 10px auto; /* Reduz a margem superior */
 }
 
 header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Centraliza o título horizontalmente */
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Reduz o espaço abaixo do título */
 }
 
 h1 {
-    flex: 1; /* Ocupa o espaço disponível */
-    text-align: center; /* Centraliza o texto */
-    font-size: 35px;
+    font-size: 28px;
+    font-weight: 700; /* Fonte mais grossa para o título */
+    color: #333;
+    margin: 0; /* Remove margens adicionais */
 }
 
 .reservas h4 {
@@ -39,13 +39,16 @@ h1 {
 }
 
 .table-container {
-    max-height: 300px; /* Ajuste a altura máxima conforme necessário */
-    overflow-y: auto; /* Adiciona rolagem vertical */
-    border-radius: 20px;
-    border: 1px solid #ddd; /* Opcional: Adiciona uma borda ao redor do contêiner */
+    max-height: 300px; 
+    overflow-y: auto; 
+    border-radius: 15px;
+    border: 1px solid #ddd; 
+    background-color: #ffffff; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px; /* Adiciona padding ao redor da tabela */
+    margin-top: 10px; /* Adiciona um pequeno espaço superior */
 }
 
-/* Estilização da barra de rolagem para navegadores WebKit (Chrome, Safari) */
 .table-container::-webkit-scrollbar {
     width: 12px; 
 }
@@ -68,17 +71,22 @@ table {
 }
 
 thead {
-    background-color: #ffffff; /* Fundo dos cabeçalhos da tabela */
+    background-color: #f8f8f8;
     position: sticky;
-    top: 0; /* Fixa o cabeçalho no topo do contêiner */
-    z-index: 2; /* Garante que o cabeçalho fique sobre o corpo da tabela */
+    top: 0;
+    z-index: 2; 
 }
 
 th, td {
-    padding: 15px;
-    font-size: 19px;
+    padding: 12px; /* Reduz o padding das células */
+    font-size: 18px;
     text-align: left;
     color: #333;
+    border-bottom: 1px solid #e0e0e0; 
+}
+
+.action-cell {
+    text-align: center;
 }
 
 .deletar-button {
@@ -87,17 +95,24 @@ th, td {
     color: #e74c3c;
     cursor: pointer;
     font-size: 18px;
+    transition: transform 0.2s, color 0.2s; 
 }
+
+.deletar-button:hover {
+    transform: scale(1.2); 
+    color: #c0392b; 
+}
+
 body::after {
     content: "";
-    position: fixed; /* Fixa a imagem na tela */
+    position: fixed;
     bottom: 0;
     right: 0;
-    width: 550px; /* Ajuste a largura conforme necessário */
-    height: 450px; /* Ajuste a altura conforme necessário */
-    background-image: url('/imagens/fundo.png'); /* Substitua pelo caminho da sua imagem */
-    background-size: cover; /* Ajusta o tamanho da imagem para cobrir o elemento */
-    background-repeat: no-repeat; /* Evita repetição da imagem */
-    background-position: bottom right; /* Garante que a imagem esteja no canto inferior direito */
-    z-index: -1; /* Coloca a imagem atrás do conteúdo */
+    width: 550px; 
+    height: 450px; 
+    background-image: url('/imagens/fundo.png'); 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: bottom right; 
+    z-index: -1; 
 }
