@@ -40,8 +40,8 @@ router.get("/calendario3",(req,res)=>{
 
 //autenticação de login
 router.post('/login', (req, res) => {
-    console.log(req.body);
-    const cpf = req.body.cpf;
+    //replace remove a mascara do cpf para autenticar
+    const cpf = req.body.cpf.replace(/\D/g, '');
     const senha = req.body.senha;
 
     const query = 'SELECT * FROM usuario WHERE cpf_usuario = ? AND senha_usuario = ?';
@@ -54,51 +54,57 @@ router.post('/login', (req, res) => {
         } 
         if (results.length > 0) {
             const usuario = results[0];
-            //guardando o cpf do usuario para usar na modificação de senha
+            // guardando o CPF do usuário na sessão para modificar senha
             req.session.cpf = cpf;
 
-            if (usuario.tipo_usuario === 1) {
-              res.render("pages/modificarsenha");
-          } else {
-            (usuario.tipo_usuario === 2)
-              res.render("pages/inicialadmin");
-          }
+            // verifica se é o primeiro login
+            if (usuario.primeiro_login) {
+                res.redirect('/modificarsenha');
+            } else {
+                // redireciona conforme o tipo de usuário
+                if (usuario.tipo_usuario === 1) {
+                    res.redirect('/inicialusuario');
+                } else if (usuario.tipo_usuario === 2) {
+                    res.redirect('/inicialadmin');
+                }
+            }
         } else {
-          res.render("pages/login", { errorMessage: 'CPF ou senha inválidos' });
+            res.render("pages/login");
         }
     });
 });
 //modificação de senha
 router.post('/modificarsenha', (req, res) => {
-  const senha = req.body.senha;
-  const novasenha = req.body.novasenha;
-  const confirmarsenha = req.body.confirmarsenha;
+    const senha = req.body.senha;
+    const novasenha = req.body.novasenha;
+    const confirmarsenha = req.body.confirmarsenha;
 
-  //verificando se a novasenha é igual a confirmarsenha
-  if (novasenha !== confirmarsenha) {
-      return res.render("pages/modificarsenha", { errorMessage: 'As novas senhas não coincidem' });
-  }
+    if (novasenha !== confirmarsenha) {
+        return res.render("pages/modificarsenha", { errorMessage: 'As novas senhas não coincidem' });
+    }
 
-  const query = 'SELECT * FROM usuario WHERE cpf_usuario = ? AND senha_usuario = ?';
-  conexao.query(query, [req.session.cpf, senha], (error, results) => {
-      if (error) {
-          console.error('Erro ao executar a consulta: ' + error.stack);
-          return res.status(500).send('Erro no servidor');
-      }
-      if (results.length === 0) {
-          return res.render("pages/modificarsenha", { errorMessage: 'Senha atual incorreta' });
-      }
+    const query = 'SELECT * FROM usuario WHERE cpf_usuario = ? AND senha_usuario = ?';
+    conexao.query(query, [req.session.cpf, senha], (error, results) => {
+        if (error) {
+            console.error('Erro ao executar a consulta: ' + error.stack);
+            return res.status(500).send('Erro no servidor');
+        }
 
-      const atualiza = 'UPDATE usuario SET senha_usuario = ? WHERE cpf_usuario = ?';
-      conexao.query(atualiza, [novasenha, req.session.cpf], (error) => {
-          if (error) {
-              console.error('Erro ao atualizar a senha: ' + error.stack);
-              return res.status(500).send('Erro no servidor');
-          }
-          res.redirect('/inicialusuario');
-      });
-  });
+        if (results.length === 0) {
+            return res.render("pages/modificarsenha", { errorMessage: 'Senha atual incorreta' });
+        }
+            //atualizando primeiro_login para falso quando o usuario ja realizou o primeiro login e modificou senha
+        const atualiza = 'UPDATE usuario SET senha_usuario = ?, primeiro_login = FALSE WHERE cpf_usuario = ?';
+        conexao.query(atualiza, [novasenha, req.session.cpf], (error) => {
+            if (error) {
+                console.error('Erro ao atualizar a senha: ' + error.stack);
+                return res.status(500).send('Erro no servidor');
+            }
+            res.redirect('/inicialusuario');
+        });
+    });
 });
+
 
 
 module.exports = router;

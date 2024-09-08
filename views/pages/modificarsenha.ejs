@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LABSOUT</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap">
     <link rel="stylesheet" href="/css/modificarsenha.css">
@@ -19,21 +20,49 @@
         <div class="modificar-section">
             <form action="/modificarsenha" method="POST">
                 <div class="form-group">
-                    <label for="current-password">Digite senha atual:</label>
-                    <input type="password" id="senha" name="senha" class="form-control" placeholder="Senha Atual">
+                    <label for="senha">Digite senha atual:</label>
+                    <div class="password-container">
+                        <input type="password" id="senha" name="senha" class="form-control" placeholder="Senha Atual">
+                        <button type="button" class="eye-icon" onclick="olharSenha('senha', 'eyeIcon1')">
+                            <i class="fas fa-eye" id="eyeIcon1"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="new-password">Digite nova senha:</label>
-                    <input type="password" id="novasenha" name="novasenha" class="form-control" placeholder="Nova Senha">
+                    <label for="novasenha">Digite nova senha:</label>
+                    <div class="password-container">
+                        <input type="password" id="novasenha" name="novasenha" class="form-control" placeholder="Nova Senha">
+                        <button type="button" class="eye-icon" onclick="olharSenha('novasenha', 'eyeIcon2')">
+                            <i class="fas fa-eye" id="eyeIcon2"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="confirm-password">Confirmar nova senha:</label>
-                    <input type="password" id="confirmarsenha" name="confirmarsenha" class="form-control" placeholder="Confirmar senha">
+                    <label for="confirmarsenha">Confirmar nova senha:</label>
+                    <div class="password-container">
+                        <input type="password" id="confirmarsenha" name="confirmarsenha" class="form-control" placeholder="Confirmar senha">
+                        <button type="button" class="eye-icon" onclick="olharSenha('confirmarsenha', 'eyeIcon3')">
+                            <i class="fas fa-eye" id="eyeIcon3"></i>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" class="btn"><strong>Modificar</strong></button>
             </form>
         </div>
         <img src="imagens/modificar.png" alt="Modificar Image" class="modificar-image">
     </div>
+    <script>
+        //mudar o olho ao clicar no icone de senha
+        function olharSenha(inputId, eyeIconId) {
+            const senhaInput = document.getElementById(inputId);
+            const eyeIcon = document.getElementById(eyeIconId);
+            const tipo = senhaInput.type === 'password' ? 'text' : 'password';
+
+            senhaInput.type = tipo;
+
+            // altera o ícone do olho
+            eyeIcon.className = tipo === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+        }
+    </script>
 </body>
 </html>

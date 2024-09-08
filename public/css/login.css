@@ -98,3 +98,22 @@ body, html {
 .btn:hover {
     background-color: #554061;
 }
+.eye-icon {
+        position: absolute;
+        right: 20px;
+        top: 37px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        color: #6c757d;
+        outline: none;
+        box-shadow: none;
+}
+.eye-icon:focus {
+        outline: none;
+        box-shadow: none;
+}
+.password-container {
+        position: relative;
+        width: 100%;
+}
