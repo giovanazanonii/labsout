@@ -6,8 +6,34 @@
     <title>LABSOUT</title>
     <link rel="stylesheet" href="/css/usuarios.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <style>
+        .navbar a {
+            color: #fff;
+            text-decoration: none; 
+        }
+        .navbar a:hover {
+            color: #ddd;
+        }
+        .navbar-title {
+            color: #fff;
+            font-size: 20px;
+            margin-left: 10px; 
+        }
+    </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="/inicialadmin" class="navbar-icon">
+                <i class="bi bi-calendar2-week"></i>
+            </a>
+            <span class="navbar-title"><strong>LABSOUT</strong></span> 
+        </div>
+        <div class="navbar-right">
+            <button class="icon-sair"><i class="bi bi-box-arrow-right"></i></button>
+        </div>
+    </nav>
+
     <div class="container">
         <header>
             <h1>Usuários</h1>

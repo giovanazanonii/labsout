@@ -98,7 +98,9 @@ body, html {
 
 .btn:hover {
     background-color: #554061;
+    color: #fff;
 }
+
 .eye-icon {
     position: absolute;
         right: 20px;

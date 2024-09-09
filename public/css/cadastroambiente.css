@@ -1,3 +1,4 @@
+
 body {
     font-family: Arial;
     background-color: #f5f5f5;
@@ -66,7 +67,7 @@ h1 {
 
 .form-control {
     border-radius: 15px;
-    height: 35px;
+    height: 38px;
     font-size: 16px;
     padding: 10px 15px;
     border: 1px solid #ccc;
@@ -87,4 +88,17 @@ h1 {
 
 .btn:hover {
     background-color: #554061;
+}
+body::after {
+    content: "";
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 550px;
+    height: 450px;
+    background-image: url('/imagens/fundo.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    z-index: -1;
 }
