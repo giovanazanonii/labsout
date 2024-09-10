@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/cadastrarusuario.css">
@@ -57,19 +58,23 @@
     </div>
     <div class="square">
         <div class="ambiente">
-            <form method="POST">
+            <form method="POST" onsubmit="return validarFormulario()">
 
                 <div class="form-group">
                     <label for="nome">Nome do usuário:</label>
                     <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome">
                 </div>
                 <div class="form-group">
-                    <label for="senha">Senha:</label>
+                    <label for="password">Senha:</label>
                     <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha">
+                    <button type="button" class="eye-icon" onclick="olharSenha()">
+                        <i class="fas fa-eye" id="eyeIcon"></i>
+                    </button>
                 </div>
                 <div class="form-group">
                     <label for="cpf">CPF do usuário:</label>
-                    <input type="text" class="form-control" id="cpf" name="cpf" placeholder="000.000.000-00">
+                    <input type="text" class="form-control" id="cpf" name="cpf" placeholder="000.000.000-00" maxlength="14">
+                    
                 </div>
                 <div class="form-group">
                     <label for="tipo">Tipo:</label>
@@ -86,9 +91,53 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Função para mostrar o toast
-        function showToast(message, type) {
-            const toast = document.getElementById('feedbackToast');
+        // máscara de CPF
+        function mascaraCPF(input) {
+            let value = input.value.replace(/\D/g, ''); // remove caracteres não numéricos
+            value = value.replace(/(\d{3})(\d)/, '$1.$2'); // adiciona o primeiro ponto
+            value = value.replace(/(\d{3})(\d)/, '$1.$2'); // adiciona o segundo ponto
+            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // adiciona o traço
+
+            input.value = value; // atualiza o valor do input
+        }
+
+
+        // máscara no campo CPF enquanto o usuário digita
+        document.getElementById('cpf').addEventListener('input', function () {
+            mascaraCPF(this);
+        });
+
+        //mudar o olho ao clicar no icone de senha
+        function olharSenha() {
+            const senhaInput = document.getElementById('senha');
+            const eyeIcon = document.getElementById('eyeIcon');
+            const tipo = senhaInput.type === 'password' ? 'text' : 'password';
+
+            senhaInput.type = tipo;
+
+            // altera o ícone do olho
+            eyeIcon.className = tipo === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+        }
+
+        // validação do formulário
+        function validarFormulario() {
+            const nome = document.getElementById('nome').value;
+            const senha = document.getElementById('senha').value;
+            const cpf = document.getElementById('cpf').value;
+
+            // verifica campos estão vazios 
+            //.trim é para garantir que qualquer espaço em branco digitado pelo usuário será removido.
+            if (nome.trim() ==='' || cpf.trim() === '' || senha.trim() === '') {
+                showToast('Por favor, preencha todos os campos.', 'error');
+                return false;
+            }
+            return true;
+        }
+
+
+        // mostra o toast de feedback na tela com a mensagem
+        function showToast(message, type) {     //elemento HTML correspondente ao toast = feedbackToast
+            const toast = document.getElementById('feedbackToast'); //local onde a mensagem será exibida = feedbackMessage
             const messageElement = document.getElementById('feedbackMessage');
             messageElement.textContent = message;
             toast.classList.add('show');
@@ -98,16 +147,18 @@
             }, 3000); // Ocultar após 3 segundos
         }
 
-        // Exemplo de como usar a função showToast (substitua com uma lógica real se necessário)
+        //verifica a URL da página para ver se tem uma mensagem para ser exibida
         window.addEventListener('load', () => {
-            const queryParams = new URLSearchParams(window.location.search);
-            const message = queryParams.get('message');
-            const type = queryParams.get('type');
-
-            if (message) {
-                showToast(message, type);
-            }
-        });
+                                //pega os parâmetros da URL
+        const queryParams = new URLSearchParams(window.location.search);
+        //verifica se há uma mensagem e tipo presentes na URL
+        const mensagem = queryParams.get('message');
+        const tipo = queryParams.get('type');
+        //se tiver chama a função showToast com os parâmetros extraídos para exibir o toast
+        if (mensagem) {
+            showToast(mensagem, tipo);
+        }
+    });
     </script>
 </body>
 </html>

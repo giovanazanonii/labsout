@@ -22,6 +22,14 @@
     </style>
 </head>
 <body>
+    <div id="confirmToast" class="toast" style="position: fixed; top: 20px; right: 20px; z-index: 1050;" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+        <div class="toast-body">
+            <p id="confirmMessage">Tem certeza que deseja excluir este usuário?</p>
+            <button id="confirmYes" class="btn btn-primary">Sim</button>
+            <button id="confirmNo" class="btn btn-secondary">Não</button>
+        </div>
+    </div>
+    
     <nav class="navbar">
         <div class="navbar-left">
             <a href="/inicialadmin" class="navbar-icon">
@@ -61,58 +69,97 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            fetch('/usuarios/listar')
-                .then(response => response.json())
-                .then(listar => {
-                    const tbody = document.querySelector('tbody');
-                    tbody.innerHTML = '';
-    
-                    listar.forEach(usuario => {
-                        const tr = document.createElement('tr');
-                        tr.dataset.id = usuario.cpf;
-    
-                        tr.innerHTML = `
-                            <td>${usuario.nome}</td>
-                            <td>${usuario.senha}</td>
-                            <td>${usuario.cpf}</td>
-                            <td>${usuario.tipo}</td>
-                            <td class="action-cell">
-                                <button class="deletar-button"><i class="bi bi-trash3"></i></button>
-                            </td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
-    
-                    //deletando user :pp
-                    document.querySelectorAll('.deletar-button').forEach(button => {
-                        button.addEventListener('click', function () {
-                            const row = this.closest('tr');
-                            const id = row.dataset.id;
-                            if (confirm('Tem certeza que deseja excluir este usuário?')) {
-                                fetch(`/usuarios/deletar/${id}`, {
-                                    method: 'DELETE'
-                                })
-                                .then(response => {
-                                    if (response.ok) {
-                                        row.remove(); // remove a linha da tabela
-                                    } else {
-                                        return response.json().then(data => {
-                                            alert(data.message || 'Erro ao excluir o usuário.');
-                                        });
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Erro ao excluir o usuário:', error);
-                                    alert('Erro ao excluir o usuário.');
+    fetch('/usuarios/listar')
+        .then(response => response.json())
+        .then(listar => {
+            const tbody = document.querySelector('tbody');
+            tbody.innerHTML = '';
+
+            listar.forEach(usuario => {
+                const tr = document.createElement('tr');
+                tr.dataset.id = usuario.cpf;
+
+                tr.innerHTML = `
+                    <td>${usuario.nome}</td>
+                    <td>${usuario.senha}</td>
+                    <td>${usuario.cpf}</td>
+                    <td>${usuario.tipo}</td>
+                    <td class="action-cell">
+                        <button class="deletar-button"><i class="bi bi-trash3"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Deletando user
+            document.querySelectorAll('.deletar-button').forEach(button => {
+                button.addEventListener('click', function () {
+                    const row = this.closest('tr');
+                    const id = row.dataset.id;
+                    showConfirmToast(() => {
+                        fetch(`/usuarios/deletar/${id}`, {
+                            method: 'DELETE'
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                row.remove(); // remove a linha da tabela
+                            } else {
+                                return response.json().then(data => {
+                                    showToast(data.message || 'Erro ao excluir o usuário.', 'danger');
                                 });
                             }
+                        })
+                        .catch(error => {
+                            console.error('Erro ao excluir o usuário:', error);
+                            showToast('Erro ao excluir o usuário.', 'danger');
                         });
                     });
-                })
-                .catch(error => {
-                    console.error('Erro ao carregar dados:', error);
                 });
+            });
+        })
+        .catch(error => {
+            console.error('Erro ao carregar dados:', error);
         });
+});
+
+function showConfirmToast(callback) {
+    const toast = document.getElementById('confirmToast');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmNo = document.getElementById('confirmNo');
+
+    // esconde o toast se já estiver visível
+    if (toast.classList.contains('show')) {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 300);
+    }
+
+    toast.classList.add('show');
+
+    confirmYes.onclick = function() {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            callback(); // excluir após o toast desaparecer
+        }, 300);
+    };
+
+    confirmNo.onclick = function() {
+        toast.classList.remove('show');
+    };
+}
+
+function showToast(message, type) {
+    const toast = document.getElementById('feedbackToast');
+    const messageElement = document.getElementById('feedbackMessage');
+    messageElement.textContent = message;
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
     </script>
 </body>
 </html>

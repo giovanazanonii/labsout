@@ -11,6 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="feedbackToast" class="toast" style="position: fixed; top: 20px; right: 20px; z-index: 1050;" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+        <div class="toast-body" id="feedbackMessage"></div>
+    </div>
+
     <div class="square">
         <div class="purple-section">
             <h1 class="title">LABSOUT</h1>
@@ -35,6 +39,7 @@
         </div>
         <img src="imagens/LOGIN.png" alt="Login Image" class="login-image">
     </div>
+
     <script>
         // máscara de CPF
         function mascaraCPF(input) {
@@ -51,7 +56,6 @@
             mascaraCPF(this);
         });
 
-        
         //mudar o olho ao clicar no icone de senha
         function olharSenha() {
             const senhaInput = document.getElementById('senha');
@@ -64,7 +68,6 @@
             eyeIcon.className = tipo === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
         }
 
-
         // validação do formulário
         function validarFormulario() {
             const cpf = document.getElementById('cpf').value;
@@ -73,11 +76,34 @@
             // verifica campos estão vazios 
             //.trim é para garantir que qualquer espaço em branco digitado pelo usuário será removido.
             if (cpf.trim() === '' || senha.trim() === '') {
-                alert('Por favor, preencha todos os campos.');
+                showToast('Por favor, preencha todos os campos.', 'danger');
                 return false;
             }
             return true;
         }
+
+        //para mostrar o toast
+        function showToast(message, type) {
+            const toast = document.getElementById('feedbackToast');
+            const messageElement = document.getElementById('feedbackMessage');
+            messageElement.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // mostrando a mensagem de feedback ao carregar a página
+        window.addEventListener('load', () => {
+            const queryParams = new URLSearchParams(window.location.search);
+            const mensagem = queryParams.get('message');
+            const tipo = queryParams.get('type');
+
+            if (mensagem) {
+                showToast(mensagem, tipo);
+            }
+        });
     </script>
 </body>
 </html>

@@ -50,6 +50,7 @@ router.post('/cadastrarusuario', (req, res) => {
         res.redirect('/cadastrarusuario?message=Usuário cadastrado com sucesso!&type=success');
       }
     });
+    
 });
 //visualizar todos os usuarios - admin
 router.get('/usuarios/listar', (req, res) => {

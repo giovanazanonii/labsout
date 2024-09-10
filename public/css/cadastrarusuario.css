@@ -102,3 +102,23 @@ body::after {
     background-position: bottom right; 
     z-index: -1; /* Coloca a imagem atrás do conteúdo */
 }
+
+.eye-icon {
+    position: absolute;
+        right: 8px;
+        top: 40px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        color: #6c757d;
+        outline: none;
+        box-shadow: none;
+}
+.eye-icon:focus {
+    outline: none;
+    box-shadow: none;
+}
+.password-container {
+    position: relative;
+    width: 100%;
+}

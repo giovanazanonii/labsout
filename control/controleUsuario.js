@@ -57,8 +57,8 @@ router.post('/login', (req, res) => {
             // guardando o CPF do usuário na sessão para modificar senha
             req.session.cpf = cpf;
 
-            // verifica se é o primeiro login
-            if (usuario.primeiro_login) {
+            // verifica se é o primeiro login e se o usuario não é admin
+            if (usuario.primeiro_login && usuario.tipo_usuario === 1) {
                 res.redirect('/modificarsenha');
             } else {
                 // redireciona conforme o tipo de usuário
@@ -69,18 +69,23 @@ router.post('/login', (req, res) => {
                 }
             }
         } else {
-            res.render("pages/login");
+            res.redirect('/login?message=Dados+incorretos.+Por+favor,+tente+novamente.&type=danger');
         }
     });
 });
+
+
 //modificação de senha
 router.post('/modificarsenha', (req, res) => {
     const senha = req.body.senha;
     const novasenha = req.body.novasenha;
     const confirmarsenha = req.body.confirmarsenha;
 
+    if (senha === novasenha) {
+        return res.redirect('/modificarsenha?message=A+nova+senha+não+pode+ser+igual+à+senha+atual&type=danger');
+    }
     if (novasenha !== confirmarsenha) {
-        return res.render("pages/modificarsenha", { errorMessage: 'As novas senhas não coincidem' });
+        return res.redirect('/modificarsenha?message=As+novas+senhas+n%C3%A3o+coincidem&type=danger');
     }
 
     const query = 'SELECT * FROM usuario WHERE cpf_usuario = ? AND senha_usuario = ?';
@@ -91,7 +96,7 @@ router.post('/modificarsenha', (req, res) => {
         }
 
         if (results.length === 0) {
-            return res.render("pages/modificarsenha", { errorMessage: 'Senha atual incorreta' });
+            return res.redirect('/modificarsenha?message=Senha+atual+incorreta&type=danger');
         }
             //atualizando primeiro_login para falso quando o usuario ja realizou o primeiro login e modificou senha
         const atualiza = 'UPDATE usuario SET senha_usuario = ?, primeiro_login = FALSE WHERE cpf_usuario = ?';
