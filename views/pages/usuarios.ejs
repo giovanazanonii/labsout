@@ -69,7 +69,15 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-    fetch('/usuarios/listar')
+            function formatarCPF(cpf) {
+                cpf = cpf.replace(/\D/g, ''); // Remove caracteres não numéricos
+                cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // Adiciona o primeiro ponto
+                cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // Adiciona o segundo ponto
+                cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o traço
+            return cpf;
+            }
+
+        fetch('/usuarios/listar')
         .then(response => response.json())
         .then(listar => {
             const tbody = document.querySelector('tbody');
@@ -82,7 +90,7 @@
                 tr.innerHTML = `
                     <td>${usuario.nome}</td>
                     <td>${usuario.senha}</td>
-                    <td>${usuario.cpf}</td>
+                    <td>${formatarCPF(usuario.cpf)}</td>
                     <td>${usuario.tipo}</td>
                     <td class="action-cell">
                         <button class="deletar-button"><i class="bi bi-trash3"></i></button>

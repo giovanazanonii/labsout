@@ -30,7 +30,7 @@ router.get("/cadastrarusuario",(req,res)=>{
 router.post('/cadastrarusuario', (req, res) => {
     const nome = req.body.nome;
     const senha = req.body.senha;
-    const cpf = req.body.cpf;
+    const cpf = req.body.cpf.replace(/\D/g, '');;
     let tipo = req.body.tipo;
 
     if (tipo.toLowerCase() === "usuario") {
