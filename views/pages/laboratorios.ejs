@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/laboratorios.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <title>LABSOUT</title>
+    <link rel="stylesheet" href="/css/laboratorios.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <style>
+        .navbar a {
+            color: #fff;
+            text-decoration: none; 
+        }
+        .navbar a:hover {
+            color: #ddd;
+        }
         .navbar-title {
             color: #fff;
             font-size: 20px;
@@ -16,49 +24,113 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="navbar-lado">
+        <div class="navbar-left">
             <a href="/inicialadmin" class="navbar-icon">
                 <i class="bi bi-calendar2-week"></i>
             </a>
             <span class="navbar-title"><strong>LABSOUT</strong></span> 
         </div>
-    </nav>
-    <div class="main-content">
-        <h1>LABORATÓRIOS</h1>
-        <div class="button-container">
-            <div class="button-lab">
-                <% if (ambientes && ambientes.length > 0) { %>
-                    <% ambientes.forEach(ambiente => { %>
-                        <div class="lab-item">
-                            <button><%= ambiente.nome_ambiente %></button>
-                            <button class="delete-btn" onclick="confirmDelete('<%= ambiente.id_ambiente %>', '<%= ambiente.nome_ambiente %>')">
-                                <i class="bi bi-trash-fill"></i>
-                            </button>
-                        </div>
-                    <% }); %>
-                <% } else { %>
-                    <p>Nenhum ambiente cadastrado.</p>
-                <% } %>
-            </div>
+        <div class="navbar-right">
+            <button class="icon-sair"><i class="bi bi-box-arrow-right"></i></button>
         </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Laboratórios</h1>
+        </header>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <div class="container2">
+        <section class="reservas">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Capacidade</th>
+                            <th>Localização</th>
+                            <th>Tipo</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dados dos laboratórios serão inseridos aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
     <script>
-        function confirmDelete(idAmbiente, nomeAmbiente) {
-        Swal.fire({
-            title: `Tem certeza que deseja deletar o laboratório "${nomeAmbiente}"?`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sim, deletar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = `/deletarambiente/${idAmbiente}`;
-            }
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/laboratorios/listar')
+                .then(response => response.json())
+                .then(listar => {
+                    const tbody = document.querySelector('tbody');
+                    tbody.innerHTML = '';
+
+                    listar.forEach(laboratorio => {
+                        const tr = document.createElement('tr');
+                        tr.dataset.id = laboratorio.id_ambiente;
+
+                        tr.innerHTML = `
+                            <td>${laboratorio.nome_ambiente}</td>
+                            <td>${laboratorio.capacidade_ambiente}</td>
+                            <td>${laboratorio.localizacao_ambiente}</td>
+                            <td>${laboratorio.tipo}</td>
+                            <td class="action-cell">
+                                <button class="deletar-button"><i class="bi bi-trash3"></i></button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+
+                    // Deletando laboratório
+                    document.querySelectorAll('.deletar-button').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const row = this.closest('tr');
+                            const id = row.dataset.id;
+                            Swal.fire({
+                                title: 'Deletar laboratório?',
+                                text: "Você não poderá desfazer essa ação!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Sim, deletar!',
+                                cancelButtonText: 'Cancelar'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    fetch(`/laboratorios/deletar/${id}`, {
+                                        method: 'DELETE'
+                                    })
+                                        .then(response => {
+                                            if (response.ok) {
+                                                row.remove(); // remove a linha da tabela
+                                                Swal.fire(
+                                                    'Excluído!',
+                                                    'O laboratório foi excluído.',
+                                                    'success'
+                                                );
+                                            } else {
+                                                return response.json().then(data => {
+                                                    Swal.fire('Erro', data.message || 'Erro ao excluir o laboratório.', 'error');
+                                                });
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Erro ao excluir o laboratório:', error);
+                                            Swal.fire('Erro', 'Erro ao excluir o laboratório.', 'error');
+                                        });
+                                }
+                            });
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar dados:', error);
+                });
         });
-    }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

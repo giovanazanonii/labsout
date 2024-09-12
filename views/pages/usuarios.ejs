@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LABSOUT</title>
     <link rel="stylesheet" href="/css/usuarios.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <style>
         .navbar a {
@@ -22,14 +23,6 @@
     </style>
 </head>
 <body>
-    <div id="confirmToast" class="toast" style="position: fixed; top: 20px; right: 20px; z-index: 1050;" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
-        <div class="toast-body">
-            <p id="confirmMessage">Tem certeza que deseja excluir este usuário?</p>
-            <button id="confirmYes" class="btn btn-primary">Sim</button>
-            <button id="confirmNo" class="btn btn-secondary">Não</button>
-        </div>
-    </div>
-    
     <nav class="navbar">
         <div class="navbar-left">
             <a href="/inicialadmin" class="navbar-icon">
@@ -69,15 +62,15 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            function formatarCPF(cpf) {
-                cpf = cpf.replace(/\D/g, ''); // Remove caracteres não numéricos
-                cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // Adiciona o primeiro ponto
-                cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // Adiciona o segundo ponto
-                cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o traço
-            return cpf;
-            }
+    function formatarCPF(cpf) {
+        cpf = cpf.replace(/\D/g, ''); // Remove caracteres não numéricos
+        cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // Adiciona o primeiro ponto
+        cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // Adiciona o segundo ponto
+        cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o traço
+        return cpf;
+    }
 
-        fetch('/usuarios/listar')
+    fetch('/usuarios/listar')
         .then(response => response.json())
         .then(listar => {
             const tbody = document.querySelector('tbody');
@@ -99,28 +92,44 @@
                 tbody.appendChild(tr);
             });
 
-            // Deletando user
+            // Deletando usuário
             document.querySelectorAll('.deletar-button').forEach(button => {
                 button.addEventListener('click', function () {
                     const row = this.closest('tr');
                     const id = row.dataset.id;
-                    showConfirmToast(() => {
-                        fetch(`/usuarios/deletar/${id}`, {
-                            method: 'DELETE'
-                        })
-                        .then(response => {
-                            if (response.ok) {
-                                row.remove(); // remove a linha da tabela
-                            } else {
-                                return response.json().then(data => {
-                                    showToast(data.message || 'Erro ao excluir o usuário.', 'danger');
+                    Swal.fire({
+                        title: 'Deletar usuário?',
+                        text: "Você não poderá desfazer essa ação!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sim, deletar!',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/usuarios/deletar/${id}`, {
+                                method: 'DELETE'
+                            })
+                                .then(response => {
+                                    if (response.ok) {
+                                        row.remove(); // remove a linha da tabela
+                                        Swal.fire(
+                                            'Excluído!',
+                                            'O usuário foi excluído.',
+                                            'success'
+                                        );
+                                    } else {
+                                        return response.json().then(data => {
+                                            Swal.fire('Erro', data.message || 'Erro ao excluir o usuário.', 'error');
+                                        });
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Erro ao excluir o usuário:', error);
+                                    Swal.fire('Erro', 'Erro ao excluir o usuário.', 'error');
                                 });
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Erro ao excluir o usuário:', error);
-                            showToast('Erro ao excluir o usuário.', 'danger');
-                        });
+                        }
                     });
                 });
             });
@@ -129,45 +138,7 @@
             console.error('Erro ao carregar dados:', error);
         });
 });
-
-function showConfirmToast(callback) {
-    const toast = document.getElementById('confirmToast');
-    const confirmYes = document.getElementById('confirmYes');
-    const confirmNo = document.getElementById('confirmNo');
-
-    // esconde o toast se já estiver visível
-    if (toast.classList.contains('show')) {
-        toast.classList.remove('show');
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 300);
-    }
-
-    toast.classList.add('show');
-
-    confirmYes.onclick = function() {
-        toast.classList.remove('show');
-        setTimeout(() => {
-            callback(); // excluir após o toast desaparecer
-        }, 300);
-    };
-
-    confirmNo.onclick = function() {
-        toast.classList.remove('show');
-    };
-}
-
-function showToast(message, type) {
-    const toast = document.getElementById('feedbackToast');
-    const messageElement = document.getElementById('feedbackMessage');
-    messageElement.textContent = message;
-    toast.classList.add('show');
-
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 3000);
-}
-
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
