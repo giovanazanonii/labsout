@@ -1,0 +1,158 @@
+body {
+    font-family: Arial;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Garante que o body ocupe toda a altura da tela */
+    overflow: hidden; /* Impede a barra de rolagem vertical */
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #8B67A0;
+    padding: 10px 20px;
+    z-index: 1000;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    color: #fff;
+}
+
+.icon-sair {
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* remove a borda preta do botão sair, quando clicado nele */
+.icon-sair:focus {
+    outline: none;
+}
+
+/* Botão voltar abaixo da navbar */
+.voltar {
+    margin-top: 70px;
+    position: relative;
+    left: 10px;
+}
+
+.voltar button {
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.voltar button:focus {
+    outline: none;
+}
+
+/* Container para os turnos */
+.reservation-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.turno {
+    flex: 1;
+    padding: 20px;
+    background-color: #fafafa;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.turno:hover {
+    transform: translateY(-5px);
+}
+
+.turno h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Estilos para os checkboxes */
+.turno label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+input[type="checkbox"] {
+    margin-right: 15px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+/* Estilos para o botão de reservar */
+.reservar-btn {
+    width: 18%;
+    padding: 5px;
+    background-color: #868686;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 20px auto 0 auto;
+    display: block;
+}
+
+.reservar-btn:hover {
+    background-color: #757575;
+    outline: none;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    .reservation-container {
+        flex-direction: column;
+    }
+
+    .turno {
+        margin-bottom: 20px;
+    }
+}
+body::after {
+    content: "";
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 550px;
+    height: 450px;
+    background-image: url('/imagens/fundo.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    z-index: -1;
+}
+
+/* Adiciona margem superior para compensar a navbar fixa */
+.container {
+    margin-top: 10px;
+}
