@@ -23,6 +23,10 @@ router.get("/cadastroambiente",(req,res)=>{
 router.get("/cadastrarusuario",(req,res)=>{
     res.render("pages/cadastrarusuario")
 })
+router.get("/laboratorios",(req,res)=>{
+    res.render("pages/laboratorios")
+})
+
 //cadastrando ambientes
 router.post('/cadastroambiente', (req, res) => {
     const nomeAmbiente = req.body.nomeambiente;
@@ -41,27 +45,39 @@ router.post('/cadastroambiente', (req, res) => {
     });
 });
 
-// visualizar laboratorios
-router.get("/laboratorios", (req, res) => {
-    const consulta = "SELECT * FROM ambientes";
-
-    conexao.query(consulta, (error, results) => {
+// visualizar todos os ambientes - admin
+router.get('/laboratorios/listar', (req, res) => {
+    conexao.query('SELECT * FROM ambientes', (error, results) => {
         if (error) {
-            return res.status(500).send("Erro ao buscar os ambientes no banco de dados.");
+            return res.status(500).json({ error: 'Erro ao consultar o banco de dados' });
         }
-        res.render("pages/laboratorios", { ambientes: results });
+        const tipoLab = {
+            1: 'Administração',
+            2: 'Biologia',
+            3: 'Edificações',
+            4: 'Informática',
+            5: 'Química',
+            6: 'Outros'
+        };
+        const resultadoTipo = results.map(ambiente => ({
+            ...ambiente,
+            tipo: tipoLab[ambiente.id_tipo_ambiente]
+        }));
+        res.json(resultadoTipo);
     });
 });
-router.get('/deletarambiente/:id', (req, res) => {
+
+// deletando laboratorios
+router.delete('/laboratorios/:id', (req, res) => {
     const idAmbiente = req.params.id;
 
     const consulta = 'DELETE FROM ambientes WHERE id_ambiente = ?';
 
     conexao.query(consulta, [idAmbiente], (err) => {
         if (err) {
-            return res.redirect('/laboratorios?message=Erro ao deletar o ambiente.&type=danger');
+            return res.status(500).json({ message: 'Erro ao deletar o ambiente.' });
         }
-        res.redirect('/laboratorios?message=Ambiente deletado com sucesso!&type=success');
+        res.status(200).json({ message: 'Ambiente deletado com sucesso!' });
     });
 });
 
@@ -92,6 +108,7 @@ router.post('/cadastrarusuario', (req, res) => {
     });
     
 });
+
 //visualizar todos os usuarios - admin
 router.get('/usuarios/listar', (req, res) => {
     conexao.query('SELECT nome_usuario AS nome, senha_usuario AS senha, cpf_usuario AS cpf, tipo_usuario AS tipo FROM usuario', (error, results) => {
@@ -100,7 +117,7 @@ router.get('/usuarios/listar', (req, res) => {
         }
         const resultadoTipo = results.map(usuario => ({
             ...usuario,
-            tipo: usuario.tipo === 1 ? 'Normal' : 'Administrador'
+            tipo: usuario.tipo === 1 ? 'Professor' : 'Administrador'
         }));
 
         res.json(resultadoTipo);
