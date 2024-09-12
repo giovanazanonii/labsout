@@ -21,6 +21,18 @@
             font-size: 20px;
             margin-left: 10px; 
         }
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            min-width: 200px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .toast.show {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -35,12 +47,17 @@
             <button class="icon-sair"><i class="bi bi-box-arrow-right"></i></button>
         </div>
     </nav>
-
     <h1><strong>CADASTRAR AMBIENTES</strong></h1>
+    <div id="feedbackToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+            <span id="feedbackMessage"></span>
+        </div>
+    </div>
+
+    </div>
     <div class="square">
-       
         <div class="ambiente">
-            <form method="POST">
+            <form method="POST" onsubmit="return validarFormulario()">
 
                 <div class="form-group">
                     <label for="nomeambiente">Nome do ambiente:</label>
@@ -52,22 +69,65 @@
                 </div>
                 <div class="form-group">
                     <label for="localização">Localização:</label>
-                    <input type="text" class="form-control" id="localização" name="localização" placeholder="Digite a localização do laboratório">
+                    <input type="text" class="form-control" id="localizacao" name="localizacao" placeholder="Digite a localização do laboratório">
                 </div>
                 <div class="form-group">
                     <label for="tipo">Tipo de ambiente:</label>
                     <select class="form-control" id="tipo" name="tipo">
-                        <option value="administração">Administração</option>
-                        <option value="biologia">Biologia</option>
-                        <option value="edificações">Edificações</option>
-                        <option value="informática">Informática</option>
-                        <option value="química">Química</option>
+                        <!--o value representa o id do tipo_ambiente da tabela do banco de dados-->
+                        <option value="1">Administração</option>
+                        <option value="2">Biologia</option>
+                        <option value="3">Edificações</option>
+                        <option value="4">Informática</option>
+                        <option value="5">Química</option>
+                        <option value="6">Outro...</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary"><strong>Cadastrar</strong></button>
             </form>
         </div>
     </div>
+    <script>
+        // validação do formulário
+        function validarFormulario() {
+            const nome = document.getElementById('nomeambiente').value;
+            const capacidade = document.getElementById('capacidade').value;
+            const localizacao = document.getElementById('localizacao').value;
 
+            // verifica campos estão vazios 
+            //.trim é para garantir que qualquer espaço em branco digitado pelo usuário será removido.
+            if (nome.trim() ==='' || capacidade.trim() === '' || localizacao.trim() === '') {
+                showToast('Por favor, preencha todos os campos.', 'error');
+                return false;
+            }
+            return true;
+        }
+
+
+        // mostra o toast de feedback na tela com a mensagem
+        function showToast(message, type) {     //elemento HTML correspondente ao toast = feedbackToast
+            const toast = document.getElementById('feedbackToast'); //local onde a mensagem será exibida = feedbackMessage
+            const messageElement = document.getElementById('feedbackMessage');
+            messageElement.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000); // Ocultar após 3 segundos
+        }
+
+        //verifica a URL da página para ver se tem uma mensagem para ser exibida
+        window.addEventListener('load', () => {
+                                //pega os parâmetros da URL
+        const queryParams = new URLSearchParams(window.location.search);
+        //verifica se há uma mensagem e tipo presentes na URL
+        const mensagem = queryParams.get('message');
+        const tipo = queryParams.get('type');
+        //se tiver chama a função showToast com os parâmetros extraídos para exibir o toast
+        if (mensagem) {
+            showToast(mensagem, tipo);
+        }
+    });
+    </script>
 </body>
 </html>

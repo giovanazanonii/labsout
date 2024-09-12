@@ -11,9 +11,6 @@ router.use(express.urlencoded({ extended: true }));
 router.get("/inicialadmin",(req,res)=>{
     res.render("pages/inicialadmin")
 })
-router.get("/laboratorios",(req,res)=>{
-    res.render("pages/laboratorios")
-})
 router.get("/usuarios",(req,res)=>{
     res.render("pages/usuarios")
 })
@@ -26,6 +23,49 @@ router.get("/cadastroambiente",(req,res)=>{
 router.get("/cadastrarusuario",(req,res)=>{
     res.render("pages/cadastrarusuario")
 })
+//cadastrando ambientes
+router.post('/cadastroambiente', (req, res) => {
+    const nomeAmbiente = req.body.nomeambiente;
+    const capacidade = req.body.capacidade;
+    const localizacao = req.body.localizacao;
+    const tipo = req.body.tipo;
+
+    const consulta = 'INSERT INTO ambientes (nome_ambiente, capacidade_ambiente, localizacao_ambiente, id_tipo_ambiente) VALUES (?, ?, ?, ?)';
+
+    conexao.query(consulta, [nomeAmbiente, capacidade, localizacao, tipo], function (err) {
+        if (err) {
+            return res.redirect('/cadastroambiente?message=Erro ao cadastrar ambiente.&type=danger');
+        } else {
+            res.redirect('/cadastroambiente?message=Ambiente cadastrado com sucesso!&type=success');
+        }
+    });
+});
+
+// visualizar laboratorios
+router.get("/laboratorios", (req, res) => {
+    const consulta = "SELECT * FROM ambientes";
+
+    conexao.query(consulta, (error, results) => {
+        if (error) {
+            return res.status(500).send("Erro ao buscar os ambientes no banco de dados.");
+        }
+        res.render("pages/laboratorios", { ambientes: results });
+    });
+});
+router.get('/deletarambiente/:id', (req, res) => {
+    const idAmbiente = req.params.id;
+
+    const consulta = 'DELETE FROM ambientes WHERE id_ambiente = ?';
+
+    conexao.query(consulta, [idAmbiente], (err) => {
+        if (err) {
+            return res.redirect('/laboratorios?message=Erro ao deletar o ambiente.&type=danger');
+        }
+        res.redirect('/laboratorios?message=Ambiente deletado com sucesso!&type=success');
+    });
+});
+
+
 //cadastrando usuarios
 router.post('/cadastrarusuario', (req, res) => {
     const nome = req.body.nome;

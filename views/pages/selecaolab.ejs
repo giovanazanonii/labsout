@@ -35,14 +35,13 @@
         <p class="subtitle">Escolha um laboratório:</p>
         <div class="button-container">
             <div class="button-lab">
-                <button>CCD</button>
-                <button>MAKER</button>
-                <button>TECH</button>
-                <button>Química</button>
-                <button>Biologia</button>
-                <button>Edificações</button>
-                <button>Laboratório Auditório</button>
-                <button>Análises Clínicas</button>
+                <% if (ambientes && ambientes.length > 0) { %>
+                    <% ambientes.forEach(ambiente => { %>
+                        <button><%= ambiente.nome_ambiente %></button>
+                    <% }); %>
+                <% } else { %>
+                    <p>Nenhum ambiente cadastrado.</p>
+                <% } %>
             </div>
         </div>
     </div>

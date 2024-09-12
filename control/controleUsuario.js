@@ -19,9 +19,6 @@ router.get("/telausuario",(req,res)=>{
 router.get("/inicialusuario",(req,res)=>{
     res.render("pages/inicialusuario")
 })
-router.get("/selecaolab",(req,res)=>{
-    res.render("pages/selecaolab")
-})
 router.get("/listagemusuario",(req,res)=>{
     res.render("pages/listagemusuario")
 })
@@ -37,7 +34,9 @@ router.get("/calendario2",(req,res)=>{
 router.get("/calendario3",(req,res)=>{
     res.render("pages/calendario3")
 })
-
+router.get("/horarios", (req, res) => {
+    res.render("pages/horarios");
+});
 //autenticação de login
 router.post('/login', (req, res) => {
     //replace remove a mascara do cpf para autenticar
@@ -73,7 +72,17 @@ router.post('/login', (req, res) => {
         }
     });
 });
+// visualizar laboratorios
+router.get("/selecaolab", (req, res) => {
+    const consulta = "SELECT * FROM ambientes";
 
+    conexao.query(consulta, (error, results) => {
+        if (error) {
+            return res.status(500).send("Erro ao buscar os ambientes no banco de dados.");
+        }
+        res.render("pages/selecaolab", { ambientes: results });
+    });
+});
 
 //modificação de senha
 router.post('/modificarsenha', (req, res) => {

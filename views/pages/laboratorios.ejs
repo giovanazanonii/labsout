@@ -27,16 +27,38 @@
         <h1>LABORATÓRIOS</h1>
         <div class="button-container">
             <div class="button-lab">
-                <button>CCD</button>
-                <button>MAKER</button>
-                <button>TECH</button>
-                <button>Química</button>
-                <button>Biologia</button>
-                <button>Edificações</button>
-                <button>Laboratório Auditório</button>
-                <button>Análises Clínicas</button>
+                <% if (ambientes && ambientes.length > 0) { %>
+                    <% ambientes.forEach(ambiente => { %>
+                        <div class="lab-item">
+                            <button><%= ambiente.nome_ambiente %></button>
+                            <button class="delete-btn" onclick="confirmDelete('<%= ambiente.id_ambiente %>', '<%= ambiente.nome_ambiente %>')">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>Nenhum ambiente cadastrado.</p>
+                <% } %>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmDelete(idAmbiente, nomeAmbiente) {
+        Swal.fire({
+            title: `Tem certeza que deseja deletar o laboratório "${nomeAmbiente}"?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sim, deletar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = `/deletarambiente/${idAmbiente}`;
+            }
+        });
+    }
+    </script>
 </body>
 </html>

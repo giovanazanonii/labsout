@@ -91,3 +91,20 @@ body::after {
     background-position: bottom right; 
     z-index: -1; /* Coloca a imagem atrás do conteúdo */
 }
+.lab-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ff5c5c;
+    transition: color 0.3s;
+}
+
+.delete-btn:hover {
+    color: #ff2c2c;
+}
