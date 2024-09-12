@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/horarios.css">
+    <title>LABSOUT</title>
+    <style>
+        .navbar a {
+            color: #fff;
+            text-decoration: none; 
+        }
+        .navbar a:hover {
+            color: #ddd;
+        }
+        .navbar-title {
+            color: #fff;
+            font-size: 20px;
+            margin-left: 10px; 
+        }
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            min-width: 200px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="/inicialusuario" class="navbar-icon">
+                <i class="bi bi-calendar2-week"></i>
+            </a>
+            <span class="navbar-title"><strong>LABSOUT</strong></span> 
+        </div>
+        <div class="navbar-right">
+            <button class="icon-sair"><i class="bi bi-box-arrow-right"></i></button>
+        </div>
+    </nav>
+
+    <div class="voltar">
+        <a href="/selecaolab"><button><i class="bi bi-arrow-left-circle"></i></button></a>
+    </div>
+
+    <div class="container">
+        <form action="/reservar" method="POST">
+            <div class="reservation-container">
+                <div class="turno">
+                    <h2><strong>MATUTINO</strong></h2>
+                    <label><input type="checkbox" name="matutino[]" value="primeira"> Primeira aula</label><br>
+                    <label><input type="checkbox" name="matutino[]" value="segunda"> Segunda aula</label><br>
+                    <label><input type="checkbox" name="matutino[]" value="terceira"> Terceira aula</label><br>
+                    <label><input type="checkbox" name="matutino[]" value="quarta"> Quarta aula</label><br>
+                    <label><input type="checkbox" name="matutino[]" value="quinta"> Quinta aula</label><br>
+                    <label><input type="checkbox" name="matutino[]" value="sexta"> Sexta aula</label>
+                </div>
+
+                <div class="turno">
+                    <h2><strong>VESPERTINO</strong></h2>
+                    <label><input type="checkbox" name="vespertino[]" value="primeira"> Primeira aula</label><br>
+                    <label><input type="checkbox" name="vespertino[]" value="segunda"> Segunda aula</label><br>
+                    <label><input type="checkbox" name="vespertino[]" value="terceira"> Terceira aula</label><br>
+                    <label><input type="checkbox" name="vespertino[]" value="quarta"> Quarta aula</label><br>
+                    <label><input type="checkbox" name="vespertino[]" value="quinta"> Quinta aula</label><br>
+                </div>
+
+                <div class="turno">
+                    <h2><strong>NOTURNO</strong></h2>
+                    <label><input type="checkbox" name="noturno[]" value="primeira"> Primeira aula</label><br>
+                    <label><input type="checkbox" name="noturno[]" value="segunda"> Segunda aula</label><br>
+                    <label><input type="checkbox" name="noturno[]" value="terceira"> Terceira aula</label><br>
+                    <label><input type="checkbox" name="noturno[]" value="quarta"> Quarta aula</label><br>
+                    <label><input type="checkbox" name="noturno[]" value="quinta"> Quinta aula</label><br>
+                </div>
+            </div>
+
+            <button class="reservar-btn" type="submit"><strong>Reservar</strong></button>
+        </form>
+    </div>
+</body>
+</html>
