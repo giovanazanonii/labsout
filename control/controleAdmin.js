@@ -26,6 +26,16 @@ router.get("/cadastrarusuario",(req,res)=>{
 router.get("/laboratorios",(req,res)=>{
     res.render("pages/laboratorios")
 })
+// rota para logout 
+router.post('/logout', (req, res) => {
+    //  encerrar o login do usuário e remover todos os dados de sessão associados.
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ message: 'Erro ao finalizar a sessão.' });
+        }
+        res.status(200).json({ message: 'Logout realizado com sucesso.' });
+    });
+});
 
 //cadastrando ambientes
 router.post('/cadastroambiente', (req, res) => {
@@ -68,7 +78,7 @@ router.get('/laboratorios/listar', (req, res) => {
 });
 
 // deletando laboratorios
-router.delete('/laboratorios/:id', (req, res) => {
+router.delete('/laboratorios/deletar/:id', (req, res) => {
     const idAmbiente = req.params.id;
 
     const consulta = 'DELETE FROM ambientes WHERE id_ambiente = ?';

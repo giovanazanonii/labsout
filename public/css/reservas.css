@@ -61,7 +61,7 @@ h1 {
     border: 1px solid #ddd;
     background-color: #ffffff; /* Fundo branco para maior contraste */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona uma leve sombra para destacar a tabela */
-    padding: 10px; /* Adiciona padding ao redor da tabela */
+    margin-top: 10px;
 }
 
 .table-container::-webkit-scrollbar {

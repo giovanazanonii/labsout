@@ -72,6 +72,7 @@ router.post('/login', (req, res) => {
         }
     });
 });
+
 // visualizar laboratorios
 router.get("/selecaolab", (req, res) => {
     const consulta = "SELECT * FROM ambientes";
@@ -118,7 +119,4 @@ router.post('/modificarsenha', (req, res) => {
         });
     });
 });
-
-
-
 module.exports = router;

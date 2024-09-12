@@ -39,12 +39,22 @@ body {
 .navbar-menu li {
     margin: 0 15px;
 }
-
 .navbar-menu li a {
     color: white;
     text-decoration: none;
     font-weight: bold;
     padding: 5px;
+    display: block; /* Faz com que o padding e o hover se apliquem ao link inteiro */
+    transition: color 0.3s, background-color 0.3s; /* Transição suave para as mudanças de cor */
+}
+
+.navbar-menu li a:hover {
+    background-color: #6e4a76; /* Cor de fundo quando o cursor passa por cima */
+    color: #fff; /* Cor do texto quando o cursor passa por cima */
+    border-radius: 5px; /* Arredonda os cantos do fundo */
+}
+.navbar a:hover {
+    color: #ddd; /* Cor do texto ao passar o cursor sobre qualquer link da navbar */
 }
 
 .icon-sair {
@@ -86,7 +96,7 @@ h1 {
     border: 1px solid #ddd;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 10px;
+    margin-top: 10px;
 }
 
 .table-container::-webkit-scrollbar {

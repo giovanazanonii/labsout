@@ -46,6 +46,7 @@
 
 .navbar-menu li {
     margin: 0 15px;
+    position: relative; /* Necessário para o efeito de hover com pseudo-elementos */
 }
 
 .navbar-menu li a {
@@ -53,11 +54,14 @@
     text-decoration: none;
     font-weight: bold;
     padding: 5px;
+    display: block; /* Faz com que o padding e o hover se apliquem ao link inteiro */
+    transition: color 0.3s, background-color 0.3s; /* Transição suave para as mudanças de cor */
 }
 
 .navbar-menu li a:hover {
-    background-color: #8B67A0;
-    border-radius: 5px;
+    background-color: #6e4a76; /* Cor de fundo quando o cursor passa por cima */
+    color: #fff; /* Cor do texto quando o cursor passa por cima */
+    border-radius: 5px; /* Arredonda os cantos do fundo */
 }
 
 /* Restante dos estilos */

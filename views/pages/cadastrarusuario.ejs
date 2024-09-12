@@ -44,7 +44,7 @@
             <span class="navbar-title"><strong>LABSOUT</strong></span> 
         </div>
         <div class="navbar-right">
-            <button class="icon-sair"><i class="bi bi-box-arrow-right"></i></button>
+            <button id="botaoSair" class="icon-sair"><i class="bi bi-box-arrow-right"></i></button>
         </div>
     </nav>
     <h1><strong>CADASTRAR USUÁRIOS</strong></h1>
@@ -87,10 +87,55 @@
             </form>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+        //sair do sistema
+        const botaoSair = document.getElementById('botaoSair');
+            botaoSair.addEventListener('click', function () {
+                Swal.fire({
+                    title: 'Sair do sistema?',
+                    text: "Você realmente deseja sair?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sim, sair!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                    // Fazer a requisição de logout para o servidor
+                    fetch('/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            Swal.fire(
+                                'Saída realizada!',
+                                'Você foi desconectado com sucesso.',
+                                'success'
+                            ).then(() => {
+                                // Redirecionar para a página inicial
+                                window.location.href = '/';
+                            });
+                        }else {
+                            return response.json().then(data => {
+                                Swal.fire('Erro', data.message || 'Erro ao sair do sistema.', 'error');
+                        });
+                    }
+                })
+                    .catch(error => {
+                        console.error('Erro ao tentar sair:', error);
+                        Swal.fire('Erro', 'Erro ao tentar sair do sistema.', 'error');
+                    });
+                    }
+                });
+            });
         // máscara de CPF
         function mascaraCPF(input) {
             let value = input.value.replace(/\D/g, ''); // remove caracteres não numéricos
