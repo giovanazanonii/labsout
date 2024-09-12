@@ -1,4 +1,3 @@
-
 body {
     margin: 0;
     padding: 0;
@@ -61,7 +60,7 @@ body {
 .container {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 50px 30px; /* Aumenta o padding para mais espaço ao redor do título */
+    padding: 20px 30px; /* Aumenta o padding para mais espaço ao redor do título */
 }
 
 .container2 {
