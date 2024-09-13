@@ -55,7 +55,7 @@ body {
 }
 .navbar a:hover {
     color: #ddd; /* Cor do texto ao passar o cursor sobre qualquer link da navbar */
-}
+}   
 
 .icon-sair {
     background: none;

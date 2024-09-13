@@ -37,6 +37,7 @@ router.get("/calendario3",(req,res)=>{
 router.get("/horarios", (req, res) => {
     res.render("pages/horarios");
 });
+
 //autenticação de login
 router.post('/login', (req, res) => {
     //replace remove a mascara do cpf para autenticar

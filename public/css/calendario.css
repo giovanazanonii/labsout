@@ -7,7 +7,6 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
-
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -33,78 +32,10 @@ body {
     transition: color 0.3s;
 }
 
-.main-content {
-    width: 80%;
-    max-width: 1200px;
-    margin: 50px auto;
-    text-align: center;
-    position: relative; /* Adicionado para permitir o posicionamento absoluto dos botões de navegação */
-}
 
-h3 {
-    font-size: 25px;
-    color: #685F5F;
-    margin-bottom: 30px;
-    text-align: center;
-}
 
-.button-container {
-    display: flex;
-    justify-content: center;
-}
 
-.button-lab {
-    position: relative; /* Para permitir o posicionamento absoluto dos botões de navegação */
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Ajuste do espaçamento entre os botões */
-    justify-content: center;
-    background-color: #fff;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.button-lab button {
-    background-color: #C5C6CF;
-    border: none;
-    border-radius: 8px;
-    width: 60px; /* Tamanho fixo */
-    height: 40px; /* Tamanho fixo */
-    font-size: 14px; /* Tamanho do texto */
-    color: #fff; /* Texto branco */
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.button-lab button:hover {
-    background-color: #C5C6CF;
-    transform: translateY(-2px);
-}
-
-.nav-buttons {
-    position: absolute;
-    bottom: 10px;
-    right: 10px; 
-    display: flex;
-    gap: -5px;
-}
-
-.nav-buttons button {
-    background-color: transparent;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-
-.nav-buttons button:hover {
-    color: #8b67a0; /* Cor dos ícones no hover */
-    transform: translateY(-2px);
-}
+    
 
 body::after {
     content: "";
