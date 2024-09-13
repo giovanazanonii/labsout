@@ -31,12 +31,6 @@ body {
     text-decoration: none;
     transition: color 0.3s;
 }
-
-
-
-
-    
-
 body::after {
     content: "";
     position: fixed;
