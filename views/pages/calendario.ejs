@@ -61,73 +61,74 @@
         </div>
     </div>  
     <script>
-        const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-        let currentDate = new Date();
+        const nomesMeses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+        let dataAtual = new Date();
 
-        function renderCalendar() {
-            const monthYear = document.getElementById("month-year");
-            const calendarBody = document.getElementById("calendar-body");
+        function renderizarCalendario() {
+            const mesAno = document.getElementById("month-year");
+            const corpoCalendario = document.getElementById("calendar-body");
 
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
+            const ano = dataAtual.getFullYear();
+            const mes = dataAtual.getMonth();
             
-            monthYear.innerHTML = `${monthNames[month]} ${year}`;
+            mesAno.innerHTML = `${nomesMeses[mes]} ${ano}`;
             
             // Limpa o corpo do calendário
-            calendarBody.innerHTML = "";
+            corpoCalendario.innerHTML = "";
 
             // Obtém o primeiro dia do mês
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const prevMonthDays = new Date(year, month, 0).getDate();
+            const primeiroDia = new Date(ano, mes, 1).getDay();
+            const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+            const diasMesAnterior = new Date(ano, mes, 0).getDate();
             
-            let date = 1;
-            let nextMonthDate = 1;
+            let dia = 1;
+            let diaProximoMes = 1;
 
             // Cria as linhas da tabela
             for (let i = 0; i < 6; i++) {
-                const row = document.createElement("tr");
+                const linha = document.createElement("tr");
 
                 for (let j = 0; j < 7; j++) {
-                    const cell = document.createElement("td");
+                    const td = document.createElement("td");
 
                     // Preenche os dias do mês anterior
-                    if (i === 0 && j < firstDay) {
-                        cell.innerText = prevMonthDays - (firstDay - j - 1);
-                        cell.classList.add("disabled");
-                    } else if (date > daysInMonth) {
+                    if (i === 0 && j < primeiroDia) {
+                        td.innerText = diasMesAnterior - (primeiroDia - j - 1);
+                        td.classList.add("disabled");
+                    } else if (dia > diasNoMes) {
                         // Preenche os dias do próximo mês
-                        cell.innerText = nextMonthDate++;
-                        cell.classList.add("disabled");
+                        td.innerText = diaProximoMes++;
+                        td.classList.add("disabled");
                     } else {
                         // Preenche os dias do mês atual
-                        cell.innerText = date;
-                        if (date === currentDate.getDate()) {
-                            cell.classList.add("today");
+                        td.innerText = dia;
+                        if (dia === dataAtual.getDate()) {
+                            td.classList.add("today");
                         }
-                        date++;
+                        dia++;
                     }
 
-                    row.appendChild(cell);
+                    linha.appendChild(td);
                 }
 
-                calendarBody.appendChild(row);
+                corpoCalendario.appendChild(linha);
             }
         }
 
         // Função para alterar o mês
         document.querySelector(".prev-month").addEventListener("click", () => {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar();
+            dataAtual.setMonth(dataAtual.getMonth() - 1);
+            renderizarCalendario();
         });
 
         document.querySelector(".next-month").addEventListener("click", () => {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar();
+            dataAtual.setMonth(dataAtual.getMonth() + 1);
+            renderizarCalendario();
         });
 
         // Renderiza o calendário ao carregar a página
-        renderCalendar();
+        renderizarCalendario();
+
     </script>
     
     <div class="status-info">

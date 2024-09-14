@@ -28,16 +28,9 @@ router.get("/usuarios",(req,res)=>{
 router.get("/calendario",(req,res)=>{
     res.render("pages/calendario")
 })
-router.get("/calendario2",(req,res)=>{
-    res.render("pages/calendario2")
-})
-router.get("/calendario3",(req,res)=>{
-    res.render("pages/calendario3")
-})
 router.get("/horarios", (req, res) => {
     res.render("pages/horarios");
 });
-
 
 //autenticação de login
 router.post('/login', (req, res) => {
@@ -75,7 +68,7 @@ router.post('/login', (req, res) => {
     });
 });
 
-// visualizar laboratorios
+// visualizar laboratorios -- puxando do banco
 router.get("/selecaolab", (req, res) => {
     const consulta = "SELECT * FROM ambientes";
 
