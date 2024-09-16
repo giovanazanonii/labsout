@@ -9,7 +9,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #8B67A0;
+    background-color: #8b67a0   ;
     padding: 10px 20px;
 }
 
@@ -55,7 +55,7 @@ body {
 }
 
 .navbar-menu li a:hover {
-    background-color: #8B67A0;
+    background-color: #8b67a0;
     border-radius: 5px;
 }
 
@@ -94,5 +94,3 @@ body {
     color: #666;
     line-height: 1.5;
 }
-
-
