@@ -135,17 +135,35 @@ th, td {
     border-bottom: 1px solid #e0e0e0;
 }
 
+
 .action-cell {
-    text-align: center;
+    display: flex;
+    justify-content: center;  /* Centraliza os botões na célula */
+    align-items: center;      /* Alinha verticalmente os botões */
+    gap: -5px;                /* Espaçamento entre os botões */
 }
 
+.edit-button, 
 .deletar-button {
+    padding: 11px;
     background: none;
     border: none;
-    color: #e74c3c;
     cursor: pointer;
     font-size: 18px;
     transition: transform 0.2s, color 0.2s;
+}
+
+.edit-button {
+    color: #ebd382;
+}
+
+.edit-button:hover {
+    transform: scale(1.2);
+    color: #b7a66b;
+}
+
+.deletar-button {
+    color: #e74c3c;
 }
 
 .deletar-button:hover {

@@ -45,17 +45,17 @@ body {
     text-decoration: none;
     font-weight: bold;
     padding: 5px;
-    display: block; /* Faz com que o padding e o hover se apliquem ao link inteiro */
-    transition: color 0.3s, background-color 0.3s; /* Transição suave para as mudanças de cor */
+    display: block; 
+    transition: color 0.3s, background-color 0.3s; 
 }
 
 .navbar-menu li a:hover {
-    background-color: #6e4a76; /* Cor de fundo quando o cursor passa por cima */
-    color: #fff; /* Cor do texto quando o cursor passa por cima */
-    border-radius: 5px; /* Arredonda os cantos do fundo */
+    background-color: #6e4a76;
+    color: #fff; 
+    border-radius: 5px; 
 }
 .navbar a:hover {
-    color: #ddd; /* Cor do texto ao passar o cursor sobre qualquer link da navbar */
+    color: #ddd; 
 }
 
 
@@ -70,19 +70,19 @@ body {
 .container {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 20px 30px; /* Aumenta o padding para mais espaço ao redor do título */
+    padding: 20px 30px; 
 }
 
 .container2 {
     max-width: 850px;
-    margin: 20px auto; /* Adiciona uma margem superior para separar os elementos */
+    margin: 20px auto; 
 }
 
 header {
     display: flex;
-    justify-content: center; /* Centraliza o título horizontalmente */
+    justify-content: center; 
     align-items: center;
-    margin-bottom: 30px; /* Aumenta o espaço abaixo do título */
+    margin-bottom: 30px; 
 }
 
 h1 {
@@ -98,7 +98,6 @@ h1 {
     border: 1px solid #ddd;
     background-color: #ffffff; /* Fundo branco para maior contraste */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona uma leve sombra para destacar a tabela */
-    
     margin-top: 10px;
 }
 
@@ -137,23 +136,38 @@ th, td {
     color: #333;
     border-bottom: 1px solid #e0e0e0; /* Adiciona uma borda leve nas células da tabela */
 }
-    
+
 .action-cell {
-    text-align: center; /* Centraliza o ícone de exclusão */
+    display: flex;
+    justify-content: center;  /* Centraliza os botões na célula */
+    align-items: center;      /* Alinha verticalmente os botões */
+    gap: 10px;                /* Espaçamento entre os botões */
+}
+
+.edit-button, .deletar-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: transform 0.2s, color 0.2s;
+}
+
+.edit-button {
+    color: #ebd382; 
+}
+
+.edit-button:hover {
+    transform: scale(1.2);
+    color: #b7a66b; 
 }
 
 .deletar-button {
-    background: none;
-    border: none;
     color: #e74c3c;
-    cursor: pointer;
-    font-size: 18px;
-    transition: transform 0.2s, color 0.2s; /* Adiciona uma animação de transição */
 }
 
 .deletar-button:hover {
-    transform: scale(1.2); /* Aumenta levemente o tamanho ao passar o mouse */
-    color: #c0392b; /* Muda a cor ao passar o mouse */
+    transform: scale(1.2);
+    color: #c0392b; 
 }
 
 body::after {
