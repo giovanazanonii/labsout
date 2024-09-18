@@ -21,32 +21,46 @@
             font-size: 20px;
             margin-left: 10px; 
         }
-        .toast {
+        .toast { 
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); 
             z-index: 1050;
             min-width: 200px;
             opacity: 0;
             transition: opacity 0.5s;
+            background-color: #6b6b6b;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
         }
         .toast.show {
             opacity: 1;
-        }
+            }
     </style>
 </head>
 <body>
+
     <nav class="navbar">
         <div class="navbar-left">
-            <a href="/inicialadmin" class="navbar-icon">
+            <a href="/inicialusuario" class="navbar-icon">
                 <i class="bi bi-calendar2-week"></i>
             </a>
             <span class="navbar-title"><strong>LABSOUT</strong></span> 
         </div>
+    
+        <div class="navbar-center">
+            <ul class="navbar-menu">
+                <li><a href="/usuarios">Usuários</a></li>
+            </ul>
+        </div>
+    
         <div class="navbar-right">
             <button id="botaoSair" class="icon-sair"><i class="bi bi-box-arrow-right"></i></button>
         </div>
     </nav>
+
     <h1><strong>CADASTRAR USUÁRIOS</strong></h1>
 
     <div id="feedbackToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
