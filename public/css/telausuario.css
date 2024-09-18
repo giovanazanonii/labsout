@@ -34,12 +34,12 @@ body {
 .container {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 20px 0; /* Reduz o padding para menos espaço ao redor do título */
+    padding: 30px 30px;
 }
 
 .container2 {
     max-width: 850px;
-    margin: 10px auto; /* Reduz a margem superior */
+    margin: 20px auto;
 }
 
 header {
@@ -61,52 +61,53 @@ h1 {
     font-size: 17px;
     margin-bottom: 5px;
     font-weight: normal;
+    margin-top: 50px;
 }
 
 .table-container {
-    max-height: 300px; 
-    overflow-y: auto; 
+    max-height: 300px;
+    overflow-y: auto;
     border-radius: 15px;
-    border: 1px solid #ddd; 
-    background-color: #ffffff; 
+    border: 1px solid #ddd;
+    background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 10px; /* Adiciona um pequeno espaço superior */
+    margin-top: 20px;
 }
 
 .table-container::-webkit-scrollbar {
-    width: 12px; 
+    width: 12px;
 }
 
 .table-container::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-    border-radius: 10px; 
+    background: #f1f1f1;
+    border-radius: 10px;
 }
 
 .table-container::-webkit-scrollbar-thumb {
-    background: #a7a5a5; 
-    border-radius: 10px; 
+    background: #a7a5a5;
+    border-radius: 10px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     background-color: #ffffff;
-    border-radius: 10px;  
+    border-radius: 10px;
 }
 
 thead {
     background-color: #f8f8f8;
     position: sticky;
     top: 0;
-    z-index: 2; 
+    z-index: 2;
 }
 
 th, td {
-    padding: 12px; /* Reduz o padding das células */
+    padding: 15px;
     font-size: 18px;
     text-align: left;
     color: #333;
-    border-bottom: 1px solid #e0e0e0; 
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .action-cell {
