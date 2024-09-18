@@ -39,25 +39,23 @@ body {
 .navbar-menu li {
     margin: 0 15px;
 }
-
 .navbar-menu li a {
     color: white;
     text-decoration: none;
     font-weight: bold;
     padding: 5px;
-    display: block; 
+    display: block;
     transition: color 0.3s, background-color 0.3s; 
 }
 
 .navbar-menu li a:hover {
     background-color: #6e4a76;
-    color: #fff; 
-    border-radius: 5px; 
+    color: #fff;
+    border-radius: 5px;
 }
 .navbar a:hover {
     color: #ddd; 
-}
-
+}   
 
 .icon-sair {
     background: none;
@@ -70,24 +68,24 @@ body {
 .container {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 20px 30px; 
+    padding: 30px 30px;
 }
 
 .container2 {
     max-width: 850px;
-    margin: 20px auto; 
+    margin: 20px auto;
 }
 
 header {
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
-    margin-bottom: 30px; 
+    margin-bottom: 30px;
 }
 
 h1 {
     font-size: 36px;
-    font-weight: 700; /* Fonte mais grossa para destacar o título */
+    font-weight: 700;
     color: #333;
 }
 
@@ -96,8 +94,8 @@ h1 {
     overflow-y: auto;
     border-radius: 15px;
     border: 1px solid #ddd;
-    background-color: #ffffff; /* Fundo branco para maior contraste */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona uma leve sombra para destacar a tabela */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 10px;
 }
 
@@ -134,17 +132,20 @@ th, td {
     font-size: 18px;
     text-align: left;
     color: #333;
-    border-bottom: 1px solid #e0e0e0; /* Adiciona uma borda leve nas células da tabela */
+    border-bottom: 1px solid #e0e0e0;
 }
+
 
 .action-cell {
     display: flex;
     justify-content: center;  /* Centraliza os botões na célula */
     align-items: center;      /* Alinha verticalmente os botões */
-    gap: 10px;                /* Espaçamento entre os botões */
+    gap: -5px;                /* Espaçamento entre os botões */
 }
 
-.edit-button, .deletar-button {
+.edit-button, 
+.deletar-button {
+    padding: 11px;
     background: none;
     border: none;
     cursor: pointer;
@@ -153,12 +154,12 @@ th, td {
 }
 
 .edit-button {
-    color: #ebd382; 
+    color: #ebd382;
 }
 
 .edit-button:hover {
     transform: scale(1.2);
-    color: #b7a66b; 
+    color: #b7a66b;
 }
 
 .deletar-button {
@@ -167,7 +168,7 @@ th, td {
 
 .deletar-button:hover {
     transform: scale(1.2);
-    color: #c0392b; 
+    color: #c0392b;
 }
 
 body::after {
