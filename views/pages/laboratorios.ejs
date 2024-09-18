@@ -69,6 +69,7 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            
     //criando uma função para atualizar a página automaticamente após um delete
         function carregarLaboratorios() {
             fetch('/laboratorios/listar')
@@ -87,7 +88,9 @@
                             <td>${laboratorio.localizacao_ambiente}</td>
                             <td>${laboratorio.tipo}</td>
                             <td class="action-cell">
-                                <button class="edit-button"><i class="bi bi-pencil-square"></i></button>
+                                <a href="/cadastroambiente/${laboratorio.id_ambiente}" class="edit-button">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
                                 <button class="deletar-button"><i class="bi bi-trash3"></i></button>
                             </td>
                         `;

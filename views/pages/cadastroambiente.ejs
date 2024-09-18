@@ -57,34 +57,33 @@
     </div>
     <div class="square">
         <div class="ambiente">
-            <form method="POST" onsubmit="return validarFormulario()">
-
+            <form method="POST" action="/<%= ambiente ? 'atualizarambiente/' + ambiente.id_ambiente : 'cadastroambiente' %>" onsubmit="return validarFormulario()">
                 <div class="form-group">
                     <label for="nomeambiente">Nome do ambiente:</label>
-                    <input type="text" class="form-control" id="nomeambiente" name="nomeambiente" placeholder="Digite o nome do laboratório">
+                    <input type="text" class="form-control" id="nomeambiente" name="nomeambiente" value="<%= ambiente ? ambiente.nome_ambiente : '' %>" placeholder="Digite o nome do laboratório">
                 </div>
                 <div class="form-group">
                     <label for="capacidade">Capacidade de alunos:</label>
-                    <input type="text" class="form-control" id="capacidade" name="capacidade" placeholder="Digite a capacidade">
+                    <input type="text" class="form-control" id="capacidade" name="capacidade" value="<%= ambiente ? ambiente.capacidade_ambiente : '' %>" placeholder="Digite a capacidade">
                 </div>
                 <div class="form-group">
-                    <label for="localização">Localização:</label>
-                    <input type="text" class="form-control" id="localizacao" name="localizacao" placeholder="Digite a localização do laboratório">
+                    <label for="localizacao">Localização:</label>
+                    <input type="text" class="form-control" id="localizacao" name="localizacao" value="<%= ambiente ? ambiente.localizacao_ambiente : '' %>" placeholder="Digite a localização do laboratório">
                 </div>
                 <div class="form-group">
                     <label for="tipo">Tipo de ambiente:</label>
                     <select class="form-control" id="tipo" name="tipo">
-                        <!--o value representa o id do tipo_ambiente da tabela do banco de dados-->
-                        <option value="1">Administração</option>
-                        <option value="2">Biologia</option>
-                        <option value="3">Edificações</option>
-                        <option value="4">Informática</option>
-                        <option value="5">Química</option>
-                        <option value="6">Outro...</option>
+                        <option value="1" <%= ambiente && ambiente.id_tipo_ambiente == 1 ? 'selected' : '' %>>Administração</option>
+                        <option value="2" <%= ambiente && ambiente.id_tipo_ambiente == 2 ? 'selected' : '' %>>Biologia</option>
+                        <option value="3" <%= ambiente && ambiente.id_tipo_ambiente == 3 ? 'selected' : '' %>>Edificações</option>
+                        <option value="4" <%= ambiente && ambiente.id_tipo_ambiente == 4 ? 'selected' : '' %>>Informática</option>
+                        <option value="5" <%= ambiente && ambiente.id_tipo_ambiente == 5 ? 'selected' : '' %>>Química</option>
+                        <option value="6" <%= ambiente && ambiente.id_tipo_ambiente == 6 ? 'selected' : '' %>>Outro</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary"><strong>Cadastrar</strong></button>
+                <button type="submit" class="btn btn-primary"><strong><%= ambiente ? 'Atualizar' : 'Cadastrar' %></strong></button>
             </form>
+            
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -133,6 +132,8 @@
                     }
                 });
             });
+
+
         // validação do formulário
         function validarFormulario() {
             const nome = document.getElementById('nomeambiente').value;
@@ -165,57 +166,15 @@
         window.addEventListener('load', () => {
                                 //pega os parâmetros da URL
         const queryParams = new URLSearchParams(window.location.search);
+
         //verifica se há uma mensagem e tipo presentes na URL
         const mensagem = queryParams.get('message');
         const tipo = queryParams.get('type');
+
         //se tiver chama a função showToast com os parâmetros extraídos para exibir o toast
         if (mensagem) {
             showToast(mensagem, tipo);
         }
-        //sair do sistema
-        const botaoSair = document.getElementById('botaoSair');
-            botaoSair.addEventListener('click', function () {
-                Swal.fire({
-                    title: 'Sair do sistema?',
-                    text: "Você realmente deseja sair?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sim, sair!',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                    // Fazer a requisição de logout para o servidor
-                    fetch('/logout', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            Swal.fire(
-                                'Saída realizada!',
-                                'Você foi desconectado com sucesso.',
-                                'success'
-                            ).then(() => {
-                                // Redirecionar para a página inicial
-                                window.location.href = '/';
-                            });
-                        }else {
-                            return response.json().then(data => {
-                                Swal.fire('Erro', data.message || 'Erro ao sair do sistema.', 'error');
-                        });
-                    }
-                })
-                    .catch(error => {
-                        console.error('Erro ao tentar sair:', error);
-                        Swal.fire('Erro', 'Erro ao tentar sair do sistema.', 'error');
-                    });
-                    }
-                });
-            });
     });
     </script>
 </body>

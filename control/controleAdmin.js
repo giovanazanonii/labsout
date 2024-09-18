@@ -18,10 +18,10 @@ router.get("/reservas",(req,res)=>{
     res.render("pages/reservas")
 })
 router.get("/cadastroambiente",(req,res)=>{
-    res.render("pages/cadastroambiente")
+    res.render("pages/cadastroambiente", { ambiente: undefined })
 })
 router.get("/cadastrarusuario",(req,res)=>{
-    res.render("pages/cadastrarusuario")
+    res.render("pages/cadastrarusuario", { usuario: undefined })
 })
 router.get("/laboratorios",(req,res)=>{
     res.render("pages/laboratorios")
@@ -36,6 +36,88 @@ router.post('/logout', (req, res) => {
         res.status(200).json({ message: 'Logout realizado com sucesso.' });
     });
 });
+
+// Rota para carregar o formulário de usuário (edição ou criação)
+router.get('/cadastrarusuario/:id?', (req, res) => {
+    const id = req.params.id;
+    if (id) {
+        const consulta = 'SELECT * FROM usuario WHERE id_usuario = ?';
+        conexao.query(consulta, [id], function (err, resultado) {
+            if (err) {
+                console.error(err);
+                return res.redirect('/usuarios?message=Erro ao carregar o usuário.&type=danger');
+            }
+            if (resultado.length > 0) {
+                const usuario = resultado[0];
+                res.render('pages/cadastrarusuario', { usuario });
+            } else {
+                res.redirect('/usuarios?message=Usuário não encontrado.&type=danger');
+            }
+        });
+    } else {
+        res.render('pages/cadastrarusuario');
+    }
+});
+
+// Atualizar um usuário existente
+router.post('/atualizarusuario/:id', (req, res) => {
+    const id = req.params.id;
+    const { nome, senha, cpf, tipo } = req.body;
+
+    const consulta = 'UPDATE usuario SET nome_usuario = ?, senha_usuario = ?, cpf_usuario = ?, tipo_usuario = ? WHERE id_usuario = ?';
+
+    conexao.query(consulta, [nome, senha, cpf, tipo, id], (err) => {
+        if (err) {
+            console.error(err);
+            return res.redirect(`/cadastrarusuario/${id}?message=Erro ao atualizar usuário.&type=danger`);
+        }
+        res.redirect(`/cadastrarusuario/${id}?message=Usuário atualizado com sucesso!&type=success`);
+    });
+});
+
+
+
+
+
+
+
+// carregar ambientes com seus respectivos dados pronto  para editar
+router.get('/cadastroambiente/:id', (req, res) => {
+    const id = req.params.id;
+    const consulta = 'SELECT * FROM ambientes WHERE id_ambiente = ?';
+
+    conexao.query(consulta, [id], function (err, resultado) {
+        if (err) {
+            console.error(err);
+            return res.redirect('/laboratorios?message=Erro ao carregar o ambiente.&type=danger');
+        }
+
+        if (resultado.length > 0) {
+            const ambiente = resultado[0];
+            res.render('pages/cadastroambiente', { ambiente }); // Certifique-se de que o caminho esteja correto
+        } else {
+            res.redirect('/laboratorios?message=Ambiente não encontrado.&type=danger');
+        }
+    });
+});
+
+
+// editar um ambiente existente
+router.post('/atualizarambiente/:id', (req, res) => {
+    const idAmbiente = req.params.id;
+    const { nomeambiente, capacidade, localizacao, tipo } = req.body;
+
+    const consulta = 'UPDATE ambientes SET nome_ambiente = ?, capacidade_ambiente = ?, localizacao_ambiente = ?, id_tipo_ambiente = ? WHERE id_ambiente = ?';
+    
+    conexao.query(consulta, [nomeambiente, capacidade, localizacao, tipo, idAmbiente], (err) => {
+        if (err) {
+            console.error(err);
+            return res.redirect(`/cadastroambiente/${idAmbiente}?message=Erro ao atualizar ambiente.&type=danger`);
+        }
+        res.redirect(`/cadastroambiente/${idAmbiente}?message=Ambiente atualizado com sucesso!&type=success`);
+    });
+});
+
 
 //cadastrando ambientes
 router.post('/cadastroambiente', (req, res) => {
@@ -99,12 +181,12 @@ router.post('/cadastrarusuario', (req, res) => {
     const cpf = req.body.cpf.replace(/\D/g, '');;
     let tipo = req.body.tipo;
 
-    if (tipo.toLowerCase() === "usuario") {
+    if (tipo.toLowerCase() === "professor") {
         tipo = 1;
     } else if (tipo.toLowerCase() === "admin") {
         tipo = 2;
     } else {
-        return res.redirect('/cadastrarusuario?message=Tipo de usuário inválido. Use "usuario" ou "admin".&type=danger');
+        return res.redirect('/cadastrarusuario?message=Tipo de usuário inválido. Use "professor" ou "admin".&type=danger');
     }
 
     const consulta = 'INSERT INTO usuario (nome_usuario, senha_usuario, cpf_usuario, tipo_usuario) VALUES (?, ?, ?, ?)';

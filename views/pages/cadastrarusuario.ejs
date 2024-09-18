@@ -58,14 +58,16 @@
     </div>
     <div class="square">
         <div class="ambiente">
-            <form method="POST" onsubmit="return validarFormulario()">
-
+            <form method="POST" action="/<%= usuario ? 'atualizarusuario/' + usuario.id_usuario : 'cadastrarusuario' %>" onsubmit="return validarFormulario()">
+                <% if (usuario) { %>
+                    <input type="hidden" name="id" value="<%= usuario.id_usuario %>">
+                <% } %>
                 <div class="form-group">
                     <label for="nome">Nome do usuário:</label>
-                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome">
+                    <input type="text" class="form-control" id="nome" name="nome" value="<%= usuario ? usuario.nome_usuario : '' %>" placeholder="Digite seu nome">
                 </div>
                 <div class="form-group">
-                    <label for="password">Senha:</label>
+                    <label for="senha">Senha:</label>
                     <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha">
                     <button type="button" class="eye-icon" onclick="olharSenha()">
                         <i class="fas fa-eye" id="eyeIcon"></i>
@@ -73,20 +75,20 @@
                 </div>
                 <div class="form-group">
                     <label for="cpf">CPF do usuário:</label>
-                    <input type="text" class="form-control" id="cpf" name="cpf" placeholder="000.000.000-00" maxlength="14">
-                    
+                    <input type="text" class="form-control" id="cpf" name="cpf" value="<%= usuario ? usuario.cpf_usuario : '' %>" placeholder="000.000.000-00" maxlength="14">
                 </div>
                 <div class="form-group">
                     <label for="tipo">Tipo:</label>
                     <select class="form-control" id="tipo" name="tipo">
-                        <option value="usuario">Usuário</option>
-                        <option value="admin">Administrador</option>
+                        <option value="professor" <%= usuario && usuario.tipo_usuario === 'professor' ? 'selected' : '' %>>Professor</option>
+                        <option value="admin" <%= usuario && usuario.tipo_usuario === 'admin' ? 'selected' : '' %>>Administrador</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary"><strong>Cadastrar</strong></button>
+                <button type="submit" class="btn btn-primary"><strong>Salvar</strong></button>
             </form>
         </div>
     </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
