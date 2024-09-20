@@ -28,19 +28,6 @@ body {
     color: #fff;
 }
 
-.icon-sair {
-    background: none;
-    border: none;
-    font-size: 30px;
-    color: #fff;
-    cursor: pointer;
-}
-
-/* remove a borda preta do botão sair, quando clicado nele */
-.icon-sair:focus {
-    outline: none;
-}
-
 /* Botão voltar abaixo da navbar */
 .voltar {
     margin-top: 70px;
@@ -62,19 +49,23 @@ body {
 /* Container para os turnos */
 .reservation-container {
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    justify-content: center; 
+    align-items: stretch; 
+    gap: 50px;
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .turno {
-    flex: 1;
+    width: 25%; /* Ajuste conforme necessário */
     padding: 20px;
     background-color: #fafafa;
     border: 1px solid #e6e6e6;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
 }
 
 .turno:hover {
@@ -155,4 +146,4 @@ body::after {
 /* Adiciona margem superior para compensar a navbar fixa */
 .container {
     margin-top: 10px;
-}
+} 
