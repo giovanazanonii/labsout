@@ -33,6 +33,9 @@ router.get("/calendario",(req,res)=>{
 router.get("/horarios", (req, res) => {
     res.render("pages/horarios");
 });
+router.get("/descricao",(req,res)=>{
+    res.render("pages/descricao")
+})
 
 //autenticação de login
 router.post('/login', (req, res) => {

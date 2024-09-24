@@ -12,12 +12,12 @@
             text-decoration: none;
         }
         .navbar a:hover {
-            color: #ddd; 
+            color: #ddd;
         }
         .navbar-title {
             color: #fff;
             font-size: 20px;
-            margin-left: 10px; 
+            margin-left: 10px;
         }
     </style>
 </head>
@@ -27,7 +27,7 @@
             <a href="/inicialusuario" class="navbar-icon">
                 <i class="bi bi-calendar2-week"></i>
             </a>
-            <span class="navbar-title"><strong>LABSOUT</strong></span> 
+            <span class="navbar-title"><strong>LABSOUT</strong></span>
         </div>
     </nav>
     <div class="main-content">
@@ -37,13 +37,19 @@
             <div class="button-lab">
                 <% if (ambientes && ambientes.length > 0) { %>
                     <% ambientes.forEach(ambiente => { %>
-                        <button><%= ambiente.nome_ambiente %></button>
+                        <div class="button-wrapper">
+                            <button><%= ambiente.nome_ambiente %></button>
+                            <span class="link-text">
+                                <a href="/descricao/<%= ambiente.id %>">Ver Detalhes</a>
+                            </span>
+                        </div>
                     <% }); %>
                 <% } else { %>
                     <p>Nenhum ambiente cadastrado.</p>
                 <% } %>
             </div>
         </div>
+   
     </div>
 </body>
 </html>

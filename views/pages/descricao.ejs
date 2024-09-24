@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/descricao.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>LABSOUT</title>
+    <style>
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            color: #ddd;
+        }
+        .navbar-title {
+            color: #fff;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+        .container {
+            display: flex;
+            justify-content: flex-start; /* Alinha tudo à esquerda */
+            padding: 10px;
+        }
+        .carousel {
+            width: 600px; /* Ajuste a largura do carrossel */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-lado">
+            <a href="/inicialusuario" class="navbar-icon">
+                <i class="bi bi-calendar2-week"></i>
+            </a>
+            <span class="navbar-title"><strong>LABSOUT</strong></span>
+        </div>
+    </nav>
+
+
+    <div class="container"></div>
+    <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="2000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="imagens/coelho.jpg" class="d-block w-100" alt="Imagem 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="imagens/gato.jpg" class="d-block w-100" alt="Imagem 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="imagens/akali.webp" class="d-block w-100" alt="Imagem 3">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Anterior</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Próximo</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
