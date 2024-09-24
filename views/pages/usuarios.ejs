@@ -86,8 +86,9 @@
                         tbody.innerHTML = '';
 
                         listar.forEach(usuario => {
+                            console.log('ID do usuário na lista:', usuario.id_usuario);
                             const tr = document.createElement('tr');
-                            tr.dataset.id = usuario.cpf;
+                            tr.dataset.id = usuario.id_usuario;
 
                             tr.innerHTML = `
                                 <td>${usuario.nome}</td>
@@ -153,7 +154,7 @@
                     });
             }
 
-            carregarUsuarios(); // carregar a lista de usuarios ao iniciar a página
+            carregarUsuarios();// carregar a lista de usuarios ao iniciar a página
 
             //sair do sistema
             const botaoSair = document.getElementById('botaoSair');

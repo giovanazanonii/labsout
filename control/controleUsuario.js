@@ -14,8 +14,10 @@ router.get("/modificarsenha",(req,res)=>{
     res.render("pages/modificarsenha")
 })
 router.get("/telausuario",(req,res)=>{
-    res.render("pages/telausuario")
+    console.log(req.session.usuario);
+    res.render('pages/telausuario', { usuario: req.session.usuario });
 })
+
 router.get("/inicialusuario",(req,res)=>{
     res.render("pages/inicialusuario")
 })
@@ -48,6 +50,8 @@ router.post('/login', (req, res) => {
         } 
         if (results.length > 0) {
             const usuario = results[0];
+            // guardando o nome do usuario para utilizar dentro do sistema
+            req.session.usuario = usuario;
             // guardando o CPF do usuário na sessão para modificar senha
             req.session.cpf = cpf;
 
@@ -67,6 +71,7 @@ router.post('/login', (req, res) => {
         }
     });
 });
+
 
 // visualizar laboratorios -- puxando do banco
 router.get("/selecaolab", (req, res) => {

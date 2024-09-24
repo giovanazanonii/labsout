@@ -37,50 +37,6 @@ router.post('/logout', (req, res) => {
     });
 });
 
-// Rota para carregar o formulário de usuário (edição ou criação)
-router.get('/cadastrarusuario/:id?', (req, res) => {
-    const id = req.params.id;
-    if (id) {
-        const consulta = 'SELECT * FROM usuario WHERE id_usuario = ?';
-        conexao.query(consulta, [id], function (err, resultado) {
-            if (err) {
-                console.error(err);
-                return res.redirect('/usuarios?message=Erro ao carregar o usuário.&type=danger');
-            }
-            if (resultado.length > 0) {
-                const usuario = resultado[0];
-                res.render('pages/cadastrarusuario', { usuario });
-            } else {
-                res.redirect('/usuarios?message=Usuário não encontrado.&type=danger');
-            }
-        });
-    } else {
-        res.render('pages/cadastrarusuario');
-    }
-});
-
-// Atualizar um usuário existente
-router.post('/atualizarusuario/:id', (req, res) => {
-    const id = req.params.id;
-    const { nome, senha, cpf, tipo } = req.body;
-
-    const consulta = 'UPDATE usuario SET nome_usuario = ?, senha_usuario = ?, cpf_usuario = ?, tipo_usuario = ? WHERE id_usuario = ?';
-
-    conexao.query(consulta, [nome, senha, cpf, tipo, id], (err) => {
-        if (err) {
-            console.error(err);
-            return res.redirect(`/cadastrarusuario/${id}?message=Erro ao atualizar usuário.&type=danger`);
-        }
-        res.redirect(`/cadastrarusuario/${id}?message=Usuário atualizado com sucesso!&type=success`);
-    });
-});
-
-
-
-
-
-
-
 // carregar ambientes com seus respectivos dados pronto  para editar
 router.get('/cadastroambiente/:id', (req, res) => {
     const id = req.params.id;
@@ -173,6 +129,45 @@ router.delete('/laboratorios/deletar/:id', (req, res) => {
     });
 });
 
+//carregar usuarios com seus respectivos dados pronto  para editar
+router.get('/cadastrarusuario/:id?', (req, res) => {
+    const id = req.params.id;
+
+    if (id) {
+        const consulta = 'SELECT * FROM usuario WHERE id_usuario = ?';
+        conexao.query(consulta, [id], function (err, resultado) {
+            if (err) {
+                console.error(err);
+                return res.redirect('/usuarios?message=Erro ao carregar o usuário.&type=danger');
+            }
+            if (resultado.length > 0) {
+                const usuario = resultado[0];
+                res.render('pages/cadastrarusuario', { usuario });
+            } else {
+                res.redirect('/usuarios?message=Usuário não encontrado.&type=danger');
+            }
+        });
+    } else {
+        res.render('pages/cadastrarusuario');
+    }
+});
+
+
+//atualiza um usuario ja existente
+router.post('/atualizarusuario/:id', (req, res) => {
+    const id = req.params.id;
+    const { nome, senha, cpf, tipo } = req.body;
+
+    const consulta = 'UPDATE usuario SET nome_usuario = ?, senha_usuario = ?, cpf_usuario = ?, tipo_usuario = ? WHERE id_usuario = ?';
+
+    conexao.query(consulta, [nome, senha, cpf, tipo, id], (err) => {
+        if (err) {
+            console.error(err);
+            return res.redirect(`/cadastrarusuario/${id}?message=Erro ao atualizar usuário.&type=danger`);
+        }
+        res.redirect(`/cadastrarusuario/${id}?message=Usuário atualizado com sucesso!&type=success`);
+    });
+});
 
 //cadastrando usuarios
 router.post('/cadastrarusuario', (req, res) => {
@@ -201,9 +196,9 @@ router.post('/cadastrarusuario', (req, res) => {
     
 });
 
-//visualizar todos os usuarios - admin
+// Visualizar todos os usuários - admin
 router.get('/usuarios/listar', (req, res) => {
-    conexao.query('SELECT nome_usuario AS nome, senha_usuario AS senha, cpf_usuario AS cpf, tipo_usuario AS tipo FROM usuario', (error, results) => {
+    conexao.query('SELECT id_usuario, nome_usuario AS nome, senha_usuario AS senha, cpf_usuario AS cpf, tipo_usuario AS tipo FROM usuario', (error, results) => {
         if (error) {
             return res.status(500).json({ error: 'Erro ao consultar o banco de dados' });
         }
@@ -215,10 +210,11 @@ router.get('/usuarios/listar', (req, res) => {
         res.json(resultadoTipo);
     });
 });
+
 //deletar usuarios
 router.delete('/usuarios/deletar/:id', (req, res) => {
     const usuarioId = req.params.id;
-    const consulta = 'DELETE FROM usuario WHERE cpf_usuario = ?';
+    const consulta = 'DELETE FROM usuario WHERE id_usuario = ?';
   
     conexao.query(consulta, [usuarioId], (err, result) => {
         if (err) {
