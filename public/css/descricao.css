@@ -29,12 +29,10 @@ body {
     cursor: pointer;
 }
 
-
 .navbar-right {
     display: flex;
     align-items: center;
 }
-
 
 .navbar-icon {
     font-size: 30px;
