@@ -39,7 +39,7 @@
 
     <div class="container">
         <header>
-            <h1>Olá <%= usuario.nome_usuario %></h1>
+            <h1>Olá <%= usuario && usuario.nome_usuario ? usuario.nome_usuario : "Visitante" %></h1>
         </header>
     </div>
 
