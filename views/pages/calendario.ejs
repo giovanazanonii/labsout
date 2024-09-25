@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/calendario.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
-    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <title>LABSOUT</title>
     <style>
-       .navbar a {
+        .navbar a {
             color: #fff;
             text-decoration: none;
         }
@@ -60,11 +60,15 @@
     <script>
         const nomesMeses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
         let dataAtual = new Date();
-
+    
+        // Obtém o ID do ambiente da URL
+        const pathSegments = window.location.pathname.split('/');
+        const ambienteId = pathSegments[pathSegments.length - 1]; // Pega o último segmento da URL
+    
         function renderizarCalendario() {
             const mesAno = document.getElementById("month-year");
             const corpoCalendario = document.getElementById("calendar-body");
-
+    
             const ano = dataAtual.getFullYear();
             const mes = dataAtual.getMonth();
             
@@ -72,7 +76,7 @@
             
             // Limpa o corpo do calendário
             corpoCalendario.innerHTML = "";
-
+    
             // Obtém o primeiro dia do mês
             const primeiroDia = new Date(ano, mes, 1).getDay();
             const diasNoMes = new Date(ano, mes + 1, 0).getDate();
@@ -80,14 +84,14 @@
             
             let dia = 1;
             let diaProximoMes = 1;
-
+    
             // Cria as linhas da tabela
             for (let i = 0; i < 6; i++) {
                 const linha = document.createElement("tr");
-
+    
                 for (let j = 0; j < 7; j++) {
                     const td = document.createElement("td");
-
+    
                     // Preenche os dias do mês anterior
                     if (i === 0 && j < primeiroDia) {
                         td.innerText = diasMesAnterior - (primeiroDia - j - 1);
@@ -99,42 +103,59 @@
                     } else {
                         // Preenche os dias do mês atual
                         td.innerText = dia;
-                        if (dia === dataAtual.getDate()) {
-                            td.classList.add("today");
+    
+                        // Desativa sábados (j === 6) e domingos (j === 0)
+                        if (j === 0 || j === 6) {
+                            td.classList.add("disabled");
+                        } else {
+                            // Captura o dia, mês e ano no evento de clique para dias válidos
+                            td.addEventListener("click", function() {
+                                const diaSelecionado = this.innerText; // Captura o dia clicado
+                                const mesSelecionado = mes + 1; // Meses em JavaScript começam do 0
+                                const anoSelecionado = ano;
+    
+                                // URL com dia, mês e ano
+                                const url = `/horarios/${ambienteId}?dia=${diaSelecionado}&mes=${mesSelecionado}&ano=${anoSelecionado}`;
+    
+                                console.log(`ID Ambiente: ${ambienteId}, Dia: ${diaSelecionado}, Mês: ${mesSelecionado}, Ano: ${anoSelecionado}`);
+    
+                                // Redireciona para a URL
+                                window.location.href = url;
+                            });
                         }
-                        dia++;
+                        dia++; // Incrementa o dia somente quando é um dia válido do mês
                     }
-
+    
                     linha.appendChild(td);
                 }
-
+    
                 corpoCalendario.appendChild(linha);
             }
         }
-
+    
         // Função para alterar o mês
         document.querySelector(".prev-month").addEventListener("click", () => {
             dataAtual.setMonth(dataAtual.getMonth() - 1);
             renderizarCalendario();
         });
-
+    
         document.querySelector(".next-month").addEventListener("click", () => {
             dataAtual.setMonth(dataAtual.getMonth() + 1);
             renderizarCalendario();
         });
-
+    
         // Renderiza o calendário ao carregar a página
         renderizarCalendario();
-
     </script>
     
+    
     <div class="status-info">
-    <div class="status">
-        <span class="dot orange"></span> Parcialmente Disponível
+        <div class="status">
+            <span class="dot orange"></span> Parcialmente Disponível
+        </div>
+        <div class="status">
+            <span class="dot red"></span> Ocupado
+        </div>
     </div>
-    <div class="status">
-        <span class="dot red"></span> Ocupado
-    </div>
-</div>
 </body>
 </html>

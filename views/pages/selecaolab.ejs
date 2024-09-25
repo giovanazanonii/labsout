@@ -38,7 +38,8 @@
                 <% if (ambientes && ambientes.length > 0) { %>
                     <% ambientes.forEach(ambiente => { %>
                         <div class="button-wrapper">
-                            <button><%= ambiente.nome_ambiente %></button>
+                            <button onclick="window.location.href='/calendario/<%= ambiente.id_ambiente %>'"><%= ambiente.nome_ambiente %></button>
+
                             <span class="link-text">
                                 <a href="/descricao<%= ambiente.id %>">Ver Detalhes</a>
                             </span>
@@ -49,6 +50,7 @@
                 <% } %>
             </div>
         </div>
+        
    
     </div>
 </body>
