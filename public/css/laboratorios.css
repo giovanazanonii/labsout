@@ -110,7 +110,7 @@ h1 {
 
 .table-container::-webkit-scrollbar-thumb {
     background: #a7a5a5;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 table {

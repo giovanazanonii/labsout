@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>LABSOUT</title>
     <style>
-        .navbar a {
+       .navbar a {
             color: #fff;
             text-decoration: none;
         }
@@ -23,11 +23,20 @@
         }
         .container {
             display: flex;
-            justify-content: flex-start; /* Alinha tudo à esquerda */
-            padding: 10px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
         }
         .carousel {
-            width: 600px; /* Ajuste a largura do carrossel */
+            width: 600px;
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .contact-info {
+            text-align: center; /* Centraliza o texto */
+            margin-top: 50px; 
         }
     </style>
 </head>
@@ -41,9 +50,8 @@
         </div>
     </nav>
 
-
-    <div class="container"></div>
-    <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="2000">
+    <div class="container">
+        <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="2000">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img src="imagens/teste1.jpg" class="d-block w-100" alt="Imagem 1">
@@ -63,6 +71,25 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Próximo</span>
             </a>
+        </div>
+
+        <div class="info-container">
+            <h1><strong>MAKER</strong></h1>
+            <p class="descricao">n sei oq escrever do lab maker n sei oq escrever do lab maker n sei oq escrever do lab maker n sei oq escrever do lab makern sei oq escrever do lab makern sei oq escrever do lab makern sei oq escrever do lab makern sei oq escrever do lab maker n sei oq escrever do lab makern sei oq escrever do lab maker </p>
+            <p class="capacidade"> <strong>Capacidade:</strong>30 alunos</p>
+            <p class="materiais"><strong>Materiais disponíveis:</strong> Impressora 3D, Ferramentas Manuais, Tablets, Notbooks eargeeeeeeeeeeeeee eeeeeeeee eeeee eeeee eeeeeee eeeeeeee eeeeeeee eeeeeeeeeeeeee eeeeeeee eeeeeeeeeeeeeee eeeeeee eeeeeeee eeeeeee eeeeeeeeeee</p>
+            <p class="coordenador"><strong>Coordenador:</strong> João Silva</p>
+            
+            <div class="contact-info">
+                <p>
+                    <i class="bi bi-envelope-at"></i>
+                    <a href="mailto:joao.silva@example.com">joao.silva@example.com</a>
+                </p>
+                <p>
+                    <i class="bi bi-whatsapp"></i>
+                    <a href="https://wa.me/5511999999999">Whatsapp</a>
+                </p>
+            </div>
         </div>
     </div>
 

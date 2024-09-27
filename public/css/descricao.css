@@ -8,17 +8,13 @@ body {
     min-height: 100vh;
 }
 
-
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #8b67a0;
-    padding: 10px 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 5px 20px;
 }
-
-
 .navbar-lado {
     display: flex;
     align-items: center;
@@ -39,4 +35,60 @@ body {
     color: #fff;
     text-decoration: none;
 
+}
+.info-container {
+    margin-left: 20px;
+    flex: 1;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-height: 500px;
+    overflow-y: auto;   
+}
+.info-container::-webkit-scrollbar {
+    width: 12px;
+}
+.info-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+.info-container::-webkit-scrollbar-thumb {
+    background: #a7a5a5;
+    border-radius: 5px;
+}
+h1 {
+    padding: 20px;
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #8b67a0;
+}
+.contact-info a {
+    color: #8b67a0;
+    text-decoration: none;
+    font-weight: bold;
+}
+.contact-info a:hover {
+    color: #6e547d;
+    text-decoration: underline; /* Efeito de hover */
+}
+.descricao, .capacidade, .materiais, .coordenador{
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+}
+
+.contact-info a {
+    color: #8b67a0;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.contact-info a:hover{
+    color: #6e547d;
+}
+
+.contact-info a:hover {
+    text-decoration: underline; /* Efeito de hover */
 }

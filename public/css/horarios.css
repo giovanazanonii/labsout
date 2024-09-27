@@ -2,9 +2,8 @@ body {
     font-family: Arial;
     background-color: #f5f5f5;
     margin: 0;
-    padding: 0;
-    height: 100vh; /* Garante que o body ocupe toda a altura da tela */
-    overflow: hidden; /* Impede a barra de rolagem vertical */
+    padding-top: 70px; /* Garante espaço para a navbar */
+    overflow-x: hidden; /* Impede rolagem horizontal */
 }
 
 /* Navbar */
@@ -17,7 +16,7 @@ body {
     justify-content: space-between;
     align-items: center;
     background-color: #8B67A0;
-    padding: 10px 20px;
+    padding: 5px 20px;
     z-index: 1000;
 }
 
@@ -26,24 +25,6 @@ body {
     align-items: center;
     font-size: 30px;
     color: #fff;
-}
-
-/* Botão voltar abaixo da navbar */
-.voltar {
-    margin-top: 70px;
-    position: relative;
-    left: 10px;
-}
-
-.voltar button {
-    background: none;
-    border: none;
-    font-size: 30px;
-    cursor: pointer;
-}
-
-.voltar button:focus {
-    outline: none;
 }
 
 /* Container para os turnos */
@@ -129,6 +110,7 @@ input[type="checkbox"] {
         margin-bottom: 20px;
     }
 }
+
 body::after {
     content: "";
     position: fixed;
@@ -145,5 +127,6 @@ body::after {
 
 /* Adiciona margem superior para compensar a navbar fixa */
 .container {
-    margin-top: 10px;
-} 
+    margin-top: 50px; /* Esse valor pode ser ajustado conforme necessário */
+}
+    

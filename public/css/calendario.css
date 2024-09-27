@@ -6,13 +6,14 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-}.navbar {
+}
+
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #8b67a0;
-    padding: 10px 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 5px 20px;
 }
 
 .navbar-lado {
@@ -25,6 +26,12 @@ body {
     cursor: pointer;
 }
 
+.navbar-left {
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    color: #fff;
+}
 .navbar-right {
     display: flex;
     align-items: center;
