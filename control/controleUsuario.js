@@ -8,7 +8,6 @@ app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
 
-//middlewares no router
 router.use(express.json());
 router.use(express.static('public'));
 router.use(express.urlencoded({ extended: true }));
@@ -41,23 +40,43 @@ router.get("/horarios", (req, res) => {
 router.get("/descricao",(req,res)=>{
     res.render("pages/descricao")
 })
-// Rota para verificar a disponibilidade de horários
-// Rota para verificar a disponibilidade de horários
-router.get('/disponibilidade/:ambienteId', (req, res) => {
-    const { data_reserva } = req.query; // Data passada na query string
-    const { ambienteId } = req.params;  // ID do ambiente
 
-    // Query para buscar os horários já reservados para o ambiente e data selecionados
+
+// Rota para cadastrar uma nova reserva
+router.post('/reservar', (req, res) => {
+    
+    const { id_usuario, id_ambiente, data_reserva, id_horario, status } = req.body;
+    console.log(req.body);
+
+    // Query para inserir os dados na tabela de reservas
+    const inserir = `
+        INSERT INTO reservas (id_usuario, id_ambiente, data_reserva, id_horario, status)
+        VALUES (?, ?, ?, ?, 'confirmado')
+    `;
+
+    conexao.query(inserir, [id_usuario, id_ambiente, data_reserva, id_horario, status], (error, results) => {
+        if (error) {
+            console.error("Erro ao cadastrar reserva:", error);
+            return res.status(500).send("Erro ao cadastrar a reserva.");
+        }
+        res.status(201).send("Reserva cadastrada com sucesso!");
+    });
+});
+
+
+
+
+router.get('/horarios/:ambienteId', (req, res) => {
+    const { dia, mes, ano } = req.query;
+    const { ambienteId } = req.params;
+
+    const data_reserva = `${ano}-${mes}-${dia}`;
+
+    // Query para buscar os horários já reservados
     const sqlReservados = `
         SELECT id_horario 
         FROM reservas 
         WHERE id_ambiente = ? AND data_reserva = ? AND status = 'confirmado'
-    `;
-
-    // Query para buscar todos os horários disponíveis
-    const sqlTodosHorarios = `
-        SELECT id_horario 
-        FROM horarios
     `;
 
     conexao.query(sqlReservados, [ambienteId, data_reserva], (errorReservados, resultsReservados) => {
@@ -69,47 +88,22 @@ router.get('/disponibilidade/:ambienteId', (req, res) => {
         // Lista de horários reservados
         const horariosReservados = resultsReservados.map(row => row.id_horario);
 
-        // Busca todos os horários disponíveis
-        conexao.query(sqlTodosHorarios, (errorTodos, resultsTodos) => {
-            if (errorTodos) {
-                console.error("Erro ao buscar todos os horários:", errorTodos);
-                return res.status(500).send("Erro ao buscar todos os horários.");
-            }
-
-            // Lista de todos os horários disponíveis
-            const todosHorarios = resultsTodos.map(row => row.id_horario);
-
-            // Filtra os horários não disponíveis (reservados)
-            const horariosIndisponiveis = todosHorarios.filter(horario => horariosReservados.includes(horario));
-
-            // Retorna os horários não disponíveis para renderização no frontend
-            res.json({
-                ambienteId,
-                data_reserva,
-                horariosIndisponiveis,
-            });
+        // Renderizar a página de horários passando as variáveis necessárias
+        res.render('pages/horarios', { 
+            ambienteId, 
+            dia, 
+            mes, 
+            ano, 
+            horariosIndisponiveis: horariosReservados 
         });
     });
 });
 
 
-router.get('/horarios/:ambienteId', (req, res) => {
-    const { dia, mes, ano } = req.query;
-    const { ambienteId } = req.params;
-    
-    // Renderizar a página de horários com os dados do dia, mês, ano, e ambiente
-    res.render('pages/horarios', { ambienteId, dia, mes, ano });
-});
 
 // Rota para calendário com ID do ambiente
 router.get("/calendario/:id", (req, res) => {
     const ambienteId = req.params.id; // Captura o ID do ambiente
-
-    const dia = req.query.dia;
-    const mes = req.query.mes;
-    const ano = req.query.ano;
-
-    console.log(`ID Ambiente: ${ambienteId}, Dia: ${dia}, Mês: ${mes}, Ano: ${ano}`);
 
     // Ajuste a consulta para usar o nome correto da coluna
     const consultaAmbiente = "SELECT * FROM ambientes WHERE id_ambiente = ?";

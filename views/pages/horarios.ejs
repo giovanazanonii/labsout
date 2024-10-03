@@ -33,6 +33,10 @@
         .toast.show {
             opacity: 1;
         }
+        .disabled {
+            opacity: 0.5;
+            pointer-events: none; /* Desabilita a interação */
+        }
     </style>
 </head>
 <body>
@@ -50,34 +54,55 @@
             <div class="reservation-container">
                 <div class="turno">
                     <h2><strong>MATUTINO</strong></h2>
-                    <label><input type="checkbox" name="horarios[]" value="1"> Primeira aula</label><br>
-                    <label><input type="checkbox" name="horarios[]" value="2"> Segunda aula</label><br>
-                    <label><input type="checkbox" name="horarios[]" value="3"> Terceira aula</label><br>
-                    <label><input type="checkbox" name="horarios[]" value="4"> Quarta aula</label><br>
-                    <label><input type="checkbox" name="horarios[]" value="5"> Quinta aula</label><br>
-                    <label><input type="checkbox" name="horarios[]" value="6"> Sexta aula</label>
+                    <label><input type="checkbox" name="horarios[]" value="1" class="<%= horariosIndisponiveis.includes(1) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(1) ? 'disabled' : '' %>> Primeira aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="2" class="<%= horariosIndisponiveis.includes(2) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(2) ? 'disabled' : '' %>> Segunda aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="3" class="<%= horariosIndisponiveis.includes(3) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(3) ? 'disabled' : '' %>> Terceira aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="4" class="<%= horariosIndisponiveis.includes(4) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(4) ? 'disabled' : '' %>> Quarta aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="5" class="<%= horariosIndisponiveis.includes(5) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(5) ? 'disabled' : '' %>> Quinta aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="6" class="<%= horariosIndisponiveis.includes(6) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(6) ? 'disabled' : '' %>> Sexta aula</label>
                 </div>
 
                 <div class="turno">
                     <h2><strong>VESPERTINO</strong></h2>
-                    <label><input type="checkbox" name="horarios[]" value="7"> Primeira aula</label><br>
-                    <label><input type="checkbox" name="horarios[]" value="8"> Segunda aula</label><br>
-                    <label><input type="checkbox" name="horarios[]" value="9"> Terceira aula</label><br>
-                    <label><input type="checkbox" name="horarios[]" value="10"> Quarta aula</label><br>
-                    <label><input type="checkbox" name="horarios[]" value="11"> Quinta aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="7" class="<%= horariosIndisponiveis.includes(7) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(7) ? 'disabled' : '' %>> Primeira aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="8" class="<%= horariosIndisponiveis.includes(8) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(8) ? 'disabled' : '' %>> Segunda aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="9" class="<%= horariosIndisponiveis.includes(9) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(9) ? 'disabled' : '' %>> Terceira aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="10" class="<%= horariosIndisponiveis.includes(10) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(10) ? 'disabled' : '' %>> Quarta aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="11" class="<%= horariosIndisponiveis.includes(11) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(11) ? 'disabled' : '' %>> Quinta aula</label><br>
                 </div>
 
                 <div class="turno">
                     <h2><strong>NOTURNO</strong></h2>
-                    <label><input type="checkbox" name="horarios[]" value="12"> Primeira aula</label><br>
-                    <label><input type="checkbox" name="horarios[]" value="13"> Segunda aula</label><br>
-                    <label><input type="checkbox" name="horarios[]" value="14"> Terceira aula</label><br>
-                    <label><input type="checkbox" name="horarios[]" value="15"> Quarta aula</label><br>
-                    <label><input type="checkbox" name="horarios[]" value="16"> Quinta aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="12" class="<%= horariosIndisponiveis.includes(12) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(12) ? 'disabled' : '' %>> Primeira aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="13" class="<%= horariosIndisponiveis.includes(13) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(13) ? 'disabled' : '' %>> Segunda aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="14" class="<%= horariosIndisponiveis.includes(14) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(14) ? 'disabled' : '' %>> Terceira aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="15" class="<%= horariosIndisponiveis.includes(15) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(15) ? 'disabled' : '' %>> Quarta aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="16" class="<%= horariosIndisponiveis.includes(16) ? 'disabled' : '' %>" <%= horariosIndisponiveis.includes(16) ? 'disabled' : '' %>> Quinta aula</label><br>
                 </div>
             </div>
             <button class="reservar-btn" type="submit"><strong>Reservar</strong></button>
         </form>
     </div>
+
+    <script>
+        function renderizarHorarios() {
+            const turnos = document.querySelectorAll('.turno');
+            turnos.forEach(turno => {
+                const checkboxes = turno.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    const horario = parseInt(checkbox.value); // Supondo que o valor do checkbox é o ID do horário
+                    if (horariosReservados.includes(horario)) {
+                        checkbox.disabled = true; // Desabilita o checkbox
+                        checkbox.parentElement.style.color = 'gray'; // Opcional: Muda a cor do texto para indicar que está indisponível
+                    }
+                });
+            });
+        }
+
+        // Chama a função após carregar a página
+        renderizarHorarios();
+    </script>
+
+
 </body>
 </html>
