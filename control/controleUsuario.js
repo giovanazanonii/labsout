@@ -7,6 +7,7 @@ const app = express();
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
+let id_user //ambienteId, data_reserva, id_horario
 
 router.use(express.json());
 router.use(express.static('public'));
@@ -44,33 +45,63 @@ router.get("/descricao",(req,res)=>{
 
 // Rota para cadastrar uma nova reserva
 router.post('/reservar', (req, res) => {
-    
-    const { id_usuario, id_ambiente, data_reserva, id_horario, status } = req.body;
-    console.log(req.body);
+    let error = [];
+    const id_ambiente = req.session.ambienteId;
+    const data_reserva_ses = req.session.data_reserva
+
+    console.log(req.body.horarios);
+    let lista_horarios = req.body.horarios;
+    for (i=0;i<lista_horarios.length;i++){
+       // console.log(lista_horarios[i])
+
+
+        const inserir = `
+        INSERT INTO reservas (id_usuario, id_ambiente, data_reserva, id_horario, status)
+        VALUES (?, ?, ?, ?, 'confirmado')`;
+        
+        console.log(id_user, id_ambiente, data_reserva_ses, lista_horarios[i])
+
+        conexao.query(inserir, [id_user, id_ambiente, data_reserva_ses, lista_horarios[i]], (error, results) => {
+            if (error) {
+                console.error("Erro ao cadastrar reserva:", error);
+                error.push(`Erro ao cadastrar horário ${lista_horarios[i]}`);
+            }
+        });
+
+    }
+    if (error.length > 0) {
+        return res.status(500).send(error.join(', '));
+    }
+    res.status(201).send("Reserva cadastrada com sucesso!");
+
+
+    //req.body.id_horario
 
     // Query para inserir os dados na tabela de reservas
-    const inserir = `
+    /*const inserir = `
         INSERT INTO reservas (id_usuario, id_ambiente, data_reserva, id_horario, status)
-        VALUES (?, ?, ?, ?, 'confirmado')
-    `;
-
-    conexao.query(inserir, [id_usuario, id_ambiente, data_reserva, id_horario, status], (error, results) => {
+        VALUES (?, ?, ?, 1, 'confirmado')
+    `;*/
+    
+    /*console.log(id_user, id_ambiente, data_reserva_ses)
+    conexao.query(inserir, [id_user, id_ambiente, data_reserva_ses, '1'], (error, results) => {
         if (error) {
             console.error("Erro ao cadastrar reserva:", error);
             return res.status(500).send("Erro ao cadastrar a reserva.");
         }
         res.status(201).send("Reserva cadastrada com sucesso!");
-    });
+    });*/
 });
-
-
 
 
 router.get('/horarios/:ambienteId', (req, res) => {
     const { dia, mes, ano } = req.query;
+    
     const { ambienteId } = req.params;
+    req.session.ambienteId = ambienteId;
 
     const data_reserva = `${ano}-${mes}-${dia}`;
+    req.session.data_reserva = data_reserva;
 
     // Query para buscar os horários já reservados
     const sqlReservados = `
@@ -128,21 +159,23 @@ router.post('/login', (req, res) => {
     //replace remove a mascara do cpf para autenticar
     const cpf = req.body.cpf.replace(/\D/g, '');
     const senha = req.body.senha;
-
     const query = 'SELECT * FROM usuario WHERE cpf_usuario = ? AND senha_usuario = ?';
-
+    
     conexao.query(query, [cpf, senha], (error, results) => {
         if (error) {
             console.error('Erro ao executar a consulta: ' + error.stack);
             res.status(500).send('Erro no servidor');
             return;
         } 
+
         if (results.length > 0) {
             const usuario = results[0];
             // guardando o nome do usuario para utilizar dentro do sistema
             req.session.usuario = usuario;
             // guardando o CPF do usuário na sessão para modificar senha
             req.session.cpf = cpf;
+            id_user = results[0].id_usuario;
+
 
             // verifica se é o primeiro login e se o usuario não é admin
             if (usuario.primeiro_login && usuario.tipo_usuario === 1) {

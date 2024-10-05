@@ -69,71 +69,74 @@
         const ambienteId = pathSegments[pathSegments.length - 1]; // Pega o último segmento da URL
     
         function renderizarCalendario() {
-            const mesAno = document.getElementById("month-year");
-            const corpoCalendario = document.getElementById("calendar-body");
-    
-            const ano = dataAtual.getFullYear();
-            const mes = dataAtual.getMonth();
-            
-            mesAno.innerHTML = `${nomesMeses[mes]} ${ano}`;
-            
-            // Limpa o corpo do calendário
-            corpoCalendario.innerHTML = "";
-    
-            // Obtém o primeiro dia do mês
-            const primeiroDia = new Date(ano, mes, 1).getDay();
-            const diasNoMes = new Date(ano, mes + 1, 0).getDate();
-            const diasMesAnterior = new Date(ano, mes, 0).getDate();
-            
-            let dia = 1;
-            let diaProximoMes = 1;
-    
-            // Cria as linhas da tabela
-            for (let i = 0; i < 6; i++) {
-                const linha = document.createElement("tr");
-    
-                for (let j = 0; j < 7; j++) {
-                    const td = document.createElement("td");
-    
+        const mesAno = document.getElementById("month-year");
+        const corpoCalendario = document.getElementById("calendar-body");
+
+        const ano = dataAtual.getFullYear();
+        const mes = dataAtual.getMonth();
+        const hoje = new Date(); // Data de hoje para comparação
+        
+        mesAno.innerHTML = `${nomesMeses[mes]} ${ano}`;
+        corpoCalendario.innerHTML = "";
+
+        const primeiroDia = new Date(ano, mes, 1).getDay();
+        const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+        const diasMesAnterior = new Date(ano, mes, 0).getDate();
+
+        let dia = 1;
+        let diaProximoMes = 1;
+
+        for (let i = 0; i < 6; i++) {
+            const linha = document.createElement("tr");
+
+            for (let j = 0; j < 7; j++) {
+                const td = document.createElement("td");
+
+                if (i === 0 && j < primeiroDia) {
                     // Preenche os dias do mês anterior
-                    if (i === 0 && j < primeiroDia) {
-                        td.innerText = diasMesAnterior - (primeiroDia - j - 1);
+                    td.innerText = diasMesAnterior - (primeiroDia - j - 1);
+                    td.classList.add("disabled");
+                } else if (dia > diasNoMes) {
+                    // Preenche os dias do próximo mês
+                    td.innerText = diaProximoMes++;
+                    td.classList.add("disabled");
+                } else {
+                    // Preenche os dias do mês atual
+                    td.innerText = dia;
+
+                    // Cria uma data para o dia atual do calendário
+                    const dataComparada = new Date(ano, mes, dia);
+
+                    // Desabilita qualquer dia anterior à data atual
+                    if (dataComparada < hoje) {
                         td.classList.add("disabled");
-                    } else if (dia > diasNoMes) {
-                        // Preenche os dias do próximo mês
-                        td.innerText = diaProximoMes++;
+                    } else if (j === 0 || j === 6) {
+                        // Desabilita sábados e domingos
                         td.classList.add("disabled");
                     } else {
-                        // Preenche os dias do mês atual
-                        td.innerText = dia;
-    
-                        // Desativa sábados (j === 6) e domingos (j === 0)
-                        if (j === 0 || j === 6) {
-                            td.classList.add("disabled");
-                        } else {
-                            // Captura o dia, mês e ano no evento de clique para dias válidos
-                            td.addEventListener("click", function() {
-                                const diaSelecionado = this.innerText; // Captura o dia clicado
-                                const mesSelecionado = mes + 1; // Meses em JavaScript começam do 0
-                                const anoSelecionado = ano;
-    
-                                // URL com dia, mês e ano
-                                const url = `/horarios/${ambienteId}?dia=${diaSelecionado}&mes=${mesSelecionado}&ano=${anoSelecionado}`;
+                        // Evento de clique para dias válidos
+                        td.addEventListener("click", function() {
+                            const diaSelecionado = this.innerText;
+                            const mesSelecionado = mes + 1; // Meses começam em 0 no JavaScript
+                            const anoSelecionado = ano;
 
-                                // Redireciona para a URL
-                                window.location.href = url;
-                            });
-                        }
-                        dia++; // Incrementa o dia somente quando é um dia válido do mês
+                            // Redireciona para a URL com o dia, mês e ano
+                            const url = `/horarios/${ambienteId}?dia=${diaSelecionado}&mes=${mesSelecionado}&ano=${anoSelecionado}`;
+                            window.location.href = url;
+                        });
                     }
-    
-                    linha.appendChild(td);
+
+                    dia++;
                 }
-    
-                corpoCalendario.appendChild(linha);
+
+                linha.appendChild(td);
             }
+
+            corpoCalendario.appendChild(linha);
         }
-    
+    }
+
+
         // Função para alterar o mês
         document.querySelector(".prev-month").addEventListener("click", () => {
             dataAtual.setMonth(dataAtual.getMonth() - 1);
