@@ -42,7 +42,6 @@ router.get("/descricao",(req,res)=>{
     res.render("pages/descricao")
 })
 
-
 // Rota para cadastrar uma nova reserva
 router.post('/reservar', (req, res) => {
     let error = [];
