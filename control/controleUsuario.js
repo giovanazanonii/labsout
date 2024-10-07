@@ -20,7 +20,7 @@ router.get("/modificarsenha",(req,res)=>{
     res.render("pages/modificarsenha")
 })
 router.get("/telausuario",(req,res)=>{
-    console.log(req.session.usuario);
+    //console.log(req.session.usuario);
     res.render('pages/telausuario', { usuario: req.session.usuario });
 })
 router.get("/inicialusuario",(req,res)=>{
@@ -48,7 +48,7 @@ router.post('/reservar', (req, res) => {
     const id_ambiente = req.session.ambienteId;
     const data_reserva_ses = req.session.data_reserva
 
-    console.log(req.body.horarios);
+    //console.log(req.body.horarios);
     let lista_horarios = req.body.horarios;
     for (i=0;i<lista_horarios.length;i++){
        // console.log(lista_horarios[i])
@@ -58,7 +58,7 @@ router.post('/reservar', (req, res) => {
         INSERT INTO reservas (id_usuario, id_ambiente, data_reserva, id_horario, status)
         VALUES (?, ?, ?, ?, 'confirmado')`;
         
-        console.log(id_user, id_ambiente, data_reserva_ses, lista_horarios[i])
+        //console.log(id_user, id_ambiente, data_reserva_ses, lista_horarios[i])
 
         conexao.query(inserir, [id_user, id_ambiente, data_reserva_ses, lista_horarios[i]], (error, results) => {
             if (error) {
