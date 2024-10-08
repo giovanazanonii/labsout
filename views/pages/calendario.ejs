@@ -22,7 +22,7 @@
             margin-left: 10px;
         }
         .reserved {
-            background-color: rgb(255, 115, 0);
+            background-color: orange;
         }
     </style>
 </head>
@@ -37,7 +37,7 @@
         </div>
     </nav>
 
-    <div id='calendar'></div>
+    <div id='calendar'>
     <div class="container">
         <div class="calendar-container">
             <div class="calendar-header">
@@ -66,7 +66,20 @@
     <script>
         const nomesMeses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
         let dataAtual = new Date();
-    
+        let datasCadastradas = [];
+
+
+        // Função para buscar datas cadastradas
+        async function buscarDatasCadastradas() {
+            try {
+                const response = await fetch('/datas');
+                const dados = await response.json();
+                datasCadastradas = dados.map(d => d.data_reserva.split('T')[0]); // mapear um array de datas
+                renderizarCalendario();
+            } catch (error) {
+                console.error('Erro ao buscar datas cadastradas:', error);
+            }
+        }
         // Obtém o ID do ambiente da URL
         const pathSegments = window.location.pathname.split('/');
         const ambienteId = pathSegments[pathSegments.length - 1]; // Pega o último segmento da URL
@@ -109,14 +122,19 @@
 
                     // Cria uma data para o dia atual do calendário
                     const dataComparada = new Date(ano, mes, dia);
+                    const dataFormatada = dataComparada.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+                    
+                    if (datasCadastradas.includes(dataFormatada)) {
+                        td.classList.add("reserved");
+                    }
 
                     // Desabilita qualquer dia anterior à data atual
-                    if (dataComparada < hoje) {
-                        td.classList.add("disabled");
+                    if (dataComparada < hoje && dataComparada.toDateString() !== hoje.toDateString()) {
+                    td.classList.add("disabled");
                     } else if (j === 0 || j === 6) {
                         // Desabilita sábados e domingos
                         td.classList.add("disabled");
-                    } else {
+                    } else{
                         // Evento de clique para dias válidos
                         td.addEventListener("click", function() {
                             const diaSelecionado = this.innerText;
@@ -151,6 +169,7 @@
     
         // Renderiza o calendário ao carregar a página
         renderizarCalendario();
+        buscarDatasCadastradas();
     </script>
     
     

@@ -42,6 +42,15 @@ router.get("/descricao",(req,res)=>{
     res.render("pages/descricao")
 })
 
+//puxar datas reservadas
+router.get('/datas',(req,res)=>{
+    const sql = `SELECT data_reserva from reservas`;
+
+    conexao.query(sql, [id_user], (err, resultados) => {
+        if (err) return res.status(500).json({ message: 'Erro ao obter data cadastrada' });
+        res.json(resultados);
+    });
+})
 
 // listando as reservas do usuario
 router.get('/telausuario/listar',(req,res)=>{
@@ -58,6 +67,7 @@ router.get('/telausuario/listar',(req,res)=>{
         res.json(resultados);
     });
 })
+
 // cancelar reserva
 router.delete('/telausuario/deletar/:id', (req, res) => {
     const id_reserva = req.params.id;
