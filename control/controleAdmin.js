@@ -26,6 +26,22 @@ router.get("/cadastrarusuario",(req,res)=>{
 router.get("/laboratorios",(req,res)=>{
     res.render("pages/laboratorios")
 })
+// histórico de reservas
+router.get('/reservas/listar',(req,res)=>{
+    const sql = `
+    SELECT r.id_reserva, u.nome_usuario, a.nome_ambiente, r.data_reserva, 
+           h.descricao_periodo, h.descricao_horario, r.status
+            FROM reservas r
+            JOIN ambientes a ON r.id_ambiente = a.id_ambiente
+            JOIN horarios h ON r.id_horario = h.id_horario
+            JOIN usuario u ON r.id_usuario = u.id_usuario`;
+
+        conexao.query(sql, (err, resultados) => {
+        if (err) return res.status(500).json({ message: 'Erro ao obter reservas' });
+        res.json(resultados);
+    });
+})
+
 // rota para logout 
 router.post('/logout', (req, res) => {
     //  encerrar o login do usuário e remover todos os dados de sessão associados.

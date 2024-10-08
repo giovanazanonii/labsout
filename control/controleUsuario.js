@@ -42,6 +42,37 @@ router.get("/descricao",(req,res)=>{
     res.render("pages/descricao")
 })
 
+
+// listando as reservas do usuario
+router.get('/telausuario/listar',(req,res)=>{
+    const sql = `
+        SELECT r.id_reserva, a.nome_ambiente, r.data_reserva, 
+               h.descricao_periodo, h.descricao_horario, r.status
+        FROM reservas r
+        JOIN ambientes a ON r.id_ambiente = a.id_ambiente
+        JOIN horarios h ON r.id_horario = h.id_horario
+        WHERE r.id_usuario = ?`;
+
+        conexao.query(sql, [id_user], (err, resultados) => {
+        if (err) return res.status(500).json({ message: 'Erro ao obter reservas' });
+        res.json(resultados);
+    });
+})
+// cancelar reserva
+router.delete('/telausuario/deletar/:id', (req, res) => {
+    const id_reserva = req.params.id;
+    console.log(`Cancelando reserva com ID: ${id_reserva}`);
+
+
+    const consulta = 'DELETE FROM reservas WHERE id_reserva = ?';
+
+    conexao.query(consulta, [id_reserva], (err) => {
+        if (err) {
+            return res.status(500).json({ message: 'Erro ao cancelar reserva.' });
+        }
+        res.status(200).json({ message: 'Reserva cancelada com sucesso!' });
+    });
+});
 // Rota para cadastrar uma nova reserva
 router.post('/reservar', (req, res) => {
     let error = [];
@@ -71,7 +102,7 @@ router.post('/reservar', (req, res) => {
     if (error.length > 0) {
         return res.status(500).send(error.join(', '));
     }
-    res.status(201).send("Reserva cadastrada com sucesso!");
+    res.redirect('/inicialusuario?message=Reserva realizada com sucesso!&type=success');
 
 
     //req.body.id_horario

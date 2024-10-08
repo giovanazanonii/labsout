@@ -18,9 +18,32 @@
              color: #fff;
              border-radius: 5px;
         }
+        .toast { 
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            z-index: 1050;
+            min-width: 200px;
+            opacity: 0;
+            transition: opacity 0.5s;
+            background-color: #6b6b6b;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            }
     </style>
 </head>
 <body>
+    <div id="feedbackToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+            <span id="feedbackMessage"></span>
+        </div>
+    </div>
     <nav class="navbar">
         <div class="navbar-esquerda">
             <div class="navbar-esquerda">
@@ -52,5 +75,37 @@
             <p>Reserve e cancele a hora que quiser.</p>
         </div>
     </div>
+
+    <script>
+
+        
+        // mostra o toast de feedback na tela com a mensagem
+        function showToast(message, type) {     //elemento HTML correspondente ao toast = feedbackToast
+            const toast = document.getElementById('feedbackToast'); //local onde a mensagem será exibida = feedbackMessage
+            const messageElement = document.getElementById('feedbackMessage');
+            messageElement.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000); // Ocultar após 3 segundos
+        }
+
+        //verifica a URL da página para ver se tem uma mensagem para ser exibida
+        window.addEventListener('load', () => {
+                                //pega os parâmetros da URL
+        const queryParams = new URLSearchParams(window.location.search);
+
+        //verifica se há uma mensagem e tipo presentes na URL
+        const mensagem = queryParams.get('message');
+        const tipo = queryParams.get('type');
+
+        //se tiver chama a função showToast com os parâmetros extraídos para exibir o toast
+        if (mensagem) {
+            showToast(mensagem, tipo);
+        }
+    });
+
+    </script>
 </body>
 </html>

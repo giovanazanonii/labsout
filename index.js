@@ -12,6 +12,7 @@ app.use(session({
   secret: 'nawd',
   resave: false,
   saveUninitialized: true,
+  cookie: { maxAge: 1000 * 60 * 30 }
 }));
 
 app.use("/",controleUsuario);

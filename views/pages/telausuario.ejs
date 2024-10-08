@@ -55,28 +55,12 @@
                             <th>Data</th>
                             <th>Período</th>
                             <th>Horários</th>
+                            <th>Status</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Edificações</td>
-                            <td>23/07/18</td>
-                            <td>Matutino</td>
-                            <td>Segunda Aula</td>
-                            <td class="action-cell">
-                                <button class="deletar-button"><i class="bi bi-trash3"></i></button>
-                            </td> 
-                        </tr>
-                        <tr>
-                            <td>Edificações</td>
-                            <td>23/07/18</td>
-                            <td>Matutino</td>
-                            <td>Segunda Aula</td>
-                            <td class="action-cell">
-                                <button class="deletar-button"><i class="bi bi-trash3"></i></button>
-                            </td> 
-                        </tr>
+                        
                     </tbody>
                 </table>
             </div>
@@ -86,51 +70,136 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        //sair do sistema
-        const botaoSair = document.getElementById('botaoSair');
-            botaoSair.addEventListener('click', function () {
-                Swal.fire({
-                    title: 'Sair do sistema?',
-                    text: "Você realmente deseja sair?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sim, sair!',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                    // Fazer a requisição de logout para o servidor
-                    fetch('/logout', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
+        document.addEventListener('DOMContentLoaded', function () {
+    
+            // Função para carregar as reservas do usuário
+            function carregarReservas() {
+                const id_usuario = document.body.dataset.idUsuario;
+               
+                fetch(`/telausuario/listar?id_usuario=${id_usuario}`)
                     .then(response => {
-                        if (response.ok) {
-                            Swal.fire(
-                                'Saída realizada!',
-                                'Você foi desconectado com sucesso.',
-                                'success'
-                            ).then(() => {
-                                // Redirecionar para a página inicial
-                                window.location.href = '/';
-                            });
-                        }else {
-                            return response.json().then(data => {
-                                Swal.fire('Erro', data.message || 'Erro ao sair do sistema.', 'error');
+                        if (!response.ok) throw new Error('Erro ao buscar reservas');
+                        return response.json();
+                    })
+                    .then(reservas => {
+                        const tbody = document.querySelector('.reservas tbody');
+                        tbody.innerHTML = '';
+                        
+                        reservas.forEach(reserva => {
+                            const tr = document.createElement('tr');
+                            tr.dataset.id = reserva.id_reserva;
+    
+                            tr.innerHTML = `
+                                <td>${reserva.nome_ambiente}</td>
+                                <td>${new Date(reserva.data_reserva).toLocaleDateString()}</td>
+                                <td>${reserva.descricao_periodo}</td>
+                                <td>${reserva.descricao_horario}</td>
+                                <td>${reserva.status}</td>
+                                <td class="action-cell">
+                                    <button class="deletar-button"><i class="bi bi-trash3"></i></button>
+                                </td>
+                            `;
+                            tbody.appendChild(tr);
                         });
-                    }
-                })
-                    .catch(error => {
-                        console.error('Erro ao tentar sair:', error);
-                        Swal.fire('Erro', 'Erro ao tentar sair do sistema.', 'error');
+
+                    //eventos de delete
+                    document.querySelectorAll('.deletar-button').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const row = this.closest('tr');
+                            const id = row.dataset.id;
+                            //aparecendo mensagem para confirmar delete
+                            Swal.fire({
+                                title: 'Cancelar reserva?',
+                                text: "Você não poderá desfazer essa ação!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Sim, cancelar!',
+                                cancelButtonText: 'Não desejo cancelar'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    fetch(`/telausuario/deletar/${id}`, {
+                                        method: 'DELETE'
+                                    })
+                                    .then(response => {
+                                        if (response.ok) {
+                                            carregarReservas();
+                                            Swal.fire(
+                                                'Cancelada!',
+                                                'A reserva foi cancelada.',
+                                                'success'
+                                            );
+                                        } else {
+                                            return response.json().then(data => {
+                                                Swal.fire('Erro', data.message || 'Erro ao cancelar reserva.', 'error');
+                                            });
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Erro ao cancelar reserva:', error);
+                                        Swal.fire('Erro', 'Erro ao cancelar reserva.', 'error');
+                                    });
+                                }
+                            });
+                        });
                     });
-                    }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao carregar reservas:', error);
+                    });
+            }
+    
+            carregarReservas(); // Carregar reservas ao iniciar a página
+    
+            // Sair do sistema
+            const botaoSair = document.getElementById('botaoSair');
+            if (botaoSair) {
+                botaoSair.addEventListener('click', function () {
+                    Swal.fire({
+                        title: 'Sair do sistema?',
+                        text: "Você realmente deseja sair?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sim, sair!',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch('/logout', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    Swal.fire(
+                                        'Saída realizada!',
+                                        'Você foi desconectado com sucesso.',
+                                        'success'
+                                    ).then(() => {
+                                        window.location.href = '/';
+                                    });
+                                } else {
+                                    return response.json().then(data => {
+                                        Swal.fire('Erro', data.message || 'Erro ao sair do sistema.', 'error');
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Erro ao tentar sair:', error);
+                                Swal.fire('Erro', 'Erro ao tentar sair do sistema.', 'error');
+                            });
+                        }
+                    });
                 });
-            });
-    </script>
+            } else {
+                console.error('Botão de sair não encontrado');
+            }
+        });
+    </script>         
 </body>
 </html>
 
