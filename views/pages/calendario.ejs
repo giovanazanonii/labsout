@@ -21,6 +21,9 @@
             font-size: 20px;
             margin-left: 10px;
         }
+        .reserved {
+            background-color: rgb(255, 115, 0);
+        }
     </style>
 </head>
 <body>
@@ -55,7 +58,7 @@
                     </tr>
                 </thead>
                 <tbody id="calendar-body">
-                    <!-- Dias serão gerados dinamicamente -->
+                    
                 </tbody>
             </table>
         </div>
@@ -135,8 +138,6 @@
             corpoCalendario.appendChild(linha);
         }
     }
-
-
         // Função para alterar o mês
         document.querySelector(".prev-month").addEventListener("click", () => {
             dataAtual.setMonth(dataAtual.getMonth() - 1);
