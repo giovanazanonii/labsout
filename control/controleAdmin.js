@@ -30,7 +30,6 @@ router.get("/laboratorios",(req,res)=>{
 // cancelar reserva
 router.put('/reservas/deletar/:id', (req, res) => {
     const id_reserva = req.params.id;
-    console.log(`Cancelando reserva ADMIN com ID: ${id_reserva}`);
 
 
     const consulta = 'UPDATE reservas SET status = ? WHERE id_reserva = ?';
