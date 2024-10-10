@@ -88,9 +88,8 @@
                             <td>${reserva.descricao_horario}</td>
                             <td>${reserva.status}</td>
                             <td class="action-cell">
-                                <button class="deletar-button" data-id="${reserva.id_reserva}"><i class="bi bi-trash3"></i></button>
-                            </td>
-                        `;
+                                    ${reserva.status === 'concluido' || reserva.status === 'cancelado' ? '' : '<button class="deletar-button"><i class="bi bi-trash3"></i></button>'}
+                                </td>`;
                         tbody.appendChild(tr);
                     });
 

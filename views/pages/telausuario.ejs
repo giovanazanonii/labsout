@@ -96,9 +96,8 @@
                                 <td>${reserva.descricao_horario}</td>
                                 <td>${reserva.status}</td>
                                 <td class="action-cell">
-                                    <button class="deletar-button"><i class="bi bi-trash3"></i></button>
-                                </td>
-                            `;
+                                    ${reserva.status === 'concluido' ? '' : '<button class="deletar-button"><i class="bi bi-trash3"></i></button>'}
+                                </td>`;
                             tbody.appendChild(tr);
                         });
 
@@ -120,11 +119,11 @@
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     fetch(`/telausuario/deletar/${id}`, {
-                                        method: 'DELETE'
+                                        method: 'PUT'
                                     })
                                     .then(response => {
                                         if (response.ok) {
-                                            carregarReservas();
+                                            row.remove();
                                             Swal.fire(
                                                 'Cancelada!',
                                                 'A reserva foi cancelada.',
