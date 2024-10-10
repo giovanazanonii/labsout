@@ -80,6 +80,8 @@
 
                     reservas.forEach(reserva => {
                         const tr = document.createElement('tr');
+                        tr.dataset.id = reserva.id_reserva;
+
                         tr.innerHTML = `
                             <td>${reserva.nome_usuario}</td>
                             <td>${reserva.nome_ambiente}</td>
@@ -96,7 +98,8 @@
                     // Adicionar eventos para os botões de deletar
                     document.querySelectorAll('.deletar-button').forEach(button => {
                         button.addEventListener('click', function () {
-                            const id = this.dataset.id;
+                            const row = this.closest('tr');
+                            const id = row.dataset.id;
                             Swal.fire({
                                 title: 'Cancelar reserva?',
                                 text: "Você não poderá desfazer essa ação!",
@@ -108,8 +111,8 @@
                                 cancelButtonText: 'Não desejo cancelar'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    fetch(`/telausuario/deletar/${id}`, {
-                                        method: 'DELETE'
+                                    fetch(`/reservas/deletar/${id}`, {
+                                        method: 'PUT'
                                     })
                                     .then(response => {
                                         if (response.ok) {

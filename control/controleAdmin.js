@@ -26,6 +26,24 @@ router.get("/cadastrarusuario",(req,res)=>{
 router.get("/laboratorios",(req,res)=>{
     res.render("pages/laboratorios")
 })
+
+// cancelar reserva
+router.put('/reservas/deletar/:id', (req, res) => {
+    const id_reserva = req.params.id;
+    console.log(`Cancelando reserva ADMIN com ID: ${id_reserva}`);
+
+
+    const consulta = 'UPDATE reservas SET status = ? WHERE id_reserva = ?';
+    const novoStatus = 'cancelado';
+
+    conexao.query(consulta, [novoStatus, id_reserva], (err) => {
+        if (err) {
+            return res.status(500).json({ message: 'Erro ao cancelar reserva.' });
+        }
+        res.status(200).json({ message: 'Reserva cancelada com sucesso!' });
+    });
+});
+
 // histórico de reservas
 router.get('/reservas/listar',(req,res)=>{
     const sql = `

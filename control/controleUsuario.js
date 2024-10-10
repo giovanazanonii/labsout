@@ -54,7 +54,6 @@ router.get('/datas',(req,res)=>{
 
 // listando as reservas do usuario
 router.get('/telausuario/listar', (req, res) => {
-
         // Agora, busca as reservas do usuário
         const buscareservas = `
             SELECT r.id_reserva, a.nome_ambiente, r.data_reserva, 
