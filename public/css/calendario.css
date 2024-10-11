@@ -102,6 +102,7 @@ td {
 }
 
 td:hover {
+    border-radius: 20px; 
     background-color: #e5e5e5;
 }
 

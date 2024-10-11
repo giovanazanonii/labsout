@@ -44,17 +44,17 @@ body {
     text-decoration: none;
     font-weight: bold;
     padding: 5px;
-    display: block; /* Faz com que o padding e o hover se apliquem ao link inteiro */
-    transition: color 0.3s, background-color 0.3s; /* Transição suave para as mudanças de cor */
+    display: block;
+    transition: color 0.3s, background-color 0.3s; 
 }
 
 .navbar-menu li a:hover {
-    background-color: #6e4a76; /* Cor de fundo quando o cursor passa por cima */
-    color: #fff; /* Cor do texto quando o cursor passa por cima */
-    border-radius: 5px; /* Arredonda os cantos do fundo */
+    background-color: #6e4a76; 
+    color: #fff;
+    border-radius: 5px;
 }
 .navbar a:hover {
-    color: #ddd; /* Cor do texto ao passar o cursor sobre qualquer link da navbar */
+    color: #ddd;
 }   
 
 .icon-sair {
@@ -138,9 +138,9 @@ th, td {
 
 .action-cell {
     display: flex;
-    justify-content: center;  /* Centraliza os botões na célula */
-    align-items: center;      /* Alinha verticalmente os botões */
-    gap: -5px;                /* Espaçamento entre os botões */
+    justify-content: center;  
+    align-items: center;     
+    gap: -5px;               
 }
 
 .edit-button, 

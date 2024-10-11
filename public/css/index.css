@@ -73,12 +73,12 @@ img {
   display: flex;
   justify-content: space-around;
   padding: 1em 0;
-  z-index: 1000; /* Garantir que esteja acima de outros elementos */
+  z-index: 1000;
 }
 
 .vantagem {
   text-align: center;
-  transition: transform 0.2s ease; /* Transição suave para a transformação */
+  transition: transform 0.2s ease;
 }
 
 .vantagem i {
@@ -87,7 +87,7 @@ img {
 }
 
 .vantagem:hover {
-  transform: translateY(-16px); /* Move o ícone para cima */
+  transform: translateY(-16px);
 }
 
 .vantagem p {
