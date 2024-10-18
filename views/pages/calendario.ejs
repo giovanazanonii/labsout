@@ -25,6 +25,11 @@
             border-radius: 20px; 
             background-color: orange;
         }
+        .red {
+        border-radius: 20px;
+        background-color: red;
+        }
+
     </style>
 </head>
 <body>
@@ -73,14 +78,25 @@
         // Função para buscar datas cadastradas
         async function buscarDatasCadastradas() {
             try {
-                const response = await fetch('/datas');
+                const response = await fetch(`/datas/${ambienteId}`);
                 const dados = await response.json();
-                datasCadastradas = dados.map(d => d.data_reserva.split('T')[0]); // mapear um array de datas
+
+                datasCadastradas = dados.reduce((acc, { data, contagem }) => {
+                acc[data] = contagem; // Armazena a contagem de reservas por data
+                return acc;
+                }, {});
+
                 renderizarCalendario();
+
+
             } catch (error) {
                 console.error('Erro ao buscar datas cadastradas:', error);
             }
         }
+
+
+
+
         // Obtém o ID do ambiente da URL
         const pathSegments = window.location.pathname.split('/');
         const ambienteId = pathSegments[pathSegments.length - 1]; // Pega o último segmento da URL
@@ -125,8 +141,14 @@
                     const dataComparada = new Date(ano, mes, dia);
                     const dataFormatada = dataComparada.toISOString().split('T')[0]; // Formato YYYY-MM-DD
                     
-                    if (datasCadastradas.includes(dataFormatada)) {
-                        td.classList.add("reserved");
+                    
+                    // Verifica a contagem de reservas para a data
+                    if (datasCadastradas[dataFormatada]) {
+                        if (datasCadastradas[dataFormatada] === 1) {
+                            td.classList.add("reserved");
+                        } else if (datasCadastradas[dataFormatada] > 1) {
+                            td.classList.add("red");
+                        }
                     }
 
                     // Desabilita qualquer dia anterior à data atual
