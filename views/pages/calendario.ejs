@@ -144,9 +144,9 @@
                     
                     // Verifica a contagem de reservas para a data
                     if (datasCadastradas[dataFormatada]) {
-                        if (datasCadastradas[dataFormatada] === 1) {
+                        if (datasCadastradas[dataFormatada]<=15) {
                             td.classList.add("reserved");
-                        } else if (datasCadastradas[dataFormatada] > 1) {
+                        } else if (datasCadastradas[dataFormatada] >= 16) {
                             td.classList.add("red");
                         }
                     }

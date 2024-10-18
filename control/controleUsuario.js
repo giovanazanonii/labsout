@@ -47,21 +47,18 @@ router.get('/datas/:id_ambiente', (req, res) => {
     const id_ambiente = req.params.id_ambiente;
     const sql = `
         SELECT data_reserva, COUNT(*) as contagem 
-        FROM reservas 
+        FROM reservas  
         WHERE id_ambiente = ? AND status = 'confirmado' 
-        GROUP BY data_reserva
-    `;
+        GROUP BY data_reserva`;
 
     conexao.query(sql, [id_ambiente], (err, resultados) => {
         if (err) {
             return res.status(500).json({ message: 'Erro ao obter data cadastrada' });
-        }console.log('Resultados:', resultados);
-
+        }
         const datasReservadas = resultados.map(r => ({
             data: r.data_reserva.toISOString().split('T')[0],
             contagem: r.contagem
         }));
-
         res.json(datasReservadas);
     });
 });
