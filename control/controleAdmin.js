@@ -9,7 +9,7 @@ router.use(express.urlencoded({ extended: true }));
 
 //rotas
 router.get("/inicialadmin",(req,res)=>{
-    res.render("pages/inicialadmin")
+    res.render("pages/inicialadmin", { usuario: req.session.usuario })
 })
 router.get("/usuarios",(req,res)=>{
     res.render("pages/usuarios")
