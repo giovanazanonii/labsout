@@ -34,7 +34,7 @@
 
         <div class="navbar-center"></div>
             <ul class="navbar-menu">
-                <li><a href="/cadastroambiente">Cadastrar Ambientes</a></li>
+                <li><a href="/cadastrarsetor">Cadastrar Setor</a></li>
             </ul>
         </div>
 
@@ -45,7 +45,7 @@
 
     <div class="container">
         <header>
-            <h1>Laboratórios</h1>
+            <h1>Setores</h1>
         </header>
     </div>
     <div class="container2">
@@ -55,8 +55,8 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Capacidade</th>
-                            <th>Setor</th>
+                            <th>Descrição</th>
+                            <th>Localização</th>
                             <th>Responsável</th>
                             <th>Contato</th>
                             <th></th>
@@ -73,31 +73,30 @@
             
     //criando uma função para atualizar a página automaticamente após um delete
         function carregarLaboratorios() {
-            fetch('/laboratorios/listar')
+            fetch('/setores/listar')
                 .then(response => response.json())
                 .then(listar => {
                     const tbody = document.querySelector('tbody');
                     tbody.innerHTML = '';
 
-                    listar.forEach(laboratorio => {
+                    listar.forEach(setor_ambiente => {
                         const tr = document.createElement('tr');
-                        tr.dataset.id = laboratorio.id_ambiente;
+                        tr.dataset.id = setor_ambiente.id_setor_ambiente;
 
                         tr.innerHTML = `
-                            <td>${laboratorio.nome_ambiente}</td>
-                            <td>${laboratorio.capacidade_ambiente}</td>
-                            
-                            <td>${laboratorio.tipo}</td>
-                            <td>${laboratorio.nome_responsavel}</td>
-                            <td>${laboratorio.email_responsavel}</td>
-                            <td class="action-cell">
-                                <a href="/cadastroambiente/${laboratorio.id_ambiente}" class="edit-button">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <button class="deletar-button"><i class="bi bi-trash3"></i></button>
-                            </td>
-                        `;
-                        tbody.appendChild(tr);
+                        <td>${setor_ambiente.nome_setor}</td>
+                        <td>${setor_ambiente.descricao_setor}</td>
+                        <td>${setor_ambiente.localizacao_setor}</td>
+                        <td>${setor_ambiente.nome_responsavel}</td>
+                        <td>${setor_ambiente.email_responsavel}</td>
+                        <td class="action-cell">
+                            <a href="/cadastroambiente/${setor_ambiente.id_ambiente}" class="edit-button">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <button class="deletar-button"><i class="bi bi-trash3"></i></button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
                     });
 
                     //eventos de delete

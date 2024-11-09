@@ -54,7 +54,7 @@
     
         <div class="navbar-center">
             <ul class="navbar-menu">
-                <li><a href="/laboratorios">Ambientes</a></li>
+                <li><a href="/setores">Setores</a></li>
             </ul>
         </div>
     
@@ -63,7 +63,7 @@
         </div>
     </nav>
     
-    <h1><strong>CADASTRAR AMBIENTES</strong></h1>
+    <h1><strong>CADASTRAR SETORES</strong></h1>
     <div id="feedbackToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-body">
             <span id="feedbackMessage"></span>
@@ -73,46 +73,28 @@
     </div>
     <div class="square">
         <div class="ambiente">
-            <form method="POST" action="/<%= ambiente ? 'atualizarambiente/' + ambiente.id_ambiente : 'cadastroambiente' %>" onsubmit="return validarFormulario()">
+            <form method="POST" onsubmit="return validarFormulario()">
                 <div class="form-group">
-                    <label for="nomeambiente">Nome do ambiente:</label>
-                    <input type="text" class="form-control" id="nomeambiente" name="nomeambiente" value="<%= ambiente ? ambiente.nome_ambiente : '' %>" placeholder="Digite o nome do laboratório">
+                    <label for="nomeambiente">Nome do Setor:</label>
+                    <input type="text" class="form-control" id="nomeambiente" name="nome_setor" placeholder="Digite o nome do setor">
                 </div>
                 <div class="form-group">
-                    <label for="capacidade">Capacidade de alunos:</label>
-                    <input type="text" class="form-control" id="capacidade" name="capacidade" value="<%= ambiente ? ambiente.capacidade_ambiente : '' %>" placeholder="Digite a capacidade">
+                    <label for="capacidade">Responsável pelo Setor:</label>
+                    <input type="text" class="form-control" id="capacidade" name="responsavel" placeholder="Digite o responsável pelo setor">
                 </div>
                 <div class="form-group">
-                    <label for="localizacao">Localização:</label>
-                    <input type="text" class="form-control" id="localizacao" name="localizacao" value="<%= ambiente ? ambiente.localizacao_ambiente : '' %>" placeholder="Digite a localização do laboratório">
-                </div>
-                <div class="form-group">
-                    <label for="capacidade">Responsável pelo ambiente:</label>
-                    <input type="text" class="form-control" id="capacidade" name="responsavel_ambiente" placeholder="Digite o responsável pelo ambiente">
-                </div>
-                <div class="form-group">
-                    <label for="capacidade">Contato do responsável:</label>
+                    <label for="capacidade">Contato Responsável pelo Setor:</label>
                     <input type="text" class="form-control" id="capacidade" name="contato_responsavel" placeholder="Digite o contato">
                 </div>
-
                 <div class="form-group">
-                    <label for="tipo">Setor do ambiente:</label>
-                    <select class="form-control" id="tipo" name="tipo">
-                        <% if (setores && setores.length > 0) { %>
-                            <% setores.forEach(function(setor) { %>
-                                <option value="<%= setor.id_setor_ambiente %>" 
-                                    <%= ambiente && ambiente.id_setor_ambiente == setor.id_setor_ambiente ? 'selected' : '' %>>
-                                    <%= setor.nome_setor %>
-                                </option>
-                            <% }); %>
-                        <% } else { %>
-                            <option value="">Nenhum setor disponível</option>
-                        <% } %>
-                    </select>
+                    <label for="capacidade">Descrição do Setor:</label>
+                    <input type="text" class="form-control" id="capacidade" name="descricao_setor"  placeholder="Digite a descrição do setor">
                 </div>
-                
-
-                <button type="submit" class="btn btn-primary"><strong><%= ambiente ? 'Atualizar' : 'Cadastrar' %></strong></button>
+                <div class="form-group">
+                    <label for="localizacao">Localização do Setor:</label>
+                    <input type="text" class="form-control" id="localizacao" name="localizacao_setor"  placeholder="Digite a localização do setor">
+                </div>
+                <button type="submit" class="btn btn-primary"><strong></strong></button>
             </form>
             
         </div>

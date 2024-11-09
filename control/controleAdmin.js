@@ -18,10 +18,16 @@ router.get("/reservas",(req,res)=>{
     res.render("pages/reservas")
 })
 router.get("/cadastroambiente",(req,res)=>{
-    res.render("pages/cadastroambiente", { ambiente: undefined })
+    res.render("pages/cadastroambiente", { ambiente: undefined, setores:undefined })
 })
 router.get("/cadastrarusuario",(req,res)=>{
     res.render("pages/cadastrarusuario", { usuario: undefined })
+})
+router.get("/cadastrarsetor",(req,res)=>{
+    res.render("pages/cadastrarsetor")
+})
+router.get("/setores",(req,res)=>{
+    res.render("pages/setores")
 })
 router.get("/laboratorios",(req,res)=>{
     res.render("pages/laboratorios")
@@ -71,24 +77,34 @@ router.post('/logout', (req, res) => {
 });
 
 // carregar ambientes com seus respectivos dados pronto  para editar
-router.get('/cadastroambiente/:id', (req, res) => {
+router.get('/cadastroambiente/:id?', (req, res) => {
     const id = req.params.id;
-    const consulta = 'SELECT * FROM ambientes WHERE id_ambiente = ?';
+    const consultaSetores = 'SELECT * FROM setor_ambiente';
 
-    conexao.query(consulta, [id], function (err, resultado) {
+    conexao.query(consultaSetores, function (err, setores) {
         if (err) {
-            console.error(err);
-            return res.redirect('/laboratorios?message=Erro ao carregar o ambiente.&type=danger');
+            console.error('Erro ao consultar setores:', err);
+            return res.render('pages/cadastroambiente', { ambiente: undefined, setores: undefined });
         }
 
-        if (resultado.length > 0) {
-            const ambiente = resultado[0];
-            res.render('pages/cadastroambiente', { ambiente }); // Certifique-se de que o caminho esteja correto
-        } else {
-            res.redirect('/laboratorios?message=Ambiente não encontrado.&type=danger');
-        }
+        const id = req.params.id;
+
+        if (id) {
+            const consultaAmbiente = 'SELECT * FROM ambientes WHERE id_ambiente = ?';
+            conexao.query(consultaAmbiente, [id], function (err, resultado) {
+                if (err) {
+                    console.error('Erro ao consultar ambiente:', err);
+                    return res.redirect('/laboratorios?message=Erro ao carregar o ambiente.&type=danger');
+                }
+                const ambiente = resultado.length > 0 ? resultado[0] : null;
+                res.render('pages/cadastroambiente', { ambiente, setores });
+            });
+            } else {
+                res.render('pages/cadastroambiente', { ambiente: undefined, setores });
+            }
+        });
     });
-});
+
 
 
 // editar um ambiente existente
@@ -112,19 +128,49 @@ router.post('/atualizarambiente/:id', (req, res) => {
 router.post('/cadastroambiente', (req, res) => {
     const nomeAmbiente = req.body.nomeambiente;
     const capacidade = req.body.capacidade;
-    const localizacao = req.body.localizacao;
-    const tipo = req.body.tipo;
 
-    const consulta = 'INSERT INTO ambientes (nome_ambiente, capacidade_ambiente, localizacao_ambiente, id_tipo_ambiente) VALUES (?, ?, ?, ?)';
+    const consultaSetores = 'SELECT * FROM setor_ambiente';
 
-    conexao.query(consulta, [nomeAmbiente, capacidade, localizacao, tipo], function (err) {
+    conexao.query(consultaSetores, function (err, setores) {
         if (err) {
-            return res.redirect('/cadastroambiente?message=Erro ao cadastrar ambiente.&type=danger');
-        } else {
-            res.redirect('/cadastroambiente?message=Ambiente cadastrado com sucesso!&type=success');
+            console.error('Erro ao consultar setores:', err);
+            return res.render('pages/cadastroambiente', { 
+                ambiente: undefined, 
+                setores: []
+            });
         }
+        
+        const consulta = 'INSERT INTO ambientes (nome_ambiente, capacidade_ambiente,  id_setor_ambiente, nome_responsavel, email_responsavel) VALUES (?, ?, ?, ?,?)';
+
+        conexao.query(consulta, [nomeAmbiente, capacidade, id_setor_ambiente, nome_responsavel,email_responsavel], function (err) {
+            if (err) {
+                console.error('Erro ao cadastrar ambiente:', err);
+                return res.render('pages/cadastroambiente', {
+                    ambiente: undefined,
+                    setores, // Passa a lista de setores
+                    message: 'Erro ao cadastrar ambiente.',
+                    type: 'danger'
+                });
+            } else {
+                // Redireciona em caso de sucesso
+                res.redirect('/cadastroambiente?message=Ambiente cadastrado com sucesso!&type=success');
+            }
+        });
     });
 });
+
+
+// visualizar todos os setores - admin
+router.get('/setores/listar', (req, res) => {
+    conexao.query('SELECT * FROM setor_ambiente', (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Erro ao consultar o banco de dados' });
+        }
+        const resultadoTipo = results
+        res.json(resultadoTipo);
+    });
+});
+
 
 // visualizar todos os ambientes - admin
 router.get('/laboratorios/listar', (req, res) => {
@@ -142,7 +188,7 @@ router.get('/laboratorios/listar', (req, res) => {
         };
         const resultadoTipo = results.map(ambiente => ({
             ...ambiente,
-            tipo: tipoLab[ambiente.id_tipo_ambiente]
+            tipo: tipoLab[ambiente.id_setor_ambiente]
         }));
         res.json(resultadoTipo);
     });
