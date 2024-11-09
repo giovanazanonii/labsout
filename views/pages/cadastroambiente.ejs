@@ -83,35 +83,24 @@
                     <input type="text" class="form-control" id="capacidade" name="capacidade" value="<%= ambiente ? ambiente.capacidade_ambiente : '' %>" placeholder="Digite a capacidade">
                 </div>
                 <div class="form-group">
-                    <label for="localizacao">Localização:</label>
-                    <input type="text" class="form-control" id="localizacao" name="localizacao" value="<%= ambiente ? ambiente.localizacao_ambiente : '' %>" placeholder="Digite a localização do laboratório">
-                </div>
-                <div class="form-group">
                     <label for="capacidade">Responsável pelo ambiente:</label>
-                    <input type="text" class="form-control" id="capacidade" name="responsavel_ambiente" placeholder="Digite o responsável pelo ambiente">
+                    <input type="text" class="form-control" id="responsavel_ambiente" name="responsavel_ambiente" value="<%= ambiente ? ambiente.nome_responsavel : '' %>" placeholder="Digite o responsável pelo ambiente">
                 </div>
                 <div class="form-group">
-                    <label for="capacidade">Contato do responsável:</label>
-                    <input type="text" class="form-control" id="capacidade" name="contato_responsavel" placeholder="Digite o contato">
+                    <label for="capacidade">E-mail do responsável:</label>
+                    <input type="text" class="form-control" id="email_responsavel" name="email_responsavel" value="<%= ambiente ? ambiente.email_responsavel : '' %>" placeholder="Digite o e-mail">
                 </div>
 
                 <div class="form-group">
                     <label for="tipo">Setor do ambiente:</label>
-                    <select class="form-control" id="tipo" name="tipo">
-                        <% if (setores && setores.length > 0) { %>
-                            <% setores.forEach(function(setor) { %>
-                                <option value="<%= setor.id_setor_ambiente %>" 
-                                    <%= ambiente && ambiente.id_setor_ambiente == setor.id_setor_ambiente ? 'selected' : '' %>>
-                                    <%= setor.nome_setor %>
-                                </option>
-                            <% }); %>
-                        <% } else { %>
-                            <option value="">Nenhum setor disponível</option>
-                        <% } %>
+                    <select class="form-control" id="id_setor_ambiente" name="id_setor_ambiente">
+                        <% setores.forEach(function(setor) { %>
+                            <option value="<%= setor.id_setor_ambiente %>">
+                                <%= setor.nome_setor %>
+                            </option>
+                        <% }); %>
                     </select>
                 </div>
-                
-
                 <button type="submit" class="btn btn-primary"><strong><%= ambiente ? 'Atualizar' : 'Cadastrar' %></strong></button>
             </form>
             

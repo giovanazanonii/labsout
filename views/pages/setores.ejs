@@ -72,7 +72,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             
     //criando uma função para atualizar a página automaticamente após um delete
-        function carregarLaboratorios() {
+        function carregarSetores() {
             fetch('/setores/listar')
                 .then(response => response.json())
                 .then(listar => {
@@ -81,7 +81,7 @@
 
                     listar.forEach(setor_ambiente => {
                         const tr = document.createElement('tr');
-                        tr.dataset.id = setor_ambiente.id_setor_ambiente;
+                        tr.dataset.id_setor_ambiente = setor_ambiente.id_setor_ambiente;
 
                         tr.innerHTML = `
                         <td>${setor_ambiente.nome_setor}</td>
@@ -90,7 +90,7 @@
                         <td>${setor_ambiente.nome_responsavel}</td>
                         <td>${setor_ambiente.email_responsavel}</td>
                         <td class="action-cell">
-                            <a href="/cadastroambiente/${setor_ambiente.id_ambiente}" class="edit-button">
+                            <a href="/cadastrarsetor/${setor_ambiente.id_setor_ambiente}" class="edit-button">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
                             <button class="deletar-button"><i class="bi bi-trash3"></i></button>
@@ -103,10 +103,11 @@
                     document.querySelectorAll('.deletar-button').forEach(button => {
                         button.addEventListener('click', function () {
                             const row = this.closest('tr');
-                            const id = row.dataset.id;
+                            const id = row.dataset.id_setor_ambiente;
+
                             //aparecendo mensagem para confirmar delete
                             Swal.fire({
-                                title: 'Deletar laboratório?',
+                                title: 'Deletar Setor?',
                                 text: "Você não poderá desfazer essa ação!",
                                 icon: 'warning',
                                 showCancelButton: true,
@@ -116,27 +117,27 @@
                                 cancelButtonText: 'Cancelar'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    fetch(`/laboratorios/deletar/${id}`, {
+                                    fetch(`/setor/deletar/${id}`, {
                                         method: 'DELETE'
                                     })
                                     .then(response => {
                                         if (response.ok) {
-                                            carregarLaboratorios(); // recarregar a tabela
+                                            carregarSetores(); // recarregar a tabela
                                             //aparecendo mensagem de confirmação de delete
                                             Swal.fire(
                                                 'Excluído!',
-                                                'O laboratório foi excluído.',
+                                                'O Setor foi excluído.',
                                                 'success'
                                             );
                                         } else {
                                             return response.json().then(data => {
-                                                Swal.fire('Erro', data.message || 'Erro ao excluir o laboratório.', 'error');
+                                                Swal.fire('Erro', data.message || 'Erro ao excluir o Setor.', 'error');
                                             });
                                         }
                                     })
                                     .catch(error => {
-                                        console.error('Erro ao excluir o laboratório:', error);
-                                        Swal.fire('Erro', 'Erro ao excluir o laboratório.', 'error');
+                                        console.error('Erro ao excluir o setor:', error);
+                                        Swal.fire('Erro', 'Erro ao excluir o setor.', 'error');
                                     });
                                 }
                             });
@@ -148,7 +149,7 @@
                 });
         }
 
-        carregarLaboratorios(); // carregar a lista de laboratórios ao iniciar a página
+        carregarSetores();
 
         //sair do sistema
         const botaoSair = document.getElementById('botaoSair');

@@ -18,13 +18,23 @@ router.get("/reservas",(req,res)=>{
     res.render("pages/reservas")
 })
 router.get("/cadastroambiente",(req,res)=>{
-    res.render("pages/cadastroambiente", { ambiente: undefined, setores:undefined })
+    // Defina a consulta para pegar os setores
+    const consultaSetores = 'SELECT * FROM setor_ambiente';
+    conexao.query(consultaSetores, function (err, setores) {
+        if (err) {
+            console.error('Erro ao consultar setores:', err);
+            return res.render('pages/cadastroambiente', { ambiente: undefined, setores: [] });
+        }
+        // Renderize a página passando os setores
+        res.render('pages/cadastroambiente', { ambiente: undefined, setores });
+    });
 })
+
 router.get("/cadastrarusuario",(req,res)=>{
     res.render("pages/cadastrarusuario", { usuario: undefined })
 })
 router.get("/cadastrarsetor",(req,res)=>{
-    res.render("pages/cadastrarsetor")
+    res.render("pages/cadastrarsetor",{ setor_ambiente: undefined })
 })
 router.get("/setores",(req,res)=>{
     res.render("pages/setores")
@@ -36,7 +46,6 @@ router.get("/laboratorios",(req,res)=>{
 // cancelar reserva
 router.put('/reservas/deletar/:id', (req, res) => {
     const id_reserva = req.params.id;
-
 
     const consulta = 'UPDATE reservas SET status = ? WHERE id_reserva = ?';
     const novoStatus = 'cancelado';
@@ -76,7 +85,7 @@ router.post('/logout', (req, res) => {
     });
 });
 
-// carregar ambientes com seus respectivos dados pronto  para editar
+// carregar o formulário de cadastro
 router.get('/cadastroambiente/:id?', (req, res) => {
     const id = req.params.id;
     const consultaSetores = 'SELECT * FROM setor_ambiente';
@@ -84,10 +93,8 @@ router.get('/cadastroambiente/:id?', (req, res) => {
     conexao.query(consultaSetores, function (err, setores) {
         if (err) {
             console.error('Erro ao consultar setores:', err);
-            return res.render('pages/cadastroambiente', { ambiente: undefined, setores: undefined });
+            return res.render('pages/cadastroambiente', { ambiente: undefined, setores: []});
         }
-
-        const id = req.params.id;
 
         if (id) {
             const consultaAmbiente = 'SELECT * FROM ambientes WHERE id_ambiente = ?';
@@ -99,13 +106,36 @@ router.get('/cadastroambiente/:id?', (req, res) => {
                 const ambiente = resultado.length > 0 ? resultado[0] : null;
                 res.render('pages/cadastroambiente', { ambiente, setores });
             });
-            } else {
-                res.render('pages/cadastroambiente', { ambiente: undefined, setores });
-            }
-        });
+        } else {
+            res.render('pages/cadastroambiente', { ambiente: undefined, setores });
+        }
     });
+});
+// carregar o formulário de usuario
+router.get('/cadastrarusuario/:id?', (req, res) => {
+    const id = req.params.id;
+    const consulta = 'SELECT * FROM usuario';
 
-
+    conexao.query(consulta, function (err, setores) {
+        if (err) {
+            console.error('Erro ao consultar usuários:', err);
+            return res.render('pages/cadastrarusuario');
+        }
+        if (id) {
+            const consulta = 'SELECT * FROM usuario WHERE id_usuario = ?';
+            conexao.query(consulta, [id], function (err, resultado) {
+                if (err) {
+                    console.error('Erro ao consultar usuário:', err);
+                    return res.redirect('/laboratorios?message=Erro ao carregar o usuário.&type=danger');
+                }
+                const usuario = resultado.length > 0 ? resultado[0] : null;
+                res.render('pages/cadastrarusuario', { usuario});
+            });
+        } else {
+            res.render('pages/cadastrarusuario');
+        }
+    });
+});
 
 // editar um ambiente existente
 router.post('/atualizarambiente/:id', (req, res) => {
@@ -124,35 +154,29 @@ router.post('/atualizarambiente/:id', (req, res) => {
 });
 
 
-//cadastrando ambientes
+// Rota POST para cadastrar novo ambiente
 router.post('/cadastroambiente', (req, res) => {
-    const nomeAmbiente = req.body.nomeambiente;
-    const capacidade = req.body.capacidade;
-
+    const { nomeambiente, capacidade, id_setor_ambiente, responsavel_ambiente, email_responsavel } = req.body;
     const consultaSetores = 'SELECT * FROM setor_ambiente';
-
+    
     conexao.query(consultaSetores, function (err, setores) {
         if (err) {
             console.error('Erro ao consultar setores:', err);
             return res.render('pages/cadastroambiente', { 
                 ambiente: undefined, 
-                setores: []
+                setores,
+                message: 'Erro ao carregar setores.',
+                type: 'danger'
             });
         }
-        
-        const consulta = 'INSERT INTO ambientes (nome_ambiente, capacidade_ambiente,  id_setor_ambiente, nome_responsavel, email_responsavel) VALUES (?, ?, ?, ?,?)';
 
-        conexao.query(consulta, [nomeAmbiente, capacidade, id_setor_ambiente, nome_responsavel,email_responsavel], function (err) {
+        // Inserção do novo ambiente
+        const consulta = 'INSERT INTO ambientes (nome_ambiente, capacidade_ambiente, id_setor_ambiente, nome_responsavel, email_responsavel) VALUES (?, ?, ?, ?, ?)';
+        conexao.query(consulta, [nomeambiente, capacidade, id_setor_ambiente, responsavel_ambiente, email_responsavel], function (err) {
             if (err) {
                 console.error('Erro ao cadastrar ambiente:', err);
-                return res.render('pages/cadastroambiente', {
-                    ambiente: undefined,
-                    setores, // Passa a lista de setores
-                    message: 'Erro ao cadastrar ambiente.',
-                    type: 'danger'
-                });
+                return res.render('pages/cadastroambiente', {ambiente: undefined, setores, message: 'Erro ao cadastrar ambiente.', type: 'danger'});
             } else {
-                // Redireciona em caso de sucesso
                 res.redirect('/cadastroambiente?message=Ambiente cadastrado com sucesso!&type=success');
             }
         });
@@ -194,6 +218,42 @@ router.get('/laboratorios/listar', (req, res) => {
     });
 });
 
+// carregar o formulário de setor
+router.get('/cadastrarsetor/:id?', (req, res) => {
+    const id = req.params.id;
+
+        if (id) {
+            const consultaSetores = 'SELECT * FROM setor_ambiente WHERE id_setor_ambiente = ?';
+            conexao.query(consultaSetores, [id], function (err, resultado) {
+                if (err) {
+                    console.error('Erro ao consultar setor:', err);
+                    return res.redirect('/setores?message=Erro ao carregar o ambiente.&type=danger');
+                }
+                const setor_ambiente = resultado.length > 0 ? resultado[0] : null;
+                res.render('pages/cadastrarsetor', { setor_ambiente});
+            });
+            
+        }else {
+            res.render('pages/cadastrarsetor', {setor_ambiente: undefined});
+        }
+    });
+
+// editar um setor existente
+router.post('/atualizarsetor/:id', (req, res) => {
+    const idsetor = req.params.id;
+    const { nome_setor, responsavel, contato_responsavel, descricao_setor,localizacao_setor } = req.body;
+
+    const consulta = 'UPDATE setor_ambiente SET nome_setor = ?, descricao_setor = ?, localizacao_setor = ?, nome_responsavel = ?, email_responsavel=? WHERE id_setor_ambiente = ?';
+    
+    conexao.query(consulta, [nome_setor, responsavel, contato_responsavel, descricao_setor,localizacao_setor, idsetor], (err) => {
+        if (err) {
+            console.error(err);
+            return res.redirect(`/cadastrarsetor/${idsetor}?message=Erro ao atualizar setor.&type=danger`);
+        }
+        res.redirect(`/cadastrarsetor/${idsetor}?message=Setor atualizado com sucesso!&type=success`);
+    });
+});
+
 // deletando laboratorios
 router.delete('/laboratorios/deletar/:id', (req, res) => {
     const idAmbiente = req.params.id;
@@ -208,30 +268,6 @@ router.delete('/laboratorios/deletar/:id', (req, res) => {
     });
 });
 
-//carregar usuarios com seus respectivos dados pronto  para editar
-router.get('/cadastrarusuario/:id?', (req, res) => {
-    const id = req.params.id;
-
-    if (id) {
-        const consulta = 'SELECT * FROM usuario WHERE id_usuario = ?';
-        conexao.query(consulta, [id], function (err, resultado) {
-            if (err) {
-                console.error(err);
-                return res.redirect('/usuarios?message=Erro ao carregar o usuário.&type=danger');
-            }
-            if (resultado.length > 0) {
-                const usuario = resultado[0];
-                res.render('pages/cadastrarusuario', { usuario });
-            } else {
-                res.redirect('/usuarios?message=Usuário não encontrado.&type=danger');
-            }
-        });
-    } else {
-        res.render('pages/cadastrarusuario');
-    }
-});
-
-
 //atualiza um usuario ja existente
 router.post('/atualizarusuario/:id', (req, res) => {
     const id = req.params.id;
@@ -245,6 +281,38 @@ router.post('/atualizarusuario/:id', (req, res) => {
             return res.redirect(`/cadastrarusuario/${id}?message=Erro ao atualizar usuário.&type=danger`);
         }
         res.redirect(`/cadastrarusuario/${id}?message=Usuário atualizado com sucesso!&type=success`);
+    });
+});
+
+
+//cadastrar um setor
+router.post('/cadastrarsetor', (req, res) => {
+    const {nome_setor, descricao_setor, localizacao_setor,responsavel, contato_responsavel } = req.body;
+    
+    const query = `
+        INSERT INTO setor_ambiente (nome_setor, descricao_setor, localizacao_setor, nome_responsavel, email_responsavel)
+        VALUES (?, ?, ?, ?, ?)
+    `;
+
+    conexao.query(query, [nome_setor, descricao_setor, localizacao_setor,responsavel, contato_responsavel], (err, results) => {
+        if (err) {
+            console.error("Erro ao inserir no banco de dados:", err);
+            return res.status(500).send('Erro ao cadastrar o setor.');
+        }
+        res.redirect('/cadastrarsetor?message=Setor cadastrado com sucesso!&type=success');
+    });
+});
+
+//deletar setor
+router.delete('/setor/deletar/:id', (req, res) => {
+    const setor_id = req.params.id;
+    const consulta = 'DELETE FROM setor_ambiente WHERE id_setor_ambiente = ?';
+  
+    conexao.query(consulta, [setor_id], (err, result) => {
+        if (err) {
+            return res.status(500).json({ message: 'Erro ao excluir o setor.' });
+        }
+        res.status(200).json({ message: 'Setor excluído com sucesso.' });
     });
 });
 

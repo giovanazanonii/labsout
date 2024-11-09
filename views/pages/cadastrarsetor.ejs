@@ -73,26 +73,26 @@
     </div>
     <div class="square">
         <div class="ambiente">
-            <form method="POST" onsubmit="return validarFormulario()">
+            <form method="POST" action="/<%= setor_ambiente ? 'atualizarsetor/' + setor_ambiente.id_setor_ambiente : 'cadastrarsetor' %>" onsubmit="return validarFormulario()">
                 <div class="form-group">
-                    <label for="nomeambiente">Nome do Setor:</label>
-                    <input type="text" class="form-control" id="nomeambiente" name="nome_setor" placeholder="Digite o nome do setor">
+                    <label for="nomeambiente">Nome do setor:</label>
+                    <input type="text" class="form-control" id="nome_setor" name="nome_setor" value="<%= setor_ambiente ? setor_ambiente.nome_setor : '' %>" placeholder="Digite o nome do setor">
                 </div>
                 <div class="form-group">
-                    <label for="capacidade">Responsável pelo Setor:</label>
-                    <input type="text" class="form-control" id="capacidade" name="responsavel" placeholder="Digite o responsável pelo setor">
+                    <label for="capacidade">Responsável pelo setor:</label>
+                    <input type="text" class="form-control" id="responsavel" name="responsavel" value="<%= setor_ambiente ? setor_ambiente.nome_responsavel : '' %>" placeholder="Digite o responsável pelo setor">
                 </div>
                 <div class="form-group">
-                    <label for="capacidade">Contato Responsável pelo Setor:</label>
-                    <input type="text" class="form-control" id="capacidade" name="contato_responsavel" placeholder="Digite o contato">
+                    <label for="capacidade">E-mail do responsável:</label>
+                    <input type="text" class="form-control" id="contato_responsavel" name="contato_responsavel" value="<%= setor_ambiente ? setor_ambiente.email_responsavel : '' %>" placeholder="Digite o e-mail">
                 </div>
                 <div class="form-group">
-                    <label for="capacidade">Descrição do Setor:</label>
-                    <input type="text" class="form-control" id="capacidade" name="descricao_setor"  placeholder="Digite a descrição do setor">
+                    <label for="capacidade">Descrição do setor:</label>
+                    <input type="text" class="form-control" id="descricao_setor" name="descricao_setor" value="<%= setor_ambiente ? setor_ambiente.descricao_setor : '' %>" placeholder="Digite a descrição do setor">
                 </div>
                 <div class="form-group">
-                    <label for="localizacao">Localização do Setor:</label>
-                    <input type="text" class="form-control" id="localizacao" name="localizacao_setor"  placeholder="Digite a localização do setor">
+                    <label for="localizacao">Localização do setor:</label>
+                    <input type="text" class="form-control" id="localizacao_setor" name="localizacao_setor"  value="<%= setor_ambiente ? setor_ambiente.localizacao_setor : '' %>" placeholder="Digite a localização do setor">
                 <button type="submit" class="btn btn-primary"><strong>Cadastrar</strong></button>
             </form>
         </div>
