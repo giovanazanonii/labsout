@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LABSOUT</title>
+    <link rel="icon" href="/imagens/icone.png" type="image/png">
+    <link rel="stylesheet" href="/css/avaliar.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <style>
+        .navbar a {
+            color: #fff;
+            text-decoration: none; 
+        }
+        .navbar a:hover {
+            color: #ddd;
+        }
+        .navbar-title {
+            color: #fff;
+            font-size: 20px;
+            margin-left: 10px; 
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="/inicialusuario" class="navbar-icon">
+                <i class="bi bi-calendar2-week"></i>
+            </a>
+            <span class="navbar-title"><strong>LABSOUT</strong></span> 
+        </div>
+    </nav>
+    <h2>Avalie sua experiência</h2>
+
+    <div class="limite">
+        <h4>Escreva aqui</h4>
+        
+        <div class="area-texto">
+            <textarea id="textInput" rows="4" maxlength="140" oninput="postar()"></textarea>
+            <div class="char-count">
+                Quantidade de caracteres:  
+            <span id="charCount">200</span>
+        </div>
+       
+        </div>
+             <button class="btn-postar"><strong>Postar</strong></button>
+        </div>
+    
+        <script>
+            function postar() {
+               const textInput = document.getElementById("textInput");
+               const charCount = document.getElementById("charCount");
+               const maxLength = textInput.getAttribute("maxlength");
+               charCount.textContent = maxLength - textInput.value.length;
+        }
+         </script>
+</body>
+</html>

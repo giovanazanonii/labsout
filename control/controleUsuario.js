@@ -41,6 +41,9 @@ router.get("/horarios", (req, res) => {
 router.get("/descricao",(req,res)=>{
     res.render("pages/descricao")
 })
+router.get("/avaliar",(req,res)=>{
+    res.render("pages/avaliar")
+})
 
 // datas reservadas
 router.get('/datas/:id_ambiente', (req, res) => {
