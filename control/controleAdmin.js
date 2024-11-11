@@ -198,25 +198,28 @@ router.get('/setores/listar', (req, res) => {
 
 // visualizar todos os ambientes - admin
 router.get('/laboratorios/listar', (req, res) => {
-    conexao.query('SELECT * FROM ambientes', (error, results) => {
+    // Realizando o JOIN entre a tabela 'ambientes' e 'setor_ambiente' para pegar o nome do setor
+    const query = `
+        SELECT a.*, s.nome_setor
+        FROM ambientes a
+        LEFT JOIN setor_ambiente s ON a.id_setor_ambiente = s.id_setor_ambiente
+    `;
+
+    conexao.query(query, (error, results) => {
         if (error) {
             return res.status(500).json({ error: 'Erro ao consultar o banco de dados' });
         }
-        const tipoLab = {
-            1: 'Administração',
-            2: 'Biologia',
-            3: 'Edificações',
-            4: 'Informática',
-            5: 'Química',
-            6: 'Outros'
-        };
+
+        // No mapeamento, você pode usar o 'nome_setor' diretamente da consulta
         const resultadoTipo = results.map(ambiente => ({
             ...ambiente,
-            tipo: tipoLab[ambiente.id_setor_ambiente]
+            tipo: ambiente.nome_setor // Agora temos o nome do setor diretamente
         }));
-        res.json(resultadoTipo);
+
+        res.json(resultadoTipo); // Retorna os dados com 'nome_setor' incluído
     });
 });
+
 
 // carregar o formulário de setor
 router.get('/cadastrarsetor/:id?', (req, res) => {
