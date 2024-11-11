@@ -33,29 +33,59 @@
             <span class="navbar-title"><strong>LABSOUT</strong></span> 
         </div>
     </nav>
+
     <h2>Avalie sua experiência</h2>
 
     <div class="limite">
         <h4>Escreva aqui</h4>
-        
+    
         <div class="area-texto">
             <textarea id="textInput" rows="4" maxlength="140" oninput="postar()"></textarea>
-            <div class="char-count">
-                Quantidade de caracteres:  
-            <span id="charCount">200</span>
-        </div>
-       
-        </div>
-             <button class="btn-postar"><strong>Postar</strong></button>
+    
+            <!-- Novo contêiner para avaliação com estrelas -->
+            <div class="avaliacao">
+                <span>Avalie com estrelas</span>
+                <div class="estrelas">
+                    <i class="bi bi-star" data-value="1"></i>
+                    <i class="bi bi-star" data-value="2"></i>
+                    <i class="bi bi-star" data-value="3"></i>
+                    <i class="bi bi-star" data-value="4"></i>
+                    <i class="bi bi-star" data-value="5"></i>
+                </div>
+            </div>
+    
+                <div class="char-count">
+                    Quantidade de caracteres:  
+                    <span id="charCount">200</span>
+                </div>
         </div>
     
-        <script>
-            function postar() {
-               const textInput = document.getElementById("textInput");
-               const charCount = document.getElementById("charCount");
-               const maxLength = textInput.getAttribute("maxlength");
-               charCount.textContent = maxLength - textInput.value.length;
+        <button class="btn-postar"><strong>Postar</strong></button>
+    </div>
+
+    <script>
+        // Função para atualizar a contagem de caracteres
+        function postar() {
+            const textInput = document.getElementById("textInput");
+            const charCount = document.getElementById("charCount");
+            const maxLength = textInput.getAttribute("maxlength");
+            charCount.textContent = maxLength - textInput.value.length;
         }
-         </script>
+
+        // Função para avaliar com estrelas
+        const estrelas = document.querySelectorAll('.estrela');
+        estrelas.forEach((estrela, index) => {
+            estrela.addEventListener('click', () => {
+                // Limpa as classes 'ativa' de todas as estrelas
+                estrelas.forEach(e => e.classList.remove('ativa'));
+
+                // Adiciona a classe 'ativa' às estrelas até a clicada
+                for (let i = 0; i <= index; i++) {
+                    estrelas[i].classList.add('ativa');
+                }
+            });
+        });
+    </script>
+    </script>
 </body>
 </html>
