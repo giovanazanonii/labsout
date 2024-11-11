@@ -140,11 +140,11 @@ router.get('/cadastrarusuario/:id?', (req, res) => {
 // editar um ambiente existente
 router.post('/atualizarambiente/:id', (req, res) => {
     const idAmbiente = req.params.id;
-    const { nomeambiente, capacidade, localizacao, tipo } = req.body;
+    const { nomeambiente, capacidade, localizacao, id_setor_ambiente,responsavel_ambiente,email_responsavel } = req.body;
 
-    const consulta = 'UPDATE ambientes SET nome_ambiente = ?, capacidade_ambiente = ?, localizacao_ambiente = ?, id_tipo_ambiente = ? WHERE id_ambiente = ?';
+    const consulta = 'UPDATE ambientes SET nome_ambiente = ?, capacidade_ambiente = ?, id_setor_ambiente = ?,nome_responsavel = ?,email_responsavel = ? WHERE id_ambiente = ?';
     
-    conexao.query(consulta, [nomeambiente, capacidade, localizacao, tipo, idAmbiente], (err) => {
+    conexao.query(consulta, [nomeambiente, capacidade,id_setor_ambiente,responsavel_ambiente,email_responsavel, idAmbiente], (err) => {
         if (err) {
             console.error(err);
             return res.redirect(`/cadastroambiente/${idAmbiente}?message=Erro ao atualizar ambiente.&type=danger`);
