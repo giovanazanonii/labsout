@@ -21,6 +21,10 @@
             font-size: 20px;
             margin-left: 10px; 
         }
+        textarea::placeholder {
+            font-size: 14px; /* Altere o tamanho conforme necessário */
+            color: #c4c4c4; /* Opcional: mudar a cor do texto */
+        }
     </style>
 </head>
 <body>
@@ -37,12 +41,16 @@
     <h2>Avalie sua experiência</h2>
 
     <div class="limite">
-        <h4>Escreva aqui</h4>
+        <h4>Escreva aqui: </h4>
+
+        <div class="char-count">
+            Quantidade de caracteres:  
+            <span id="charCount">200</span>
+        </div>
     
         <div class="area-texto">
-            <textarea id="textInput" rows="4" maxlength="140" oninput="postar()"></textarea>
+            <textarea id="textInput" rows="4" maxlength="140" placeholder="Compartilhe sua experiência conosco! Sua opinião é essencial para tornar nossa plataforma ainda melhor." oninput="postar()"></textarea>
     
-            <!-- Novo contêiner para avaliação com estrelas -->
             <div class="avaliacao">
                 <span>Avalie com estrelas</span>
                 <div class="estrelas">
@@ -54,14 +62,50 @@
                 </div>
             </div>
     
-                <div class="char-count">
-                    Quantidade de caracteres:  
-                    <span id="charCount">200</span>
-                </div>
         </div>
     
         <button class="btn-postar"><strong>Postar</strong></button>
     </div>
+
+
+<br><br><br><br>
+    <div class="comentarios">
+        <h3>Comentários de outros usuários</h3>
+        <div id="comentarios-lista">
+            <!-- Comentários de exemplo (já feitos) -->
+            <div class="comentario-item">
+
+                <div class="detalhes">
+                    <div class="usuario">João Silva</div>
+                    <div class="estrelas">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star"></i>
+                        <i class="bi bi-star"></i>
+                    </div>
+                    <div class="data">11/11/2024 15:30</div>
+                    <div class="texto">Gostei muito da experiência, tudo foi muito bom!</div>
+                </div>
+            </div>
+            <div class="comentario-item">
+                <div class="detalhes">
+                    <div class="usuario">Maria Oliveira</div>
+                    <div class="estrelas">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star"></i>
+                    </div>
+                    <div class="data">10/11/2024 14:45</div>
+                    <div class="texto">A plataforma é muito intuitiva, adorei!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <script>
         // Função para atualizar a contagem de caracteres
@@ -72,20 +116,78 @@
             charCount.textContent = maxLength - textInput.value.length;
         }
 
-        // Função para avaliar com estrelas
-        const estrelas = document.querySelectorAll('.estrela');
-        estrelas.forEach((estrela, index) => {
+      // Função para avaliar com estrelas
+            const estrelas = document.querySelectorAll('.estrelas .bi-star');
+            estrelas.forEach((estrela, index) => {
             estrela.addEventListener('click', () => {
-                // Limpa as classes 'ativa' de todas as estrelas
-                estrelas.forEach(e => e.classList.remove('ativa'));
-
-                // Adiciona a classe 'ativa' às estrelas até a clicada
-                for (let i = 0; i <= index; i++) {
-                    estrelas[i].classList.add('ativa');
-                }
-            });
+        // Limpa as classes 'bi-star-fill' de todas as estrelas
+            estrelas.forEach(e => {
+            e.classList.remove('bi-star-fill');
+            e.classList.add('bi-star');
         });
+
+        // Adiciona a classe 'bi-star-fill' às estrelas até a clicada
+            for (let i = 0; i <= index; i++) {
+                estrelas[i].classList.remove('bi-star');
+                estrelas[i].classList.add('bi-star-fill');
+        }
+    });
+});
+
+
+// Comentários de exemplo (já feitos)
+const comentarios = [
+    {
+        nome: "João Silva",
+        perfil: "J",
+        estrelas: 3,
+        data: "11/11/2024 15:30",
+        comentario: "Gostei muito da experiência, tudo foi muito bom!"
+    },
+    {
+        nome: "Maria Oliveira",
+        perfil: "M",
+        estrelas: 4,
+        data: "10/11/2024 14:45",
+        comentario: "A plataforma é muito intuitiva, adorei!"
+    }
+];
+
+// Função para adicionar os comentários dinamicamente
+function exibirComentarios() {
+    const comentariosLista = document.getElementById('comentarios-lista');
+    
+    comentarios.forEach(comentario => {
+        const comentarioItem = document.createElement('div');
+        comentarioItem.classList.add('comentario-item');
+
+        // Estrelas
+        let estrelasHTML = '';
+        for (let i = 1; i <= 5; i++) {
+            estrelasHTML += (i <= comentario.estrelas) ? 
+                '<i class="bi bi-star-fill"></i>' : 
+                '<i class="bi bi-star"></i>';
+        }
+
+        comentarioItem.innerHTML = `
+            <div class="perfil">${comentario.perfil}</div>
+            <div class="detalhes">
+                <div class="usuario">${comentario.nome}</div>
+                <div class="estrelas">${estrelasHTML}</div>
+                <div class="data">${comentario.data}</div>
+                <div class="texto">${comentario.comentario}</div>
+            </div>
+        `;
+
+        // Adicionar o comentário na lista
+        comentariosLista.appendChild(comentarioItem);
+    });
+}
+
+// Chamar a função para exibir os comentários
+exibirComentarios();
+
     </script>
-    </script>
+
 </body>
 </html>
