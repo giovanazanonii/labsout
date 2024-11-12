@@ -45,6 +45,36 @@ router.get("/avaliar",(req,res)=>{
     res.render("pages/avaliar")
 })
 
+// Rota para salvar avaliação
+app.post('/avaliacao', (req, res) => {
+    const { id_reserva, id_usuario, nota, comentario } = req.body;
+
+    const usuarioReserva = 'SELECT id_usuario FROM reservas WHERE id_reserva = ?';
+
+    conexao.query(usuarioReserva, [id_reserva], (error, results) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({ message: 'Erro ao verificar reserva' });
+        }
+
+        // Verifica se a reserva existe e pertence ao id_usuario fornecido
+        if (results.length > 0 && results[0].id_usuario === id_usuario) {
+            const inserir = 'INSERT INTO avaliacoes (id_reserva, nota, comentario) VALUES (?, ?, ?)';
+
+            conexao.query(inserir, [id_reserva, nota, comentario], (error, results) => {
+                if (error) {
+                    console.error(error);
+                    return res.status(500).json({ message: 'Erro ao salvar avaliação' });
+                }
+                res.status(200).json({ message: 'Avaliação salva com sucesso' });
+            });
+        } else {
+            res.status(400).json({ message: 'Você não realizou uma reserva' });
+        }
+    });
+});
+
+
 // datas reservadas
 router.get('/datas/:id_ambiente', (req, res) => {
     const id_ambiente = req.params.id_ambiente;

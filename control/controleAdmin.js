@@ -325,6 +325,7 @@ router.post('/cadastrarusuario', (req, res) => {
     const senha = req.body.senha;
     const cpf = req.body.cpf.replace(/\D/g, '');;
     let tipo = req.body.tipo;
+    primeiro_login = 1;
 
     if (tipo.toLowerCase() === "professor") {
         tipo = 1;
@@ -334,9 +335,9 @@ router.post('/cadastrarusuario', (req, res) => {
         return res.redirect('/cadastrarusuario?message=Tipo de usuário inválido. Use "professor" ou "admin".&type=danger');
     }
 
-    const consulta = 'INSERT INTO usuario (nome_usuario, senha_usuario, cpf_usuario, tipo_usuario) VALUES (?, ?, ?, ?)';
+    const consulta = 'INSERT INTO usuario (nome_usuario, senha_usuario, cpf_usuario, tipo_usuario,primeiro_login) VALUES (?, ?, ?, ?,?)';
   
-    conexao.query(consulta, [nome, senha, cpf, tipo], function (err) {
+    conexao.query(consulta, [nome, senha, cpf, tipo,primeiro_login], function (err) {
       if (err) {
         return res.redirect('/cadastrarusuario?message=Erro ao cadastrar usuário.&type=danger');
       } else {

@@ -109,7 +109,7 @@
                         document.querySelectorAll('.deletar-button').forEach(button => {
                             button.addEventListener('click', function () {
                                 const row = this.closest('tr');
-                                const id = row.dataset.id_usuario;
+                                const id = row.dataset.id;
                                 //aparecendo mensagem para confirmar delete
                                 Swal.fire({
                                     title: 'Deletar usuário?',

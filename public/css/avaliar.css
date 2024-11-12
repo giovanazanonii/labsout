@@ -98,13 +98,77 @@
             margin-left: auto; /* Adiciona este código */
             display: block; /* Garante que o botão ocupe a largura disponível */
         }
-
         .btn-postar:hover {
-            background-color: #562f5f;
+            background-color:#5f3269 ;
         }
 
-        .comentarios h3 {
-            font-size: 20px;
+        .comentarios {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          }
+          
+          /* Título */
+          .comentarios h3 {
+            font-size: 1.5em;
             color: #333;
-            margin: 25px 0;
-        }
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+          }
+          
+          /* Item de cada comentário */
+          .comentario-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            transition: box-shadow 0.3s ease;
+            overflow: hidden; /* Evita que o conteúdo saia do contêiner */
+            word-wrap: break-word; /* Quebra palavras longas automaticamente */
+            overflow-wrap: break-word;
+          }
+          
+          .comentario-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          }
+          
+          /* Cabeçalho com nome, data e estrelas */
+          .detalhes {
+            display: block; /* Exibe cada detalhe em uma linha separada */
+            font-family: Arial, sans-serif;
+            margin-bottom: 10px;
+          }
+          
+          /* Nome do usuário */
+          .usuario {
+            font-weight: bold;
+            font-size: 1em;
+            color: #333;
+          }
+          
+          /* Data do comentário */
+          .data {
+            font-size: 0.9em;
+            color: #999;
+          }
+          
+          /* Estrelas de avaliação */
+          .estrelas i {
+            color: gold;
+            font-size: 1em;
+            margin-right: 2px;
+          }
+          
+          /* Texto do comentário */
+          .texto {
+            font-size: 1em;
+            color: #555;
+            line-height: 1.6;
+            margin-top: 10px;
+            font-family: Arial, sans-serif;
+          }

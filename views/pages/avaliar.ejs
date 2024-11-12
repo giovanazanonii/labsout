@@ -105,9 +105,28 @@
         </div>
     </div>
 
-
-
     <script>
+                document.querySelector('.btn-postar').addEventListener('click', () => {
+                const comentario = document.getElementById('textInput').value;
+                const nota = document.querySelectorAll('.bi-star-fill').length;
+                const id_reserva = 1;
+                const id_usuario = 2;
+
+                fetch('/avaliacao', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id_reserva, id_usuario, nota, comentario })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                })
+                .catch(error => console.error('Erro:', error));
+            });
+
+
         // Função para atualizar a contagem de caracteres
         function postar() {
             const textInput = document.getElementById("textInput");
@@ -139,14 +158,12 @@
 const comentarios = [
     {
         nome: "João Silva",
-        perfil: "J",
         estrelas: 3,
         data: "11/11/2024 15:30",
         comentario: "Gostei muito da experiência, tudo foi muito bom!"
     },
     {
         nome: "Maria Oliveira",
-        perfil: "M",
         estrelas: 4,
         data: "10/11/2024 14:45",
         comentario: "A plataforma é muito intuitiva, adorei!"
@@ -170,7 +187,6 @@ function exibirComentarios() {
         }
 
         comentarioItem.innerHTML = `
-            <div class="perfil">${comentario.perfil}</div>
             <div class="detalhes">
                 <div class="usuario">${comentario.nome}</div>
                 <div class="estrelas">${estrelasHTML}</div>
@@ -178,8 +194,6 @@ function exibirComentarios() {
                 <div class="texto">${comentario.comentario}</div>
             </div>
         `;
-
-        // Adicionar o comentário na lista
         comentariosLista.appendChild(comentarioItem);
     });
 }
