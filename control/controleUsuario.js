@@ -46,9 +46,10 @@ router.get("/avaliar",(req,res)=>{
 })
 
 // Rota para salvar avaliação
-app.post('/avaliacao', (req, res) => {
+router.post('/avaliacao', (req, res) => {
+    
     const { id_reserva, id_usuario, nota, comentario } = req.body;
-
+    console.log("CHEGOU NA ROTA",req.body);
     const usuarioReserva = 'SELECT id_usuario FROM reservas WHERE id_reserva = ?';
 
     conexao.query(usuarioReserva, [id_reserva], (error, results) => {
