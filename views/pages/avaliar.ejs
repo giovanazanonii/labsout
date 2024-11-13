@@ -22,8 +22,20 @@
             margin-left: 10px; 
         }
         textarea::placeholder {
-            font-size: 14px; /* Altere o tamanho conforme necessário */
-            color: #c4c4c4; /* Opcional: mudar a cor do texto */
+            font-size: 14px;
+            color: #c4c4c4;
+        }
+        .deletar-button {
+        padding: 11px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        transition: transform 0.2s, color 0.2s;
+        }
+        .deletar-button:hover {
+            color: red;
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -72,52 +84,25 @@
     <div class="comentarios">
         <h3>Comentários de outros usuários</h3>
         <div id="comentarios-lista">
-            <!-- Comentários de exemplo (já feitos) -->
-            <div class="comentario-item">
-
-                <div class="detalhes">
-                    <div class="usuario">João Silva</div>
-                    <div class="estrelas">
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star"></i>
-                        <i class="bi bi-star"></i>
-                    </div>
-                    <div class="data">11/11/2024 15:30</div>
-                    <div class="texto">Gostei muito da experiência, tudo foi muito bom!</div>
-                </div>
-            </div>
-            <div class="comentario-item">
-                <div class="detalhes">
-                    <div class="usuario">Maria Oliveira</div>
-                    <div class="estrelas">
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star"></i>
-                    </div>
-                    <div class="data">10/11/2024 14:45</div>
-                    <div class="texto">A plataforma é muito intuitiva, adorei!</div>
-                </div>
-            </div>
         </div>
     </div>
-
     <script>
+               const id_usuario = Number("<%= id_usuario %>");
                 document.querySelector('.btn-postar').addEventListener('click', () => {
-                const comentario = document.getElementById('textInput').value;
-                const nota = document.querySelectorAll('.bi-star-fill').length;
-                const id_reserva = 1;
-                const id_usuario = 2;
+                    const comentario = document.getElementById('textInput').value;
+                    const nota = document.querySelectorAll('.avaliacao .bi-star-fill').length;
+
+                    if (!id_usuario) {
+                        alert("ID do usuário não está disponível.");
+                        return;
+                     }
 
                 fetch('/avaliacao', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ id_reserva, id_usuario, nota, comentario })
+                    body: JSON.stringify({id_usuario, nota, comentario })
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -152,55 +137,81 @@
         }
     });
 });
-
-
-// Comentários de exemplo (já feitos)
-const comentarios = [
-    {
-        nome: "João Silva",
-        estrelas: 3,
-        data: "11/11/2024 15:30",
-        comentario: "Gostei muito da experiência, tudo foi muito bom!"
-    },
-    {
-        nome: "Maria Oliveira",
-        estrelas: 4,
-        data: "10/11/2024 14:45",
-        comentario: "A plataforma é muito intuitiva, adorei!"
-    }
-];
-
 // Função para adicionar os comentários dinamicamente
-function exibirComentarios() {
-    const comentariosLista = document.getElementById('comentarios-lista');
-    
-    comentarios.forEach(comentario => {
-        const comentarioItem = document.createElement('div');
-        comentarioItem.classList.add('comentario-item');
+async function exibirComentarios() {
+        try {
+            const response = await fetch('/comentarios');
+            const comentarios = await response.json();
 
-        // Estrelas
-        let estrelasHTML = '';
-        for (let i = 1; i <= 5; i++) {
-            estrelasHTML += (i <= comentario.estrelas) ? 
-                '<i class="bi bi-star-fill"></i>' : 
-                '<i class="bi bi-star"></i>';
+            const comentariosLista = document.getElementById('comentarios-lista');
+            comentariosLista.innerHTML = ''; // Limpa os comentários anteriores
+
+            comentarios.forEach(comentario => {
+                const comentarioItem = document.createElement('div');
+                comentarioItem.classList.add('comentario-item');
+
+                // Estrelas
+                let estrelasHTML = '';
+                for (let i = 1; i <= 5; i++) {
+                    estrelasHTML += (i <= comentario.nota) ? 
+                        '<i class="bi bi-star-fill"></i>' : 
+                        '<i class="bi bi-star"></i>';
+                }
+
+                // Formata a data
+                const dataAvaliacao = new Date(comentario.data_avaliacao);
+                const dataFormatada = `${dataAvaliacao.toLocaleDateString()} ${dataAvaliacao.toLocaleTimeString()}`;
+
+                comentarioItem.innerHTML = `
+                    <div class="detalhes">
+                        <div class="usuario">${comentario.nome_usuario}</div>
+                        <div class="estrelas">${estrelasHTML}</div>
+                        <div class="data">${dataFormatada}</div>
+                        <div class="texto">${comentario.comentario}</div>
+                    </div>
+                `;
+
+                // Verifica se o usuário logado é o dono do comentário
+                const usuarioLogadoId = Number("<%= id_usuario %>");
+
+                if (comentario.id_usuario === usuarioLogadoId) {
+                    const botaoDeletar = document.createElement('button');
+                    botaoDeletar.classList.add('deletar-button');
+                    botaoDeletar.innerHTML = '<i class="bi bi-trash3"></i>';
+                    botaoDeletar.addEventListener('click', () => {
+                    deletarComentario(comentario.id_avaliacao);
+                });
+
+                    comentarioItem.appendChild(botaoDeletar);
+                }
+
+                comentariosLista.appendChild(comentarioItem);
+            });
+        } catch (error) {
+            console.error('Erro ao carregar comentários:', error);
+        }
+    }
+    // Função para deletar o comentário
+            async function deletarComentario(comentarioId) {
+            try {
+                const response = await fetch(`/deletarcomentario?id_comentario=${comentarioId}`, {
+                    method: 'DELETE',
+                });
+                const data = await response.json();
+
+                if (data.message === 'Comentário deletado com sucesso!') {
+                    alert('Comentário excluído com sucesso!');
+                    exibirComentarios();  // Recarregar os comentários
+                } else {
+                    alert('Erro ao excluir comentário');
+                }
+            } catch (error) {
+                console.error('Erro ao tentar deletar comentário:', error);
+            }
         }
 
-        comentarioItem.innerHTML = `
-            <div class="detalhes">
-                <div class="usuario">${comentario.nome}</div>
-                <div class="estrelas">${estrelasHTML}</div>
-                <div class="data">${comentario.data}</div>
-                <div class="texto">${comentario.comentario}</div>
-            </div>
-        `;
-        comentariosLista.appendChild(comentarioItem);
-    });
-}
-
-// Chamar a função para exibir os comentários
-exibirComentarios();
-
+        // Chama a função para carregar os comentários ao carregar a página
+        window.onload = exibirComentarios;
     </script>
 </body>
 </html>

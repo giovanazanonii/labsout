@@ -42,38 +42,99 @@ router.get("/descricao",(req,res)=>{
     res.render("pages/descricao")
 })
 router.get("/avaliar",(req,res)=>{
-    res.render("pages/avaliar")
+    console.log(req.session.usuario.id_usuario);
+    res.render("pages/avaliar",{ id_usuario : req.session.usuario.id_usuario })
 })
 
-// Rota para salvar avaliação
-router.post('/avaliacao', (req, res) => {
-    
-    const { id_reserva, id_usuario, nota, comentario } = req.body;
-    console.log("CHEGOU NA ROTA",req.body);
-    const usuarioReserva = 'SELECT id_usuario FROM reservas WHERE id_reserva = ?';
 
-    conexao.query(usuarioReserva, [id_reserva], (error, results) => {
-        if (error) {
-            console.error(error);
-            return res.status(500).json({ message: 'Erro ao verificar reserva' });
+
+
+router.delete('/deletarcomentario', (req, res) => {
+    const id_comentario = req.query.id_comentario;  // ID do comentário recebido como parâmetro de query
+    const id_usuario = req.session.usuario ? req.session.usuario.id_usuario : null;
+
+    if (!id_usuario) {
+        return res.status(401).json({ message: 'Usuário não autenticado' });
+    }
+
+    // Verificar se o id_comentario foi passado
+    if (!id_comentario) {
+        return res.status(400).json({ message: 'ID do comentário não fornecido' });
+    }
+
+    // Buscar o comentário no banco de dados
+    conexao.query('SELECT * FROM avaliacoes WHERE id_avaliacao = ?', [id_comentario], (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar comentário:', err);
+            return res.status(500).json({ message: 'Erro ao buscar comentário' });
         }
 
-        // Verifica se a reserva existe e pertence ao id_usuario fornecido
-        if (results.length > 0 && results[0].id_usuario === id_usuario) {
-            const inserir = 'INSERT INTO avaliacoes (id_reserva, nota, comentario) VALUES (?, ?, ?)';
+        const comentario = results[0];
+        if (!comentario) {
+            return res.status(404).json({ message: 'Comentário não encontrado' });
+        }
 
-            conexao.query(inserir, [id_reserva, nota, comentario], (error, results) => {
-                if (error) {
-                    console.error(error);
-                    return res.status(500).json({ message: 'Erro ao salvar avaliação' });
+        // Verifica se o comentário pertence ao usuário logado
+        if (comentario.id_usuario === id_usuario) {
+            // Deletar o comentário
+            conexao.query('DELETE FROM avaliacoes WHERE id_avaliacao = ?', [id_comentario], (err, results) => {
+                if (err) {
+                    console.error('Erro ao deletar comentário:', err);
+                    return res.status(500).json({ message: 'Erro ao deletar comentário' });
                 }
-                res.status(200).json({ message: 'Avaliação salva com sucesso' });
+                console.log('Comentário excluído com sucesso:', results);
+                return res.json({ message: 'Comentário deletado com sucesso!' });
             });
         } else {
-            res.status(400).json({ message: 'Você não realizou uma reserva' });
+            return res.status(403).json({ message: 'Você não tem permissão para deletar este comentário' });
         }
     });
 });
+
+
+
+
+// Rota para criar uma avaliação
+router.post('/avaliacao', (req, res) => {
+    const { id_usuario, nota, comentario } = req.body;
+
+    // Verifica se os campos obrigatórios estão presentes
+    if (!id_user || !nota) {
+        return res.status(400).json({ message: 'ID do usuário e nota são obrigatórios.' });
+    }
+    console.log(id_usuario,nota,comentario)
+    const query = `INSERT INTO avaliacoes (nota,comentario,id_usuario) VALUES (?, ?, ?)`;
+    const values = [nota,comentario,id_usuario];
+
+    conexao.query(query, values, (err, result) => {
+        if (err) {
+            console.error('Erro ao inserir avaliação:', err);
+            return res.status(500).json({ message: 'Erro ao inserir avaliação.' });
+        }
+
+        res.status(201).json({ message: 'Avaliação cadastrada com sucesso!', id_avaliacao: result.insertId });
+    });
+});
+
+
+router.get('/comentarios', (req, res) => {
+    const query = `
+        SELECT a.comentario, a.nota, a.data_avaliacao, u.nome_usuario, a.id_usuario
+        FROM avaliacoes a
+        JOIN usuario u ON a.id_usuario = u.id_usuario
+    `;
+
+    conexao.query(query, (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar comentários:', err);
+            return res.status(500).send('Erro ao buscar comentários');
+        }
+
+        res.json(results);
+    });
+});
+
+
 
 
 // datas reservadas
@@ -167,24 +228,6 @@ router.post('/reservar', (req, res) => {
         return res.status(500).send(error.join(', '));
     }
     res.redirect('/inicialusuario?message=Reserva realizada com sucesso!&type=success');
-
-
-    //req.body.id_horario
-
-    // Query para inserir os dados na tabela de reservas
-    /*const inserir = `
-        INSERT INTO reservas (id_usuario, id_ambiente, data_reserva, id_horario, status)
-        VALUES (?, ?, ?, 1, 'confirmado')
-    `;*/
-    
-    /*console.log(id_user, id_ambiente, data_reserva_ses)
-    conexao.query(inserir, [id_user, id_ambiente, data_reserva_ses, '1'], (error, results) => {
-        if (error) {
-            console.error("Erro ao cadastrar reserva:", error);
-            return res.status(500).send("Erro ao cadastrar a reserva.");
-        }
-        res.status(201).send("Reserva cadastrada com sucesso!");
-    });*/
 });
 
 
