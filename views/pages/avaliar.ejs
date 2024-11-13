@@ -163,34 +163,24 @@ async function exibirComentarios() {
                 const dataFormatada = `${dataAvaliacao.toLocaleDateString()} ${dataAvaliacao.toLocaleTimeString()}`;
 
                 comentarioItem.innerHTML = `
-                      <div class="detalhes">
-                      <div class="usuario">${comentario.nome_usuario}</div>
-                    <div class="estrelas">${estrelasHTML}</div>
-                    <div class="data">${dataFormatada}</div>
-                    <div class="texto">${comentario.comentario}</div>
-            </div>
+                    <div class="detalhes">
+                        <div class="usuario">${comentario.nome_usuario}</div>
+                        <div class="estrelas">${estrelasHTML}</div>
+                        <div class="data">${dataFormatada}</div>
+                        <div class="texto">${comentario.comentario}</div>
+                    </div>
                     <div class="menu-container">
-                              <button class="menu-btn"><i class="bi bi-three-dots"></i></button>
-                                 <div class="menu-dropdown">
-                                <button class="menu-option editar">Editar</button>
-                                <button class="menu-option cadastrar">Excluir</button>
-             </div>
-    </div>
-`;
+                        ${comentario.id_usuario === id_usuario ? 
+                            '<button class="menu-btn"><i class="bi bi-three-dots"></i></button>' : ''}
+                        <div class="menu-dropdown">
+                            <button class="menu-option editar">Editar</button>
+                            <button class="menu-option excluir" onclick="deletarComentario(${comentario.id_avaliacao})">Excluir</button>
+                        </div>
+                    </div>
+                `;
 
-                // Verifica se o usuário logado é o dono do comentário
+
                 const usuarioLogadoId = Number("<%= id_usuario %>");
-
-                if (comentario.id_usuario === usuarioLogadoId) {
-                    const botaoDeletar = document.createElement('button');
-                    botaoDeletar.classList.add('deletar-button');
-                    botaoDeletar.innerHTML = '<i class="bi bi-trash3"></i>';
-                    botaoDeletar.addEventListener('click', () => {
-                    deletarComentario(comentario.id_avaliacao);
-                });
-
-                    comentarioItem.appendChild(botaoDeletar);
-                }
 
                 comentariosLista.appendChild(comentarioItem);
             });
@@ -199,23 +189,36 @@ async function exibirComentarios() {
         }
     }
     // Função para deletar o comentário
-            async function deletarComentario(comentarioId) {
-            try {
-                const response = await fetch(`/deletarcomentario?id_comentario=${comentarioId}`, {
-                    method: 'DELETE',
-                });
-                const data = await response.json();
+    async function deletarComentario(id_avaliacao) {
+        
+    try {
+        // Verifique se o comentarioId está sendo passado corretamente
+        console.log('Deletando comentário com ID:', id_avaliacao);
 
-                if (data.message === 'Comentário deletado com sucesso!') {
-                    alert('Comentário excluído com sucesso!');
-                    exibirComentarios();  // Recarregar os comentários
-                } else {
-                    alert('Erro ao excluir comentário');
-                }
-            } catch (error) {
-                console.error('Erro ao tentar deletar comentário:', error);
-            }
+        const response = await fetch(`/deletarcomentario?id_comentario=${id_avaliacao}`, {
+            method: 'DELETE',
+        });
+        
+        // Verifique se a resposta foi bem-sucedida
+        if (!response.ok) {
+            throw new Error('Erro na requisição');
         }
+
+        const data = await response.json();
+        
+        if (data.message === 'Comentário deletado com sucesso!') {
+            alert('Comentário excluído com sucesso!');
+            exibirComentarios();  // Recarregar os comentários após a exclusão
+        } else {
+            alert('Erro ao excluir comentário');
+        }
+    } catch (error) {
+        console.error('Erro ao tentar deletar comentário:', error);
+        alert('Erro ao excluir comentário');
+    }
+}
+        window.onload = exibirComentarios;
+
 
         document.addEventListener('click', (event) => {
             const isMenuButton = event.target.closest('.menu-btn');
@@ -233,7 +236,6 @@ async function exibirComentarios() {
             }
         });
 
-        // Chama a função para carregar os comentários ao carregar a página
         window.onload = exibirComentarios;
     </script>
 </body>

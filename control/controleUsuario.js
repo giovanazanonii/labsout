@@ -7,7 +7,7 @@ const app = express();
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
-let id_user //ambienteId, data_reserva, id_horario
+let id_user
 
 router.use(express.json());
 router.use(express.static('public'));
@@ -45,86 +45,82 @@ router.get("/avaliar",(req,res)=>{
     console.log(req.session.usuario.id_usuario);
     res.render("pages/avaliar",{ id_usuario : req.session.usuario.id_usuario })
 })
-router.get("/editreserva",(req,res)=>{
-    res.render("pages/editreserva")
+router.get("/editar-reserva",(req,res)=>{
+    res.render("pages/editar-reserva")
 })
 
-
-
-
+// Rota para deletar o comentário
 router.delete('/deletarcomentario', (req, res) => {
-    const id_comentario = req.query.id_comentario;  // ID do comentário recebido como parâmetro de query
-    const id_usuario = req.session.usuario ? req.session.usuario.id_usuario : null;
+    const { id_comentario } = req.query;
+    console.log("Tentando deletar o comentário com ID:", id_comentario);
 
-    if (!id_usuario) {
-        return res.status(401).json({ message: 'Usuário não autenticado' });
-    }
-
-    // Verificar se o id_comentario foi passado
-    if (!id_comentario) {
-        return res.status(400).json({ message: 'ID do comentário não fornecido' });
-    }
-
-    // Buscar o comentário no banco de dados
-    conexao.query('SELECT * FROM avaliacoes WHERE id_avaliacao = ?', [id_comentario], (err, results) => {
+    // Usando a interface de callback para deletar
+    const consulta = 'DELETE FROM avaliacoes WHERE id_avaliacao = ?';
+    conexao.query(consulta, [id_comentario], (err, resultado) => {
         if (err) {
-            console.error('Erro ao buscar comentário:', err);
-            return res.status(500).json({ message: 'Erro ao buscar comentário' });
+            console.error('Erro ao deletar comentário:', err);
+            return res.status(500).json({ message: 'Erro ao excluir comentário' });
         }
 
-        const comentario = results[0];
-        if (!comentario) {
-            return res.status(404).json({ message: 'Comentário não encontrado' });
-        }
-
-        // Verifica se o comentário pertence ao usuário logado
-        if (comentario.id_usuario === id_usuario) {
-            // Deletar o comentário
-            conexao.query('DELETE FROM avaliacoes WHERE id_avaliacao = ?', [id_comentario], (err, results) => {
-                if (err) {
-                    console.error('Erro ao deletar comentário:', err);
-                    return res.status(500).json({ message: 'Erro ao deletar comentário' });
-                }
-                console.log('Comentário excluído com sucesso:', results);
-                return res.json({ message: 'Comentário deletado com sucesso!' });
-            });
+        console.log('Resultado da exclusão:', resultado);
+        if (resultado.affectedRows > 0) {
+            return res.json({ message: 'Comentário deletado com sucesso!' });
         } else {
-            return res.status(403).json({ message: 'Você não tem permissão para deletar este comentário' });
+            return res.status(404).json({ message: 'Comentário não encontrado' });
         }
     });
 });
 
-
-
-
-// Rota para criar uma avaliação
+// Rota para verificar e criar uma avaliação caso o usuário já tenha uma reserva
 router.post('/avaliacao', (req, res) => {
     const { id_usuario, nota, comentario } = req.body;
 
-    // Verifica se os campos obrigatórios estão presentes
-    if (!id_user || !nota) {
+    if (!id_usuario || !nota) {
         return res.status(400).json({ message: 'ID do usuário e nota são obrigatórios.' });
     }
-    console.log(id_usuario,nota,comentario)
-    const query = `INSERT INTO avaliacoes (nota,comentario,id_usuario) VALUES (?, ?, ?)`;
-    const values = [nota,comentario,id_usuario];
 
-    conexao.query(query, values, (err, result) => {
+    const verificaReserva = `SELECT id_reserva FROM reservas WHERE id_usuario = ?`;
+    conexao.query(verificaReserva, [id_usuario], (err, rows) => {
         if (err) {
-            console.error('Erro ao inserir avaliação:', err);
-            return res.status(500).json({ message: 'Erro ao inserir avaliação.' });
+            console.error('Erro ao verificar reserva:', err);
+            return res.status(500).json({ message: 'Erro ao verificar reserva.' });
         }
 
-        res.status(201).json({ message: 'Avaliação cadastrada com sucesso!', id_avaliacao: result.insertId });
+        if (rows.length === 0) {
+            return res.status(400).json({ message: 'O usuário não possui nenhuma reserva.' });
+        }
+
+        const id_reserva = rows[0].id_reserva;
+
+        const insereAvaliacao = `INSERT INTO avaliacoes (nota, comentario, id_reserva) VALUES (?, ?, ?)`;
+        const values = [nota, comentario, id_reserva];
+
+        conexao.query(insereAvaliacao, values, (err, result) => {
+            if (err) {
+                console.error('Erro ao inserir avaliação:', err);
+                return res.status(500).json({ message: 'Erro ao inserir avaliação.' });
+            }
+
+            res.status(201).json({ message: 'Avaliação cadastrada com sucesso!', id_avaliacao: result.insertId });
+        });
     });
 });
 
-
 router.get('/comentarios', (req, res) => {
     const query = `
-        SELECT a.comentario, a.nota, a.data_avaliacao, u.nome_usuario, a.id_usuario
-        FROM avaliacoes a
-        JOIN usuario u ON a.id_usuario = u.id_usuario
+                SELECT 
+                avaliacoes.id_avaliacao,
+                usuario.id_usuario,
+                usuario.nome_usuario,
+                avaliacoes.nota,
+                avaliacoes.comentario,
+                avaliacoes.data_avaliacao
+            FROM 
+                avaliacoes
+            JOIN 
+                reservas ON avaliacoes.id_reserva = reservas.id_reserva
+            JOIN 
+                usuario ON reservas.id_usuario = usuario.id_usuario;
     `;
 
     conexao.query(query, (err, results) => {
@@ -136,9 +132,6 @@ router.get('/comentarios', (req, res) => {
         res.json(results);
     });
 });
-
-
-
 
 // datas reservadas
 router.get('/datas/:id_ambiente', (req, res) => {
@@ -314,8 +307,13 @@ router.post('/login', (req, res) => {
             req.session.usuario = usuario;
             // guardando o CPF do usuário na sessão para modificar senha
             req.session.cpf = cpf;
-            id_user = results[0].id_usuario;
 
+
+            id_user = results[0].id_usuario;
+    
+            req.session.id_user = results[0].id_usuario;
+
+            
 
             // verifica se é o primeiro login e se o usuario não é admin
             if (usuario.primeiro_login && usuario.tipo_usuario === 1) {

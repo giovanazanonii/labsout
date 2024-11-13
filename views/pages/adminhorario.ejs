@@ -35,7 +35,8 @@
         }
         .disabled {
             opacity: 0.5;
-            pointer-events: none; /* Desabilita a interação */
+            pointer-events: none;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -50,7 +51,7 @@
     </nav>
 
     <div class="container">
-        <form action="/reservar" method="POST">
+        <form action="/reservaradmin" method="POST">
             <div class="reservation-container">
                 <div class="turno">
                     <h2><strong>MATUTINO</strong></h2>
@@ -85,6 +86,8 @@
     </div>
 
     <script>
+        const horariosReservados = <%= JSON.stringify(horariosIndisponiveis) %>;
+        
         function renderizarHorarios() {
             const turnos = document.querySelectorAll('.turno');
             turnos.forEach(turno => {
@@ -93,11 +96,13 @@
                     const horario = parseInt(checkbox.value); // Supondo que o valor do checkbox é o ID do horário
                     if (horariosReservados.includes(horario)) {
                         checkbox.disabled = true; // Desabilita o checkbox
+                        checkbox.classList.add('disabled'); // Aplica a classe 'disabled' para mudar a cor e garantir que não seja clicado
                         checkbox.parentElement.style.color = 'gray'; // Opcional: Muda a cor do texto para indicar que está indisponível
                     }
                 });
             });
         }
+
         // Chama a função após carregar a página
         renderizarHorarios();
     </script>

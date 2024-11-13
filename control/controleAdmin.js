@@ -42,16 +42,131 @@ router.get("/setores",(req,res)=>{
 router.get("/laboratorios",(req,res)=>{
     res.render("pages/laboratorios")
 })
-router.get("/adminlabs",(req,res)=>{
-    res.render("pages/adminlabs")
-})
 router.get("/admincalendario",(req,res)=>{
     res.render("pages/admincalendario")
 })
 router.get("/adminhorario",(req,res)=>{
     res.render("pages/adminhorario")
 })
+// datas reservadas
+router.get('/datas/:id_ambiente', (req, res) => {
+    const id_ambiente = req.params.id_ambiente;
+    const sql = `
+        SELECT data_reserva, COUNT(*) as contagem 
+        FROM reservas  
+        WHERE id_ambiente = ? AND status = 'confirmado' 
+        GROUP BY data_reserva`;
 
+    conexao.query(sql, [id_ambiente], (err, resultados) => {
+        if (err) {
+            return res.status(500).json({ message: 'Erro ao obter data cadastrada' });
+        }
+        const datasReservadas = resultados.map(r => ({
+            data: r.data_reserva.toISOString().split('T')[0],
+            contagem: r.contagem
+        }));
+        res.json(datasReservadas);
+    });
+});
+
+// Rota para cadastrar uma nova reserva
+router.post('/reservaradmin', (req, res) => {
+    let error = [];
+    const id_ambiente = req.session.ambienteId;
+    const data_reserva_ses = req.session.data_reserva;
+    const id_user = req.session.id_user;
+    console.log("IMPRIMINDO O ID DO USUARIO",id_user)
+
+    let lista_horarios = req.body.horarios;
+    for (i=0; i<lista_horarios.length; i++) {
+
+        const inserir = `
+        INSERT INTO reservas (id_usuario, id_ambiente, data_reserva, id_horario, status)
+        VALUES (?, ?, ?, ?, 'confirmado')`;
+
+        conexao.query(inserir, [id_user, id_ambiente, data_reserva_ses, lista_horarios[i]], (error, results) => {
+            if (error) {
+                console.error("Erro ao cadastrar reserva:", error);
+                console.error(`Erro ao cadastrar horário ${lista_horarios[i]}`);
+            }
+        });
+    }
+    if (error.length > 0) {
+        return res.status(500).send(error.join(', '));
+    }
+    res.redirect('/inicialadmin?message=Disponibilidade do laboratório ocupada com sucesso!&type=success');
+});
+
+
+router.get('/adminhorario/:ambienteId', (req, res) => {
+    const { dia, mes, ano } = req.query;
+    
+    const { ambienteId } = req.params;
+    req.session.ambienteId = ambienteId;
+
+    const data_reserva = `${ano}-${mes}-${dia}`;
+    req.session.data_reserva = data_reserva;
+
+    // Query para buscar os horários já reservados
+    const sqlReservados = `
+        SELECT id_horario 
+        FROM reservas 
+        WHERE id_ambiente = ? AND data_reserva = ? AND status = 'confirmado'
+    `;
+
+    conexao.query(sqlReservados, [ambienteId, data_reserva], (errorReservados, resultsReservados) => {
+        if (errorReservados) {
+            console.error("Erro ao buscar horários reservados:", errorReservados);
+            return res.status(500).send("Erro ao buscar disponibilidade de horários.");
+        }
+
+        // Lista de horários reservados
+        const horariosReservados = resultsReservados.map(row => row.id_horario);
+
+        // Renderizar a página de horários passando as variáveis necessárias
+        res.render('pages/adminhorario', { 
+            ambienteId, 
+            dia, 
+            mes, 
+            ano, 
+            horariosIndisponiveis: horariosReservados
+        });
+    });
+});
+
+// Rota para calendário com ID do ambiente
+router.get("/admincalendario/:id", (req, res) => {
+    const ambienteId = req.params.id; // Captura o ID do ambiente
+
+    // Ajuste a consulta para usar o nome correto da coluna
+    const consultaAmbiente = "SELECT * FROM ambientes WHERE id_ambiente = ?";
+    conexao.query(consultaAmbiente, [ambienteId], (error, results) => {
+        if (error) {
+            console.error('Erro na consulta:', error);
+            return res.status(500).send("Erro ao buscar informações do ambiente.");
+        }
+
+        // Verifica se o resultado não está vazio
+        if (results.length === 0) {
+            return res.status(404).send("Ambiente não encontrado.");
+        }
+        
+        // Renderiza a tela do calendário e passa o ID do ambiente
+        res.render("pages/admincalendario", { ambienteId: ambienteId, ambiente: results[0] });
+    });
+});
+
+// visualizar laboratorios -- puxando do banco
+router.get("/adminlabs", (req, res) => {
+    const consulta = "SELECT * FROM ambientes";
+
+    conexao.query(consulta, (error, results) => {
+        if (error) {
+            return res.status(500).send("Erro ao buscar os ambientes no banco de dados.");
+        }
+        res.render("pages/adminlabs", { ambientes: results });
+    });
+});
 
 // cancelar reserva
 router.put('/reservas/deletar/:id', (req, res) => {

@@ -36,12 +36,19 @@
         <p class="subtitle">Escolha um laboratório:</p>
         <div class="button-container">
             <div class="button-lab">
-
-
+                <% if (ambientes && ambientes.length > 0) { %>
+                    <% ambientes.forEach(ambiente => { %>
+                        <div class="button-wrapper">
+                            <button onclick="window.location.href='/admincalendario/<%= ambiente.id_ambiente %>'"><%= ambiente.nome_ambiente %></button>
+                            <a href="/descricao" class="ver-mais">Ver Mais</a>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>Nenhum ambiente cadastrado.</p>
+                <% } %>
             </div>
         </div>
         
-   
     </div>
 </body>
 </html>
