@@ -45,6 +45,9 @@ router.get("/avaliar",(req,res)=>{
     console.log(req.session.usuario.id_usuario);
     res.render("pages/avaliar",{ id_usuario : req.session.usuario.id_usuario })
 })
+router.get("/editreserva",(req,res)=>{
+    res.render("pages/editreserva")
+})
 
 
 

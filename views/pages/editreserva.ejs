@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="icon" href="/imagens/icone.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/editreserva.css">
+    <title>LABSOUT</title>  
+    <style>
+        .navbar a {
+            color: #fff;
+            text-decoration: none; 
+        }
+        .navbar a:hover {
+            color: #ddd;
+        }
+        .navbar-title {
+            color: #fff;
+            font-size: 20px;
+            margin-left: 10px; 
+        }
+        .toast { 
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            z-index: 1050;
+            min-width: 200px;
+            opacity: 0;
+            transition: opacity 0.5s;
+            background-color: #6b6b6b;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            }
+    </style>
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="/inicialusuario" class="navbar-icon">
+                <i class="bi bi-calendar2-week"></i>
+            </a>
+            <span class="navbar-title"><strong>LABSOUT</strong></span> 
+        </div>
+    </nav>
+    
+    <h1><strong>EDITAR RESERVA</strong></h1>
+    <div id="feedbackToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+            <span id="feedbackMessage"></span>
+        </div>
+    </div>
+
+    </div>
+    <div class="square">
+        <div class="ambiente">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="nomeambiente">Nome do ambiente:</label>
+                    <input type="text" class="form-control" id="nomeambiente" name="nomeambiente" placeholder="Digite o nome do laboratório">
+                </div>
+                <div class="form-group">
+                    <label for="capacidade">Capacidade de alunos:</label>
+                    <input type="text" class="form-control" id="capacidade" name="capacidade" placeholder="Digite a capacidade">
+                </div>
+                <div class="form-group">
+                    <label for="capacidade">Responsável pelo ambiente:</label>
+                    <input type="text" class="form-control" id="responsavel_ambiente" name="responsavel_ambiente" placeholder="Digite o responsável pelo ambiente">
+                </div>
+                <div class="form-group">
+                    <label for="capacidade">E-mail do responsável:</label>
+                    <input type="text" class="form-control" id="email_responsavel" name="email_responsavel" placeholder="Digite o e-mail">
+                </div>
+
+                <button type="submit" class="btn btn-primary"><strong>Editar</strong></button>
+            </form>
+            
+        </div>
+    </div>
+</body>
+</html>

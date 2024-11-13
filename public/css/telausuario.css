@@ -114,18 +114,32 @@ th, td {
     text-align: center;
 }
 
+.edit-button, 
 .deletar-button {
+    padding: 11px;
     background: none;
     border: none;
-    color: #e74c3c;
     cursor: pointer;
     font-size: 18px;
-    transition: transform 0.2s, color 0.2s; 
+    transition: transform 0.2s, color 0.2s;
+}
+
+.edit-button {
+    color: #ebd382;
+}
+
+.edit-button:hover {
+    transform: scale(1.2);
+    color: #b7a66b;
+}
+
+.deletar-button {
+    color: #e74c3c;
 }
 
 .deletar-button:hover {
-    transform: scale(1.2); 
-    color: #c0392b; 
+    transform: scale(1.2);
+    color: #c0392b;
 }
 
 body::after {

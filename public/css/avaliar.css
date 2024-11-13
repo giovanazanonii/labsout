@@ -10,7 +10,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #7d5387;
+            background-color: #8B67A0;
             padding: 10px 20px;
         }
 
@@ -90,7 +90,7 @@
 
         .btn-postar {
             text-align: right;
-            background-color: #6c4d73;
+            background-color: #8B67A0;
             color: #fff;
             border-radius: 10px;
             padding: 7px 20px;
@@ -99,7 +99,7 @@
             display: block; /* Garante que o botão ocupe a largura disponível */
         }
         .btn-postar:hover {
-            background-color:#5f3269 ;
+            background-color:#554061;
         }
 
         .comentarios {
@@ -172,3 +172,43 @@
             margin-top: 10px;
             font-family: Arial, sans-serif;
           }
+
+          .menu-container {
+            position: relative;
+            float: right;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+        
+        .menu-dropdown {
+          display: none;
+          position: absolute;
+          right: 0;
+          bottom: 100%; /* Exibe o menu acima do botão */
+          background-color: #fff;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          z-index: 1;
+      } 
+        
+        .menu-dropdown .menu-option {
+            display: block;
+            padding: 10px;
+            font-size: 0.9em;
+            color: #333;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .menu-dropdown .menu-option:hover {
+            background-color: #f0f0f0;
+        }

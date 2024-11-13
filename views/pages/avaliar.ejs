@@ -163,13 +163,20 @@ async function exibirComentarios() {
                 const dataFormatada = `${dataAvaliacao.toLocaleDateString()} ${dataAvaliacao.toLocaleTimeString()}`;
 
                 comentarioItem.innerHTML = `
-                    <div class="detalhes">
-                        <div class="usuario">${comentario.nome_usuario}</div>
-                        <div class="estrelas">${estrelasHTML}</div>
-                        <div class="data">${dataFormatada}</div>
-                        <div class="texto">${comentario.comentario}</div>
-                    </div>
-                `;
+                      <div class="detalhes">
+                      <div class="usuario">${comentario.nome_usuario}</div>
+                    <div class="estrelas">${estrelasHTML}</div>
+                    <div class="data">${dataFormatada}</div>
+                    <div class="texto">${comentario.comentario}</div>
+            </div>
+                    <div class="menu-container">
+                              <button class="menu-btn"><i class="bi bi-three-dots"></i></button>
+                                 <div class="menu-dropdown">
+                                <button class="menu-option editar">Editar</button>
+                                <button class="menu-option cadastrar">Excluir</button>
+             </div>
+    </div>
+`;
 
                 // Verifica se o usuário logado é o dono do comentário
                 const usuarioLogadoId = Number("<%= id_usuario %>");
@@ -209,6 +216,22 @@ async function exibirComentarios() {
                 console.error('Erro ao tentar deletar comentário:', error);
             }
         }
+
+        document.addEventListener('click', (event) => {
+            const isMenuButton = event.target.closest('.menu-btn');
+            const dropdown = event.target.closest('.comentario-item')?.querySelector('.menu-dropdown');
+
+         // Oculta todos os menus dropdown
+            document.querySelectorAll('.menu-dropdown').forEach(menu => {
+            menu.style.display = 'none';
+        });
+
+        // Exibe o menu dropdown clicado
+            if (isMenuButton && dropdown) {
+                  dropdown.style.display = 'block';
+                event.stopPropagation();
+            }
+        });
 
         // Chama a função para carregar os comentários ao carregar a página
         window.onload = exibirComentarios;
