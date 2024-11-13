@@ -20,6 +20,47 @@
             font-size: 20px;
             margin-left: 10px;
         }
+
+         /* Estilos principais */
+         .main-content {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .button-wrapper {
+            position: relative;
+            display: inline-block;
+            text-align: center;
+        }
+
+        /* Estilo do botão "Ver Mais" */
+        .ver-mais {
+            display: none;
+            position: absolute;
+            top: 80%; /* Posiciona abaixo do botão principal */
+            left: 50%;
+            width: 60%;
+            transform: translate(-50%, 10px); /* Centraliza abaixo do botão */
+            padding: 5px 10px;
+            font-size: 14px;
+            background-color: #c7c7c7;
+            color: #fff;
+            border-radius: 7px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+
+        .button-wrapper:hover .ver-mais {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -40,6 +81,8 @@
                     <% ambientes.forEach(ambiente => { %>
                         <div class="button-wrapper">
                             <button onclick="window.location.href='/calendario/<%= ambiente.id_ambiente %>'"><%= ambiente.nome_ambiente %></button>
+                            <!-- Botão "Ver Mais" que aparece ao passar o mouse no botão principal -->
+                            <a href="/descricao" class="ver-mais">Ver Mais</a>
                         </div>
                     <% }); %>
                 <% } else { %>
