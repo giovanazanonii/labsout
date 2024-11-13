@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="icon" href="/imagens/icone.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/adminhorario.css">
+    <title>LABSOUT</title>
+    <style>
+        .navbar a {
+            color: #fff;
+            text-decoration: none; 
+        }
+        .navbar a:hover {
+            color: #ddd;
+        }
+        .navbar-title {
+            color: #fff;
+            font-size: 20px;
+            margin-left: 10px; 
+        }
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            min-width: 200px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+        .disabled {
+            opacity: 0.5;
+            pointer-events: none; /* Desabilita a interação */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="/inicialadmin" class="navbar-icon">
+                <i class="bi bi-calendar2-week"></i>
+            </a>
+            <span class="navbar-title"><strong>LABSOUT</strong></span> 
+        </div>
+    </nav>
+
+    <div class="container">
+        <form action="/reservar" method="POST">
+            <div class="reservation-container">
+                <div class="turno">
+                    <h2><strong>MATUTINO</strong></h2>
+                    <label><input type="checkbox" name="horarios[]" value="1"> Primeira aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="2"> Segunda aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="3"> Terceira aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="4"> Quarta aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="5"> Quinta aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="6"> Sexta aula</label>
+                </div>
+
+                <div class="turno">
+                    <h2><strong>VESPERTINO</strong></h2>
+                    <label><input type="checkbox" name="horarios[]" value="7"> Primeira aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="8"> Segunda aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="9"> Terceira aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="10"> Quarta aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="11"> Quinta aula</label><br>
+                </div>
+
+                <div class="turno">
+                    <h2><strong>NOTURNO</strong></h2>
+                    <label><input type="checkbox" name="horarios[]" value="12"> Primeira aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="13"> Segunda aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="14"> Terceira aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="15"> Quarta aula</label><br>
+                    <label><input type="checkbox" name="horarios[]" value="16"> Quinta aula</label><br>
+                </div>
+            </div>
+            <button class="reservar-btn" type="submit"><strong>Reservar</strong></button>
+        </form>
+    </div>
+
+    <script>
+        function renderizarHorarios() {
+            const turnos = document.querySelectorAll('.turno');
+            turnos.forEach(turno => {
+                const checkboxes = turno.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    const horario = parseInt(checkbox.value); // Supondo que o valor do checkbox é o ID do horário
+                    if (horariosReservados.includes(horario)) {
+                        checkbox.disabled = true; // Desabilita o checkbox
+                        checkbox.parentElement.style.color = 'gray'; // Opcional: Muda a cor do texto para indicar que está indisponível
+                    }
+                });
+            });
+        }
+        // Chama a função após carregar a página
+        renderizarHorarios();
+    </script>
+
+
+</body>
+</html>

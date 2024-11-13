@@ -106,3 +106,19 @@ body {
     color: #666;
     line-height: 1.5;
 }
+
+.disponibilidade {
+    width: 100%;
+    max-width:250px;
+    border-radius: 15px;
+    background-color: #8B67A0; 
+    color: #fff;
+    height: 40px;
+    font-size: 16px;
+    margin-top: 15px;
+    border: none;
+}
+
+.disponibilidade:hover {
+    background-color: #554061;
+}

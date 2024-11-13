@@ -42,6 +42,16 @@ router.get("/setores",(req,res)=>{
 router.get("/laboratorios",(req,res)=>{
     res.render("pages/laboratorios")
 })
+router.get("/adminlabs",(req,res)=>{
+    res.render("pages/adminlabs")
+})
+router.get("/admincalendario",(req,res)=>{
+    res.render("pages/admincalendario")
+})
+router.get("/adminhorario",(req,res)=>{
+    res.render("pages/adminhorario")
+})
+
 
 // cancelar reserva
 router.put('/reservas/deletar/:id', (req, res) => {

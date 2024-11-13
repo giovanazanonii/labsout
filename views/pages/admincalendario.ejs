@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="icon" href="/imagens/icone.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/admincalendario.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <title>LABSOUT</title>
+    <style>
+         .navbar a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            color: #ddd;
+        }
+        .navbar-title {
+            color: #fff;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+        .reserved {
+            border-radius: 20px; 
+            background-color: orange;
+        }
+        .red {
+        border-radius: 20px;
+        background-color: red;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="/inicialadmin" class="navbar-icon">
+                <i class="bi bi-calendar2-week"></i>
+            </a>
+            <span class="navbar-title" style="font-size: 20px; color: white;"><strong>LABSOUT</strong></span>
+        </div>
+    </nav>
+
+    <div id='calendar'>
+    <div class="container">
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <button class="prev-month">&#10094;</button>
+                <h2 id="month-year"></h2>
+                <button class="next-month">&#10095;</button>
+            </div>
+            <table class="calendar">
+                <thead>
+                    <tr>
+                        <th>Dom</th>
+                        <th>Seg</th>
+                        <th>Ter</th>
+                        <th>Qua</th>
+                        <th>Qui</th>
+                        <th>Sex</th>
+                        <th>Sáb</th>
+                    </tr>
+                </thead>
+                <tbody id="calendar-body">
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>  
+    <script>
+        const nomesMeses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+        let dataAtual = new Date();
+        let datasCadastradas = [];
+
+
+        // Função para buscar datas cadastradas
+        async function buscarDatasCadastradas() {
+            try {
+                const response = await fetch(`/datas/${ambienteId}`);
+                const dados = await response.json();
+
+                datasCadastradas = dados.reduce((acc, { data, contagem }) => {
+                acc[data] = contagem; // Armazena a contagem de reservas por data
+                return acc;
+                }, {});
+
+                renderizarCalendario();
+
+
+            } catch (error) {
+                console.error('Erro ao buscar datas cadastradas:', error);
+            }
+        }
+
+
+
+
+        // Obtém o ID do ambiente da URL
+        const pathSegments = window.location.pathname.split('/');
+        const ambienteId = pathSegments[pathSegments.length - 1]; // Pega o último segmento da URL
+    
+        function renderizarCalendario() {
+        const mesAno = document.getElementById("month-year");
+        const corpoCalendario = document.getElementById("calendar-body");
+
+        const ano = dataAtual.getFullYear();
+        const mes = dataAtual.getMonth();
+        const hoje = new Date(); // Data de hoje para comparação
+        
+        mesAno.innerHTML = `${nomesMeses[mes]} ${ano}`;
+        corpoCalendario.innerHTML = "";
+
+        const primeiroDia = new Date(ano, mes, 1).getDay();
+        const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+        const diasMesAnterior = new Date(ano, mes, 0).getDate();
+
+        let dia = 1;
+        let diaProximoMes = 1;
+
+        for (let i = 0; i < 6; i++) {
+            const linha = document.createElement("tr");
+
+            for (let j = 0; j < 7; j++) {
+                const td = document.createElement("td");
+
+                if (i === 0 && j < primeiroDia) {
+                    // Preenche os dias do mês anterior
+                    td.innerText = diasMesAnterior - (primeiroDia - j - 1);
+                    td.classList.add("disabled");
+                } else if (dia > diasNoMes) {
+                    // Preenche os dias do próximo mês
+                    td.innerText = diaProximoMes++;
+                    td.classList.add("disabled");
+                } else {
+                    // Preenche os dias do mês atual
+                    td.innerText = dia;
+
+                    // Cria uma data para o dia atual do calendário
+                    const dataComparada = new Date(ano, mes, dia);
+                    const dataFormatada = dataComparada.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+                    
+                    
+                    // Verifica a contagem de reservas para a data
+                    if (datasCadastradas[dataFormatada]) {
+                        if (datasCadastradas[dataFormatada]<=15) {
+                            td.classList.add("reserved");
+                        } else if (datasCadastradas[dataFormatada] >= 16) {
+                            td.classList.add("red");
+                        }
+                    }
+
+                    // Desabilita qualquer dia anterior à data atual
+                    if (dataComparada < hoje && dataComparada.toDateString() !== hoje.toDateString()) {
+                    td.classList.add("disabled");
+                    } else if (j === 0 || j === 6) {
+                        // Desabilita sábados e domingos
+                        td.classList.add("disabled");
+                    } else{
+                        // Evento de clique para dias válidos
+                        td.addEventListener("click", function() {
+                            const diaSelecionado = this.innerText;
+                            const mesSelecionado = mes + 1; // Meses começam em 0 no JavaScript
+                            const anoSelecionado = ano;
+
+                            // Redireciona para a URL com o dia, mês e ano
+                            const url = `/adminhorario/${ambienteId}?dia=${diaSelecionado}&mes=${mesSelecionado}&ano=${anoSelecionado}`;
+                            window.location.href = url;
+                        });
+                    }
+
+                    dia++;
+                }
+
+                linha.appendChild(td);
+            }
+
+            corpoCalendario.appendChild(linha);
+        }
+    }
+        // Função para alterar o mês
+        document.querySelector(".prev-month").addEventListener("click", () => {
+            dataAtual.setMonth(dataAtual.getMonth() - 1);
+            renderizarCalendario();
+        });
+    
+        document.querySelector(".next-month").addEventListener("click", () => {
+            dataAtual.setMonth(dataAtual.getMonth() + 1);
+            renderizarCalendario();
+        });
+    
+        // Renderiza o calendário ao carregar a página
+        renderizarCalendario();
+        buscarDatasCadastradas();
+    </script>
+    
+    
+    <div class="status-info">
+        <div class="status">
+            <span class="dot orange"></span> Parcialmente Disponível
+        </div>
+        <div class="status">
+            <span class="dot red"></span> Ocupado
+        </div>
+    </div>
+</body>
+</html>
