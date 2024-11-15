@@ -100,9 +100,6 @@ h1 {
     transform: translateY(-2px);
 }
 
-
-
-
 .link-text {
     display: none; /* Esconde o link inicialmente */
     margin-top: 5px; /* Espaço entre o botão e o link */
@@ -121,6 +118,21 @@ h1 {
 
 
 .link-text a:hover {
+    text-decoration: underline; /* Adiciona sublinhado ao passar o mouse sobre o link */
+}
+
+.ver-mais {
+    display: none; /* Esconde o link inicialmente */
+    margin-top: 5px; /* Espaço entre o botão e o link */
+    color: #8b67a0;
+    text-decoration: none;
+}
+
+.button-wrapper:hover .ver-mais {
+    display: block; /* Mostra o link ao passar o mouse sobre o contêiner do botão */
+}
+
+.ver-mais:hover {
     text-decoration: underline; /* Adiciona sublinhado ao passar o mouse sobre o link */
 }
 body::after {

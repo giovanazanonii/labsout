@@ -48,6 +48,9 @@ router.get("/admincalendario",(req,res)=>{
 router.get("/adminhorario",(req,res)=>{
     res.render("pages/adminhorario")
 })
+router.get("/admindescricao",(req,res)=>{
+    res.render("pages/admindescricao")
+})
 // datas reservadas
 router.get('/datas/:id_ambiente', (req, res) => {
     const id_ambiente = req.params.id_ambiente;
