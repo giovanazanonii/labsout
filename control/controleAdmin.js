@@ -51,6 +51,40 @@ router.get("/adminhorario",(req,res)=>{
 router.get("/admindescricao",(req,res)=>{
     res.render("pages/admindescricao")
 })
+router.get("/avaliacoes-admin",(req,res)=>{
+    console.log(req.session.usuario.id_usuario);
+    res.render("pages/avaliacoes-admin",{ id_usuario : req.session.usuario.id_usuario })
+})
+
+router.get('/comentarios', (req, res) => {
+    const query = `
+                SELECT 
+                avaliacoes.id_avaliacao,
+                usuario.id_usuario,
+                usuario.nome_usuario,
+                avaliacoes.nota,
+                avaliacoes.comentario,
+                avaliacoes.data_avaliacao
+            FROM 
+                avaliacoes
+            JOIN 
+                reservas ON avaliacoes.id_reserva = reservas.id_reserva
+            JOIN 
+                usuario ON reservas.id_usuario = usuario.id_usuario;
+    `;
+
+    conexao.query(query, (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar comentários:', err);
+            return res.status(500).send('Erro ao buscar comentários');
+        }
+
+        res.json(results);
+    });
+});
+
+
+
 // datas reservadas
 router.get('/datas/:id_ambiente', (req, res) => {
     const id_ambiente = req.params.id_ambiente;
@@ -186,21 +220,32 @@ router.put('/reservas/deletar/:id', (req, res) => {
     });
 });
 
-// histórico de reservas
-router.get('/reservas/listar',(req,res)=>{
-    const sql = `
-    SELECT r.id_reserva, u.nome_usuario, a.nome_ambiente, r.data_reserva, 
-           h.descricao_periodo, h.descricao_horario, r.status
-            FROM reservas r
-            JOIN ambientes a ON r.id_ambiente = a.id_ambiente
-            JOIN horarios h ON r.id_horario = h.id_horario
-            JOIN usuario u ON r.id_usuario = u.id_usuario`;
+// histórico de reservas com filtro por ambiente
+router.get('/reservas/listar', (req, res) => {
+    const { ambienteId } = req.query;
 
-        conexao.query(sql, (err, resultados) => {
-        if (err) return res.status(500).json({ message: 'Erro ao obter reservas' });
+    let sql = `
+        SELECT r.id_reserva, u.nome_usuario, a.nome_ambiente, r.data_reserva, 
+               h.descricao_periodo, h.descricao_horario, r.status
+        FROM reservas r
+        JOIN ambientes a ON r.id_ambiente = a.id_ambiente
+        JOIN horarios h ON r.id_horario = h.id_horario
+        JOIN usuario u ON r.id_usuario = u.id_usuario
+    `;
+
+    if (ambienteId) {
+        sql += ` WHERE r.id_ambiente = ?`;
+    }
+
+    conexao.query(sql, [ambienteId], (err, resultados) => {
+        if (err) {
+            console.error('Erro ao obter reservas:', err);
+            return res.status(500).json({ message: 'Erro ao obter reservas' });
+        }
         res.json(resultados);
     });
-})
+});
+
 
 // rota para logout 
 router.post('/logout', (req, res) => {

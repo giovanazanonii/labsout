@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LABSOUT</title>
+    <link rel="icon" href="/imagens/icone.png" type="image/png">
+    <link rel="stylesheet" href="/css/avaliacoes-admin.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <style>
+        .navbar a {
+            color: #fff;
+            text-decoration: none; 
+        }
+        .navbar a:hover {
+            color: #ddd;
+        }
+        .navbar-title {
+            color: #fff;
+            font-size: 20px;
+            margin-left: 10px; 
+        }
+        .deletar-button {
+            padding: 11px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s, color 0.2s;
+        }
+        .deletar-button:hover {
+            color: red;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="/inicialadmin" class="navbar-icon">
+                <i class="bi bi-calendar2-week"></i>
+            </a>
+            <span class="navbar-title"><strong>LABSOUT</strong></span> 
+        </div>
+    </nav>
+
+    <div class="comentarios">
+        <h3>Comentários dos usuários</h3>
+        <div id="comentarios-lista">
+        </div>
+    </div>
+
+    <script>
+        const id_usuario = Number("<%= id_usuario %>");
+
+        // Função para adicionar os comentários dinamicamente
+        async function exibirComentarios() {
+            try {
+                const response = await fetch('/comentarios');
+                const comentarios = await response.json();
+
+                const comentariosLista = document.getElementById('comentarios-lista');
+                comentariosLista.innerHTML = ''; // Limpa os comentários anteriores
+
+                comentarios.forEach(comentario => {
+                    const comentarioItem = document.createElement('div');
+                    comentarioItem.classList.add('comentario-item');
+
+                    // Estrelas
+                    let estrelasHTML = '';
+                    for (let i = 1; i <= 5; i++) {
+                        estrelasHTML += (i <= comentario.nota) ? 
+                            '<i class="bi bi-star-fill"></i>' : 
+                            '<i class="bi bi-star"></i>';
+                    }
+
+                    // Formata a data
+                    const dataAvaliacao = new Date(comentario.data_avaliacao);
+                    const dataFormatada = `${dataAvaliacao.toLocaleDateString()} ${dataAvaliacao.toLocaleTimeString()}`;
+
+                    comentarioItem.innerHTML = `
+                        <div class="detalhes">
+                            <div class="usuario">${comentario.nome_usuario}</div>
+                            <div class="estrelas">${estrelasHTML}</div>
+                            <div class="data">${dataFormatada}</div>
+                            <div class="texto">${comentario.comentario}</div>
+                        </div>
+                    `;
+
+                    comentariosLista.appendChild(comentarioItem);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar comentários:', error);
+            }
+        }
+
+        window.onload = exibirComentarios;
+    </script>
+</body>
+</html>

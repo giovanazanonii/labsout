@@ -45,16 +45,14 @@ router.get("/avaliar",(req,res)=>{
     console.log(req.session.usuario.id_usuario);
     res.render("pages/avaliar",{ id_usuario : req.session.usuario.id_usuario })
 })
-router.get("/editar-reserva",(req,res)=>{
-    res.render("pages/editar-reserva")
+router.get("/editreserva",(req,res)=>{
+    res.render("pages/editreserva")
 })
 
 // Rota para deletar o comentário
 router.delete('/deletarcomentario', (req, res) => {
     const { id_comentario } = req.query;
-    console.log("Tentando deletar o comentário com ID:", id_comentario);
 
-    // Usando a interface de callback para deletar
     const consulta = 'DELETE FROM avaliacoes WHERE id_avaliacao = ?';
     conexao.query(consulta, [id_comentario], (err, resultado) => {
         if (err) {
@@ -62,7 +60,6 @@ router.delete('/deletarcomentario', (req, res) => {
             return res.status(500).json({ message: 'Erro ao excluir comentário' });
         }
 
-        console.log('Resultado da exclusão:', resultado);
         if (resultado.affectedRows > 0) {
             return res.json({ message: 'Comentário deletado com sucesso!' });
         } else {
