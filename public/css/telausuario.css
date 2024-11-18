@@ -114,7 +114,6 @@ th, td {
     text-align: center;
 }
 
-.edit-button, 
 .deletar-button {
     padding: 11px;
     background: none;
@@ -122,15 +121,6 @@ th, td {
     cursor: pointer;
     font-size: 18px;
     transition: transform 0.2s, color 0.2s;
-}
-
-.edit-button {
-    color: #ebd382;
-}
-
-.edit-button:hover {
-    transform: scale(1.2);
-    color: #b7a66b;
 }
 
 .deletar-button {

@@ -33,24 +33,50 @@ body {
 .container {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 50px 30px; /* Aumenta o padding para mais espaço ao redor do título */
+    padding: 50px 30px;
 }
 
 .container2 {
     max-width: 850px;
-    margin: -1px auto; /* Adiciona uma margem superior para separar os elementos */
+    margin: -1px auto;
 }
+
+
 
 header {
     display: flex;
-    justify-content: center; /* Centraliza o título horizontalmente */
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 30px; /* Aumenta o espaço abaixo do título */
+    margin-bottom: 10px;
 }
+
+header div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+header label {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+header select {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
 
 h1 {
     font-size: 36px;
-    font-weight: 700; /* Fonte mais grossa para destacar o título */
+    font-weight: 700;
     color: #333;
 }
 
@@ -59,8 +85,8 @@ h1 {
     overflow-y: auto;
     border-radius: 15px;
     border: 1px solid #ddd;
-    background-color: #ffffff; /* Fundo branco para maior contraste */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona uma leve sombra para destacar a tabela */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 10px;
 }
 

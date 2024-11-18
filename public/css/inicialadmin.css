@@ -124,17 +124,18 @@ body {
 }
 
 .disponibilidade {
-    width: 100%;
-    max-width:250px;
-    border-radius: 15px;
-    background-color: #8B67A0; 
-    color: #fff;
-    height: 40px;
+    background-color: #e1e1e1;
+    color: #656565;
+    padding: 7px 20px;
     font-size: 16px;
-    margin-top: 15px;
-    border: none;
+    border: none; /* Sem borda */
+    cursor: pointer;
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center; 
 }
 
 .disponibilidade:hover {
-    background-color: #554061;
+    background-color: #cbcbcb;
+    color: #656565;
 }
