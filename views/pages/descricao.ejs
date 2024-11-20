@@ -23,14 +23,14 @@
         }
         .container {
             display: flex;
-            padding: 0;  /* Remover padding */
-            justify-content: flex-start;  /* Alinha à esquerda */
-            width: 100%; /* Garante que a largura da div container ocupe toda a tela */
+            padding: 0;
+            justify-content: flex-start;
+            width: 100%;
         }
         .carousel {
-            width: 500px;  /* Ajuste a largura do carrossel */
-            position: absolute; /* Garante que o carrossel fique no canto */
-            left: 0;  /* Posiciona o carrossel na extrema esquerda */
+            width: 500px;
+            position: absolute;
+            left: 0;
         }
         
         .carousel-item img {
@@ -53,13 +53,16 @@
         <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="2000">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="imagens/teste1.png" class="d-block w-100" alt="Imagem 1">
+                    <img src="/imagens/laboratorios/lab.png" class="d-block w-100" alt="Imagem 1">
                 </div>
                 <div class="carousel-item">
-                    <img src="imagens/teste2.jpg" class="d-block w-100" alt="Imagem 2">
+                    <img src="/imagens/laboratorios/lab2.png" class="d-block w-100" alt="Imagem 2">
                 </div>
                 <div class="carousel-item">
-                    <img src="imagens/teste2.png" class="d-block w-100" alt="Imagem 3">
+                    <img src="/imagens/laboratorios/lab3.jpg" class="d-block w-100" alt="Imagem 3">
+                </div>
+                <div class="carousel-item">
+                    <img src="/imagens/lab4.png" class="d-block w-100" alt="Imagem 3">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
@@ -79,12 +82,14 @@
    
     <div class="content-container">
         <div class="text-container">
-            <h2>TECH</h2>
-            <p>Bem-vindo ao laboratório Tech! Este laboratório é projetado para experimentos de tecnologia avançada, como programação, eletrônica e redes. É um espaço de aprendizado e inovação onde você pode explorar diversas áreas tecnológicas.</p>
-            <p><strong>Capacidade:</strong> 20 pessoas</p>
-            <p><strong>Coordenador:</strong> <a href="mailto:coordenador@techlab.com">coordenador@techlab.com</a></p>
+            <h2><%= ambiente.nome_ambiente %></h2>
+            <p><%= ambiente.descricao_ambiente%></p>
+            <p><strong>Capacidade:</strong> <%= ambiente.capacidade_ambiente %> estudantes</p>
+            <p><strong>Setor:</strong> <%= ambiente.nome_setor %></p>
+            <p><strong>Coordenador do Laboratório: </strong><%= ambiente.nome_responsavel %></a></p>
+            <p><strong>Contato:</strong> <a href="mailto:<%= ambiente.email_responsavel %>"><%= ambiente.email_responsavel %></a></p>
+        </div>
     </div>
-
-   
+    
 </body>
 </html>

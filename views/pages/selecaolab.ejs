@@ -53,7 +53,7 @@
                     <% ambientes.forEach(ambiente => { %>
                         <div class="button-wrapper">
                             <button onclick="window.location.href='/calendario/<%= ambiente.id_ambiente %>'"><%= ambiente.nome_ambiente %></button>
-                            <a href="/descricao" class="ver-mais">Ver Mais</a>
+                            <a href="/descricao/<%= ambiente.id_ambiente %>" class="ver-mais">Ver Mais</a>
                         </div>
                     <% }); %>
                 <% } else { %>

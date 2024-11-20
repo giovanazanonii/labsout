@@ -38,9 +38,6 @@ router.get("/calendario",(req,res)=>{
 router.get("/horarios", (req, res) => {
     res.render("pages/horarios");
 });
-router.get("/descricao",(req,res)=>{
-    res.render("pages/descricao")
-})
 router.get("/avaliar",(req,res)=>{
     console.log(req.session.usuario.id_usuario);
     res.render("pages/avaliar",{ id_usuario : req.session.usuario.id_usuario })
@@ -48,6 +45,30 @@ router.get("/avaliar",(req,res)=>{
 router.get("/editreserva",(req,res)=>{
     res.render("pages/editreserva")
 })
+
+router.get('/descricao/:idAmbiente', (req, res) => {
+    const idAmbiente = req.params.idAmbiente;
+
+    const consulta = `
+        SELECT a.*, s.nome_setor
+        FROM ambientes a
+        JOIN setor_ambiente s ON a.id_setor_ambiente = s.id_setor_ambiente
+        WHERE a.id_ambiente = ?
+    `;
+
+    conexao.query(consulta, [idAmbiente], (err, resultados) => {
+        if (err) {
+            console.error('Erro ao buscar ambiente:', err);
+            return res.status(500).send('Erro ao buscar ambiente.');
+        }
+
+        if (resultados.length > 0) {
+            res.render('pages/descricao', { ambiente: resultados[0] });
+        } else {
+            res.status(404).send('Ambiente não encontrado.');
+        }
+    });
+});
 
 // Rota para deletar o comentário
 router.delete('/deletarcomentario', (req, res) => {
