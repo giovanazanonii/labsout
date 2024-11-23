@@ -48,14 +48,34 @@ router.get("/admincalendario",(req,res)=>{
 router.get("/adminhorario",(req,res)=>{
     res.render("pages/adminhorario")
 })
-router.get("/admindescricao",(req,res)=>{
-    res.render("pages/admindescricao")
-})
 router.get("/avaliacoes-admin",(req,res)=>{
     console.log(req.session.usuario.id_usuario);
     res.render("pages/avaliacoes-admin",{ id_usuario : req.session.usuario.id_usuario })
 })
 
+router.get('/admindescricao/:idAmbiente', (req, res) => {
+    const idAmbiente = req.params.idAmbiente;
+
+    const consulta = `
+        SELECT a.*, s.nome_setor
+        FROM ambientes a
+        JOIN setor_ambiente s ON a.id_setor_ambiente = s.id_setor_ambiente
+        WHERE a.id_ambiente = ?
+    `;
+
+    conexao.query(consulta, [idAmbiente], (err, resultados) => {
+        if (err) {
+            console.error('Erro ao buscar ambiente:', err);
+            return res.status(500).send('Erro ao buscar ambiente.');
+        }
+
+        if (resultados.length > 0) {
+            res.render('pages/admindescricao', { ambiente: resultados[0] });
+        } else {
+            res.status(404).send('Ambiente não encontrado.');
+        }
+    });
+});
 router.get('/comentarios', (req, res) => {
     const query = `
                 SELECT 
@@ -258,7 +278,7 @@ router.post('/logout', (req, res) => {
     });
 });
 
-// carregar o formulário de cadastro
+// carregar o formulário de cadastro ambiente
 router.get('/cadastroambiente/:id?', (req, res) => {
     const id = req.params.id;
     const consultaSetores = 'SELECT * FROM setor_ambiente';
@@ -329,7 +349,7 @@ router.post('/atualizarambiente/:id', (req, res) => {
 
 // Rota POST para cadastrar novo ambiente
 router.post('/cadastroambiente', (req, res) => {
-    const { nomeambiente, capacidade, id_setor_ambiente, responsavel_ambiente, email_responsavel } = req.body;
+    const { nomeambiente, capacidade,descricao_ambiente, id_setor_ambiente, responsavel_ambiente, email_responsavel } = req.body;
     const consultaSetores = 'SELECT * FROM setor_ambiente';
     
     conexao.query(consultaSetores, function (err, setores) {
@@ -344,8 +364,8 @@ router.post('/cadastroambiente', (req, res) => {
         }
 
         // Inserção do novo ambiente
-        const consulta = 'INSERT INTO ambientes (nome_ambiente, capacidade_ambiente, id_setor_ambiente, nome_responsavel, email_responsavel) VALUES (?, ?, ?, ?, ?)';
-        conexao.query(consulta, [nomeambiente, capacidade, id_setor_ambiente, responsavel_ambiente, email_responsavel], function (err) {
+        const consulta = 'INSERT INTO ambientes (nome_ambiente,descricao_ambiente, capacidade_ambiente, id_setor_ambiente, nome_responsavel, email_responsavel) VALUES (?, ?, ?, ?, ?,?)';
+        conexao.query(consulta, [nomeambiente,descricao_ambiente, capacidade, id_setor_ambiente, responsavel_ambiente, email_responsavel], function (err) {
             if (err) {
                 console.error('Erro ao cadastrar ambiente:', err);
                 return res.render('pages/cadastroambiente', {ambiente: undefined, setores, message: 'Erro ao cadastrar ambiente.', type: 'danger'});
