@@ -100,3 +100,18 @@ body {
 .text-container .btn:hover {
     background-color: #7d5387;
 }
+
+.title-container {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 123px; 
+}
+
+.title-container h1 {
+    font-family: 'Arial', sans-serif;
+    color: #5a5a5a;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}

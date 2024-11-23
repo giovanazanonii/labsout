@@ -111,6 +111,23 @@ h1 {
     transform: translateX(-45px);
 }
 
+.form-group2 {
+    height: 100px; 
+    width: 300%;
+    max-width: 400px;
+    margin-bottom: 10x;
+    transform: translateX(-45px);
+}
+
+textarea.descricao-larga {
+    height: 100px;
+    resize: vertical;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+
 .form-control {
     border-radius: 15px;
     height: 38px;
@@ -119,6 +136,9 @@ h1 {
     border: 1px solid #ccc;
 }
 .btn {
+    position: relative;
+    top: 45px; /* Move o botão 20px para baixo */
+    margin-bottom: 50px; 
     width: 100%;
     max-width: 300px;
     border-radius: 15px;
