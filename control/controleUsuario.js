@@ -39,7 +39,6 @@ router.get("/horarios", (req, res) => {
     res.render("pages/horarios");
 });
 router.get("/avaliar",(req,res)=>{
-    console.log(req.session.usuario.id_usuario);
     res.render("pages/avaliar",{ id_usuario : req.session.usuario.id_usuario })
 })
 router.get("/editreserva",(req,res)=>{
@@ -198,8 +197,6 @@ router.get('/telausuario/listar', (req, res) => {
 // cancelar reserva
 router.put('/telausuario/deletar/:id', (req, res) => {
     const id_reserva = req.params.id;
-    console.log(`Cancelando reserva com ID: ${id_reserva}`);
-
 
     const consulta = 'UPDATE reservas SET status = ? WHERE id_reserva = ?';
     const novoStatus = 'cancelado';
