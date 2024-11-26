@@ -33,14 +33,12 @@
         font-size: 18px;
         transition: transform 0.2s, color 0.2s;
         }
-        .deletar-button:hover {
-            color: red;
-            transform: scale(1.1);
-        }
     </style>
 </head>
 <body>
-
+    <div id="feedbackToast" class="toast" style="position: fixed; top: 20px; right: 20px; z-index: 1050;" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+        <div class="toast-body" id="feedbackMessage"></div>
+    </div>
     <nav class="navbar">
         <div class="navbar-left">
             <a href="/inicialusuario" class="navbar-icon">
@@ -88,14 +86,15 @@
     </div>
     <script>
                const id_usuario = Number("<%= id_usuario %>");
-                document.querySelector('.btn-postar').addEventListener('click', () => {
-                    const comentario = document.getElementById('textInput').value;
-                    const nota = document.querySelectorAll('.avaliacao .bi-star-fill').length;
 
-                    if (!id_usuario) {
-                        alert("ID do usuário não está disponível.");
-                        return;
-                     }
+
+               document.querySelector('.btn-postar').addEventListener('click', () => {
+                const comentario = document.getElementById('textInput').value;
+                const nota = document.querySelectorAll('.avaliacao .bi-star-fill').length;
+
+                if (!id_usuario) {
+                    return;
+                }
 
                 fetch('/avaliacao', {
                     method: 'POST',
@@ -106,10 +105,27 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, "success");
+                    exibirComentarios();
+
+                    document.getElementById('textInput').value = '';
+
+                    estrelas.forEach(e => {
+                    e.classList.remove('bi-star-fill');
+                    e.classList.add('bi-star');
+                });
+
+                setTimeout(() => {
+                }, 1000);
+
                 })
-                .catch(error => console.error('Erro:', error));
+                .catch(error => {
+                    showToast("Erro ao enviar a avaliação.", "danger");
+                    console.error('Erro:', error);
+                });
             });
+
+
 
 
         // Função para atualizar a contagem de caracteres
@@ -144,7 +160,7 @@ async function exibirComentarios() {
             const comentarios = await response.json();
 
             const comentariosLista = document.getElementById('comentarios-lista');
-            comentariosLista.innerHTML = ''; // Limpa os comentários anteriores
+            comentariosLista.innerHTML = '';
 
             comentarios.forEach(comentario => {
                 const comentarioItem = document.createElement('div');
@@ -191,8 +207,6 @@ async function exibirComentarios() {
     async function deletarComentario(id_avaliacao) {
         
     try {
-        // Verifique se o comentarioId está sendo passado corretamente
-        console.log('Deletando comentário com ID:', id_avaliacao);
 
         const response = await fetch(`/deletarcomentario?id_comentario=${id_avaliacao}`, {
             method: 'DELETE',
@@ -206,15 +220,16 @@ async function exibirComentarios() {
         const data = await response.json();
         
         if (data.message === 'Comentário deletado com sucesso!') {
-            alert('Comentário excluído com sucesso!');
-            exibirComentarios();  // Recarregar os comentários após a exclusão
+        showToast('Comentário excluído com sucesso!', 'success');
+        exibirComentarios();
         } else {
-            alert('Erro ao excluir comentário');
+            showToast('Erro ao excluir comentário', 'danger');
         }
-    } catch (error) {
-        console.error('Erro ao tentar deletar comentário:', error);
-        alert('Erro ao excluir comentário');
-    }
+
+        } catch (error) {
+            console.error('Erro ao tentar deletar comentário:', error);
+            showToast('Erro ao excluir comentário');
+        }
 }
         window.onload = exibirComentarios;
 
@@ -235,6 +250,33 @@ async function exibirComentarios() {
             }
         });
 
+        // Função para exibir o Toast
+        function showToast(message, type) {
+            const toastContainer = document.getElementById('feedbackToast');
+            const toast = document.createElement('div');
+            toast.classList.add('toast');
+            toast.classList.add('fade');
+            toast.classList.add('show');
+            toast.classList.add(`bg-${type}`);
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+            toast.innerHTML = `
+                <div class="toast-body">
+                    ${message}
+                </div>
+            `;
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+            toast.classList.remove('show');
+            toast.classList.add('hide');
+            toast.addEventListener('transitionend', () => {
+                toastContainer.removeChild(toast);
+            });
+        }, 5000);
+
+        }
         window.onload = exibirComentarios;
     </script>
 </body>
